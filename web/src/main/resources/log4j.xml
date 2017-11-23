@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration PUBLIC "-//LOGGER" "log4j.dtd">
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
 <log4j:configuration xmlns:log4j='http://jakarta.apache.org/log4j/'>
-
 	<appender name="SERVER" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/data/log/jetty/cal-server.log" />
+		<param name="File" value="/data/log/jetty/sponge-server.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyyMMdd" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern"
-				value="%d %-5p [uid:%X{uid},uname:%X{uname},tid:%X{tid}] [%t] [%c:%L] - %m%n" />
+			<param name="ConversionPattern" value="%d %-5p [uid:%X{uid},uname:%X{uname},tid:%X{tid}] [%t] [%c:%L] - %m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
 			<param name="LevelMin" value="TRACE" />
@@ -17,12 +15,11 @@
 	</appender>
 
 	<appender name="ERROR" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/data/log/jetty/cal-error.log" />
+		<param name="File" value="/data/log/jetty/sponge-error.log" />
 		<param name="Append" value="true" />
 		<param name="DatePattern" value="'.'yyyyMMdd" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern"
-				value="%d %-5p [uid:%X{uid},uname:%X{uname},tid:%X{tid}] [%t] [%c:%L] - %m%n" />
+			<param name="ConversionPattern" value="%d %-5p [uid:%X{uid},uname:%X{uname},tid:%X{tid}] [%t] [%c:%L] - %m%n" />
 		</layout>
 		<filter class="org.apache.log4j.varia.LevelRangeFilter">
 			<param name="LevelMin" value="ERROR" />
@@ -31,38 +28,14 @@
 	</appender>
 
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
-		<param name="Threshold" value="OFF" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern"
-				value="%d %-5p [uid:%X{uid},uname:%X{uname},tid:%X{tid}] [%t] [%c:%L] - %m%n" />
-		</layout>
-	</appender>
-
-	<appender name="TASK" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/data/log/jetty/task/cal-task.log" />
-		<param name="Append" value="true" />
-		<param name="DatePattern" value="'.'yyyyMMdd" />
 		<param name="Threshold" value="INFO" />
 		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d %-5p [%t,tid:%X{tid}] [%c:%L] - %m%n" />
-		</layout>
-	</appender>
-
-
-	<appender name="OPERATION" class="org.apache.log4j.DailyRollingFileAppender">
-		<param name="File" value="/data/log/jetty/cal-manage-operation.log" />
-		<param name="Append" value="true" />
-		<param name="DatePattern" value="'.'yyyyMMdd" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d %5p - %m%n" />
+			<param name="ConversionPattern" value="%d %-5p [uid:%X{uid},uname:%X{uname},tid:%X{tid}] [%t] [%c:%L] - %m%n" />
 		</layout>
 	</appender>
 
 	<logger name="org.eclipse.jetty">
 		<level value="INFO" />
-	</logger>
-	<logger name="org.apache.zookeeper.ClientCnxn" additivity="true">
-		<level value="warn" />
 	</logger>
 
 	<logger name="com.ibatis" additivity="true">
@@ -73,58 +46,8 @@
 		<level value="warn" />
 	</logger>
 
-
 	<logger name="org.springframework" additivity="true">
 		<level value="warn" />
-	</logger>
-	<logger name="com.mchange.v2.async" additivity="true">
-		<level value="warn" />
-	</logger>
-	<logger name="java.sql" additivity="true">
-		<level value="warn" />
-	</logger>
-	<logger name="httpclient.wire.content" additivity="true">
-		<level value="warn" />
-	</logger>
-	<logger name="org.apache.commons" additivity="true">
-		<level value="warn" />
-	</logger>
-	<logger name="org.apache.http" additivity="true">
-		<level value="warn" />
-	</logger>
-	<logger name="org.hibernate" additivity="true">
-		<level value="warn" />
-	</logger>
-	<logger name="com.opensymphony.oscache" additivity="true">
-		<level value="warn" />
-	</logger>
-	<logger name="httpclient.wire.header" additivity="true">
-		<level value="warn" />
-	</logger>
-	<logger name="com.mchange.v2" additivity="true">
-		<level value="warn" />
-	</logger>
-	<logger name="net.oauth.signature" additivity="true">
-		<level value="info" />
-	</logger>
-	<logger name="com.taobao.metamorphosis">
-		<level value="warn" />
-	</logger>
-	<logger name="com.taobao.gecko">
-		<level value="warn" />
-	</logger>
-	<logger name="com.googlecode.ehcache" additivity="true">
-		<level value="info" />
-	</logger>
-
-	<logger name="TASK" additivity="false">
-		<level value="info" />
-		<appender-ref ref="TASK" />
-	</logger>
-
-	<logger name="operationLog" additivity="false">
-		<level value="INFO" />
-		<appender-ref ref="OPERATION" />
 	</logger>
 
 	<root>
