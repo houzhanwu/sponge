@@ -108,6 +108,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-all</artifactId>
+			<version>4.1.17.Final</version>
+		</dependency>
+
+		<dependency>
 			<groupId>com.netflix.hystrix</groupId>
 			<artifactId>hystrix-core</artifactId>
 			<version>1.5.9</version>

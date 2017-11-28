@@ -15,9 +15,12 @@
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
+	<listener>
+		<listener-class>com.apr7.sponge.protocol.SpongeServerListener</listener-class>
+	</listener>
 
 	<servlet>
-		<servlet-name>SpringMVC</servlet-name>
+		<servlet-name>spring-mvc</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
 		<init-param>
 			<param-name>contextConfigLocation</param-name>
@@ -27,7 +30,7 @@
 		<async-supported>true</async-supported>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>SpringMVC</servlet-name>
+		<servlet-name>spring-mvc</servlet-name>
 		<url-pattern>/*</url-pattern>
 	</servlet-mapping>
 
