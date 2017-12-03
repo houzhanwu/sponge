@@ -1,8 +1,8 @@
-package com.apr7.sponge.protocol.client.hjt212;
+package com.apr7.sponge.protocol.hjt212.client;
 
-import com.apr7.sponge.protocol.server.hjt212.ServerHandler;
-import com.apr7.sponge.protocol.server.hjt212.command.CN2021Command;
-import com.apr7.sponge.protocol.server.hjt212.command.Hjt212Command;
+import com.apr7.sponge.protocol.hjt212.server.ServerHandler;
+import com.apr7.sponge.protocol.hjt212.server.command.CN2021Command;
+import com.apr7.sponge.protocol.hjt212.server.command.Hjt212Command;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;

@@ -1,4 +1,4 @@
-package com.apr7.sponge.protocol.server.hjt212;
+package com.apr7.sponge.protocol.hjt212.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;

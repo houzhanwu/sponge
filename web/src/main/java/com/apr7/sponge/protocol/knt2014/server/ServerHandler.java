@@ -1,11 +1,11 @@
-package com.apr7.sponge.protocol.server.hjt212;
+package com.apr7.sponge.protocol.knt2014.server;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.apr7.sponge.protocol.server.hjt212.command.Hjt212Command;
-import com.apr7.sponge.protocol.server.hjt212.command.Hjt212CommandFactory;
+import com.apr7.sponge.protocol.hjt212.server.command.Hjt212Command;
+import com.apr7.sponge.protocol.hjt212.server.command.Hjt212CommandFactory;
 import com.apr7.sponge.utils.CRC16;
 
 import io.netty.channel.ChannelHandlerContext;
@@ -42,7 +42,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 			LOGGER.error("command not support: {}", request);
 			return;
 		}
-		LOGGER.info("execute command: {}", request);
+		LOGGER.debug("execute command: {}", request);
 		command.doProcess(ctx);
 		// TODO
 		ctx.writeAndFlush("888");

@@ -1,8 +1,8 @@
-package com.apr7.sponge.protocol.server.hjt212.command;
+package com.apr7.sponge.protocol.hjt212.server.command;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.apr7.sponge.protocol.server.hjt212.Constants;
+import com.apr7.sponge.protocol.hjt212.server.Constants;
 
 import io.netty.channel.ChannelHandlerContext;
 

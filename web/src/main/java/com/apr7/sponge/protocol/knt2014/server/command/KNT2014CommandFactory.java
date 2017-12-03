@@ -1,16 +1,15 @@
-package com.apr7.sponge.protocol.server.hjt212.command;
+package com.apr7.sponge.protocol.knt2014.server.command;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class Hjt212CommandFactory {
+public class KNT2014CommandFactory {
 	private final Map<String, Class<? extends Hjt212Command>> _hjt212Commands = new HashMap<>();
 
-	public Hjt212CommandFactory() {
+	public KNT2014CommandFactory() {
 		_hjt212Commands.put(CN2021Command.CN, CN2021Command.class);
-		_hjt212Commands.put(CN9011Command.CN, CN9011Command.class);
 	}
 
 	public Hjt212Command getCommand(String dataString) {

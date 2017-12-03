@@ -1,4 +1,4 @@
-package com.apr7.sponge.protocol.server.hjt212;
+package com.apr7.sponge.protocol.hjt212.server;
 
 import java.util.HashMap;
 import java.util.Map;

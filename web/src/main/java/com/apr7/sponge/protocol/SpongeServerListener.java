@@ -3,7 +3,7 @@ package com.apr7.sponge.protocol;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import com.apr7.sponge.protocol.server.hjt212.HJ_T212Server;
+import com.apr7.sponge.protocol.hjt212.server.HJ_T212Server;
 
 public class SpongeServerListener implements ServletContextListener {
 

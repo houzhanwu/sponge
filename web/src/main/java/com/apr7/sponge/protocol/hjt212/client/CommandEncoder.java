@@ -1,8 +1,8 @@
-package com.apr7.sponge.protocol.client.hjt212;
+package com.apr7.sponge.protocol.hjt212.client;
 
 import java.nio.charset.Charset;
 
-import com.apr7.sponge.protocol.server.hjt212.command.Hjt212Command;
+import com.apr7.sponge.protocol.hjt212.server.command.Hjt212Command;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
