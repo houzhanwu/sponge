@@ -4,4 +4,7 @@
 	<select id="listDeviceByCompany" resultType="com.apr7.sponge.model.Device">
 		select FID id, FMN mn, FCOMPANY_ID companyId from T_DEVICE where FCOMPANY_ID = #{companyId} order by FID limit #{start}, #{max}
 	</select>
+	<select id="countDeviceByCompany" resultType="int">
+		select count(*) from T_DEVICE where FCOMPANY_ID = #{companyId}
+	</select>
 </mapper>

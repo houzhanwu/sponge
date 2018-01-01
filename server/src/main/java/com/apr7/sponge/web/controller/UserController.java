@@ -5,7 +5,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
 import com.apr7.sponge.model.User;
 import com.apr7.sponge.service.UserService;
 
@@ -17,8 +16,9 @@ public class UserController {
 
 	@RequestMapping("/get")
 	@ResponseBody
-	public String get(Long userId) {
+	public User get(Long userId) {
 		User user = this.userService.getUserById(userId);
-		return JSON.toJSONString(user);
+		throw new RuntimeException();
+//		return user;
 	}
 }

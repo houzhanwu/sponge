@@ -17,10 +17,13 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
+	<bean class="com.apr7.sponge.web.content.SpringExceptionHandler" />
+
 	<bean id="mappingFastJsonHttpMessageConverter" class="com.alibaba.fastjson.support.spring.FastJsonpHttpMessageConverter4">
 		<property name="supportedMediaTypes" value="application/json;charset=UTF-8" />
 		<property name="fastJsonConfig" ref="responseFastJsonConfig" />
 	</bean>
+	<bean class="com.alibaba.fastjson.support.spring.FastJsonpResponseBodyAdvice" />
 
 	<bean id="responseFastJsonConfig" class="com.alibaba.fastjson.support.config.FastJsonConfig">
 		<property name="serializerFeatures">
