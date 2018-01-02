@@ -2,7 +2,7 @@ package com.apr7.sponge.web.content;
 
 public class ResponseBodyModel {
 
-	private int code;
+	private int code = 200;
 	private String message;
 	private Object value;
 
@@ -27,6 +27,13 @@ public class ResponseBodyModel {
 	}
 
 	public void setValue(Object value) {
+		this.value = value;
+	}
+
+	public ResponseBodyModel() {
+	}
+
+	public ResponseBodyModel(Object value) {
 		this.value = value;
 	}
 }

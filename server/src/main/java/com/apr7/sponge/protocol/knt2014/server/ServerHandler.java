@@ -1,11 +1,11 @@
-package com.apr7.sponge.protocol.hjt212.server;
+package com.apr7.sponge.protocol.knt2014.server;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.apr7.sponge.protocol.hjt212.client.command.CommandModel;
-import com.apr7.sponge.protocol.hjt212.server.command.Hjt212CommandHandler;
-import com.apr7.sponge.protocol.hjt212.server.command.Hjt212CommandHandlerFactory;
+import com.apr7.sponge.protocol.knt2014.CommandModel;
+import com.apr7.sponge.protocol.knt2014.server.command.Knt2014CommandHandler;
+import com.apr7.sponge.protocol.knt2014.server.command.Knt2014CommandHandlerFactory;
 
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
@@ -16,9 +16,9 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServerHandler.class);
 
-	private Hjt212CommandHandlerFactory commandHandlerFactory;
+	private Knt2014CommandHandlerFactory commandHandlerFactory;
 
-	public void setCommandHandlerFactory(Hjt212CommandHandlerFactory commandHandlerFactory) {
+	public void setCommandHandlerFactory(Knt2014CommandHandlerFactory commandHandlerFactory) {
 		this.commandHandlerFactory = commandHandlerFactory;
 	}
 
@@ -38,13 +38,18 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 		// return;
 		// }
 		CommandModel cmd = CommandModel.create(dataString);
-		Hjt212CommandHandler handler = commandHandlerFactory.getHandler(cmd);
+		Knt2014CommandHandler handler = commandHandlerFactory.getHandler(cmd);
 		if (handler == null) {
 			LOGGER.error("command not support: {}", request);
 			return;
 		}
 		LOGGER.debug("execute command: {}", request);
 		handler.doProcess(ctx, cmd);
+	}
+
+	@Override
+	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
+		super.channelReadComplete(ctx);
 		ctx.channel().close();
 	}
 

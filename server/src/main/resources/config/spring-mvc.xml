@@ -23,6 +23,7 @@
 		<property name="supportedMediaTypes" value="application/json;charset=UTF-8" />
 		<property name="fastJsonConfig" ref="responseFastJsonConfig" />
 	</bean>
+	<bean class="com.apr7.sponge.web.content.ResponseBodyWrapAdvice" />
 	<bean class="com.alibaba.fastjson.support.spring.FastJsonpResponseBodyAdvice" />
 
 	<bean id="responseFastJsonConfig" class="com.alibaba.fastjson.support.config.FastJsonConfig">

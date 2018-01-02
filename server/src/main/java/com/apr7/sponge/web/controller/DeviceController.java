@@ -7,20 +7,23 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.apr7.sponge.model.Device;
 import com.apr7.sponge.service.DeviceService;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/device")
 public class DeviceController {
 	@Autowired
 	private DeviceService deviceService;
 
 	@RequestMapping("/listDeviceByCompany")
 	@ResponseBody
-	public String listDeviceByCompany(Long companyId, int page, int size) {
+	public JSONObject listDeviceByCompany(Long companyId, int page, int size) {
 		List<Device> devices = deviceService.listDeviceByCompany(companyId, page, size);
-		return JSON.toJSONString(devices);
+		JSONObject value = new JSONObject();
+		value.put("data", devices);
+		value.put("total", deviceService.countDeviceByCompany(companyId));
+		return value;
 	}
 }

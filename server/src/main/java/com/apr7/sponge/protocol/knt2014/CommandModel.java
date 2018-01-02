@@ -1,18 +1,127 @@
-package com.apr7.sponge.protocol.knt2014.server.command;
+package com.apr7.sponge.protocol.knt2014;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class KNT2014CommandFactory {
-	private final Map<String, Class<? extends KNT2014Command>> _hjt212Commands = new HashMap<>();
+public class CommandModel {
+	private static final int A = 0x0001;
+	private static final int D = 0x0002;
 
-	public KNT2014CommandFactory() {
-//		_hjt212Commands.put(CN2021Command.CN, CN2021Command.class);
+	protected String qn;
+	protected String st;
+	protected String cn;
+	protected String pw;
+	protected String mn;
+	protected byte flag;
+	protected int pnum;
+	protected int pno;
+	protected String cp;
+	private Map<String, String> _cpMap;
+
+	public String getQn() {
+		return qn;
 	}
 
-	public KNT2014Command getCommand(String dataString) {
+	public void setQn(String qn) {
+		this.qn = qn;
+	}
+
+	public String getSt() {
+		return st;
+	}
+
+	public void setSt(String st) {
+		this.st = st;
+	}
+
+	public String getCn() {
+		return cn;
+	}
+
+	public void setCn(String cn) {
+		this.cn = cn;
+	}
+
+	public String getPw() {
+		return pw;
+	}
+
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+
+	public String getMn() {
+		return mn;
+	}
+
+	public void setMn(String mn) {
+		this.mn = mn;
+	}
+
+	public byte getFlag() {
+		return flag;
+	}
+
+	public void setFlag(byte flag) {
+		this.flag = flag;
+	}
+
+	public int getPnum() {
+		return pnum;
+	}
+
+	public void setPnum(int pnum) {
+		this.pnum = pnum;
+	}
+
+	public int getPno() {
+		return pno;
+	}
+
+	public void setPno(int pno) {
+		this.pno = pno;
+	}
+
+	public String getCp() {
+		return cp;
+	}
+
+	public void setCp(String cp) {
+		this.cp = cp;
+	}
+
+	public String getCpValue(String key) {
+		if (_cpMap == null) {
+			_cpMap = this.parseCp(cp);
+		}
+		return _cpMap.get(key);
+	}
+
+	private Map<String, String> parseCp(String cp) {
+		Map<String, String> result = new HashMap<String, String>();
+		if (!cp.startsWith("&&") || !cp.endsWith("&&")) {
+			throw new IllegalArgumentException("CP format error.");
+		}
+		String[] tokens = StringUtils.split(StringUtils.substring(cp, 2, -2), ';');
+		for (String token : tokens) {
+			String[] kv = StringUtils.split(token, '=');
+			result.put(kv[0].toUpperCase(), kv[1]);
+		}
+		return result;
+	}
+
+	public boolean isA() {
+		return (flag & A) != 0;
+	}
+
+	public boolean isD() {
+		return (flag & D) != 0;
+	}
+
+	public static CommandModel create(String dataString) {
+		CommandModel cmd = new CommandModel();
 		String tmp;
 		int fromIndex = 0;
 		int nextIndex;
@@ -22,6 +131,7 @@ public class KNT2014CommandFactory {
 			throw new IllegalArgumentException("QN not found.");
 		}
 		String qn = tmp.substring(3);
+		cmd.setQn(qn);
 		fromIndex = nextIndex + 1;
 		nextIndex = dataString.indexOf(';', fromIndex);
 		tmp = dataString.substring(fromIndex, nextIndex);
@@ -29,21 +139,23 @@ public class KNT2014CommandFactory {
 			throw new IllegalArgumentException("ST not found.");
 		}
 		String st = tmp.substring(3);
+		cmd.setSt(st);
 		fromIndex = nextIndex + 1;
 		nextIndex = dataString.indexOf(';', fromIndex);
 		tmp = dataString.substring(fromIndex, nextIndex);
 		if (!StringUtils.startsWithIgnoreCase(tmp, "CN=")) {
 			throw new IllegalArgumentException("CN not found.");
 		}
-		KNT2014Command cmd = this.createCommand(tmp.substring(3));
-		cmd.setQn(qn);
-		cmd.setSt(st);
+		String cn = tmp.substring(3);
+		cmd.setCn(cn);
 		fromIndex = nextIndex + 1;
 		nextIndex = dataString.indexOf(';', fromIndex);
 		tmp = dataString.substring(fromIndex, nextIndex);
 		if (!StringUtils.startsWithIgnoreCase(tmp, "PW=")) {
 			throw new IllegalArgumentException("PW not found.");
 		}
+		String pw = tmp.substring(3);
+		cmd.setPw(pw);
 		fromIndex = nextIndex + 1;
 		nextIndex = dataString.indexOf(';', fromIndex);
 		tmp = dataString.substring(fromIndex, nextIndex);
@@ -81,20 +193,5 @@ public class KNT2014CommandFactory {
 		}
 		cmd.setCp(tmp.substring(3));
 		return cmd;
-	}
-
-	private KNT2014Command createCommand(String cn) {
-		Class<? extends KNT2014Command> commandClass = _hjt212Commands.get(cn);
-		if (commandClass == null) {
-			return null;
-		} else {
-			KNT2014Command cmd;
-			try {
-				cmd = commandClass.newInstance();
-			} catch (Exception e) {
-				throw new IllegalArgumentException("Can not create command instance " + commandClass.getName(), e);
-			}
-			return cmd;
-		}
 	}
 }

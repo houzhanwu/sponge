@@ -19,6 +19,12 @@ public class KNT2014Server {
 
 	private EventLoopGroup workerGroup;
 
+	private ServerHandler serverHandler;
+
+	public void setServerHandler(ServerHandler serverHandler) {
+		this.serverHandler = serverHandler;
+	}
+
 	public void start() {
 		bossGroup = new NioEventLoopGroup();
 		workerGroup = new NioEventLoopGroup(16);
@@ -29,7 +35,7 @@ public class KNT2014Server {
 				socketChannel.pipeline().addLast("frameDecoder", new LineBasedFrameDecoder(10 * 1024));
 				socketChannel.pipeline().addLast("stringDecoder", new StringDecoder(CharsetUtil.UTF_8));
 				socketChannel.pipeline().addLast("lineEncoder", new LineEncoder(LineSeparator.WINDOWS, CharsetUtil.UTF_8));
-//				socketChannel.pipeline().addLast(new ServerHandler());
+				socketChannel.pipeline().addLast(serverHandler);
 			}
 		}).option(ChannelOption.SO_BACKLOG, 128).childOption(ChannelOption.SO_KEEPALIVE, true);
 		bootstrap.bind(9002);

@@ -56,6 +56,9 @@
 	<logger name="com.apr7.sponge.protocol.hjt212.server.ServerHandler">
 		<level value="debug" />
 	</logger>
+	<logger name="com.apr7.sponge.protocol.knt2014.server.ServerHandler">
+		<level value="debug" />
+	</logger>
 
 	<root>
 		<priority value="INFO" />
