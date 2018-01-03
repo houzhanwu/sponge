@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apr7.sponge.dao.CompanyRealTimeDataDao">
+	<select id="listAllCompanyRealTimeData" resultType="com.apr7.sponge.model.CompanyRealTimeData">
+		select
+			  c.FID companyId
+			, c.FNAME companyName
+			, a.FNAME areaName
+			, rd.FPH ph
+			, rd.FEMISSION_LOAD emissionLoad
+			, rd.FLMODIFY lmodify
+		from T_COMPANY c
+		left join T_COMPANY_REALTIME_DATA rd
+		on rd.FCOMPANY_ID = c.FID
+		join T_AREA a
+		on a.FID = c.FAREA_ID
+	</select>
+</mapper>
