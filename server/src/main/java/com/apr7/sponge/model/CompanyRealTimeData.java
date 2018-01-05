@@ -7,6 +7,7 @@ public class CompanyRealTimeData {
 	private Long companyId;
 	private String companyName;
 	private String areaName;
+	private Integer status;
 	private Float ph;
 	private Float emissionLoad;
 	private Date lmodify;
@@ -33,6 +34,14 @@ public class CompanyRealTimeData {
 
 	public void setAreaName(String areaName) {
 		this.areaName = areaName;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
 	public Float getPh() {

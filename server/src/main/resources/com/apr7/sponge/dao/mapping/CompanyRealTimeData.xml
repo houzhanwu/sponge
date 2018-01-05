@@ -6,6 +6,7 @@
 			  c.FID companyId
 			, c.FNAME companyName
 			, a.FNAME areaName
+			, rd.FSTATUS status
 			, rd.FPH ph
 			, rd.FEMISSION_LOAD emissionLoad
 			, rd.FLMODIFY lmodify
