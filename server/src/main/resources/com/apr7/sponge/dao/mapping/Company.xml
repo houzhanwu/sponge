@@ -2,6 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.CompanyDao">
 	<select id="listCompany" resultType="com.apr7.sponge.model.Company">
-		select FID id, FNAME name from T_COMPANY order by FID limit #{start}, #{max}
+		SELECT FID id, FNAME name FROM T_COMPANY ORDER BY FID LIMIT #{start}, #{max}
+	</select>
+	<select id="listAllCompany" resultType="com.apr7.sponge.model.Company">
+		SELECT FID id, FNAME name FROM T_COMPANY
 	</select>
 </mapper>

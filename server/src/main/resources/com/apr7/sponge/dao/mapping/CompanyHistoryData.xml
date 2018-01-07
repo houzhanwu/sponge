@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apr7.sponge.dao.CompanyHistoryDataDao">
+	<select id="listCompanyHistoryData" resultType="com.apr7.sponge.model.CompanyHistoryData">
+	<![CDATA[
+		select
+			  FCOMPANY_ID companyId
+			, FDATETIME datetime
+			, FPH ph
+			, FEMISSION_LOAD emissionLoad
+		from T_COMPANY_HISTORY_DATA
+		where FCOMPANY_ID = #{companyId}
+			and #{startTime} <= FDATETIME and FDATETIME < #{endTime}
+		ORDER BY FDATETIME DESC
+	]]>
+	</select>
+</mapper>
