@@ -4,7 +4,7 @@ public class Device {
 
 	private Long id;
 	private String mn;
-	private Long companyId;
+	private Long workshopId;
 
 	public Long getId() {
 		return id;
@@ -22,11 +22,11 @@ public class Device {
 		this.mn = mn;
 	}
 
-	public Long getCompanyId() {
-		return companyId;
+	public Long getWorkshopId() {
+		return workshopId;
 	}
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public void setWorkshopId(Long workshopId) {
+		this.workshopId = workshopId;
 	}
 }

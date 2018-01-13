@@ -3,15 +3,16 @@
 <mapper namespace="com.apr7.sponge.dao.CompanyHistoryDataDao">
 	<select id="listCompanyHistoryData" resultType="com.apr7.sponge.model.CompanyHistoryData">
 	<![CDATA[
-		select
-			  FCOMPANY_ID companyId
-			, FDATETIME datetime
-			, FPH ph
-			, FEMISSION_LOAD emissionLoad
-		from T_COMPANY_HISTORY_DATA
-		where FCOMPANY_ID = #{companyId}
-			and #{startTime} <= FDATETIME and FDATETIME < #{endTime}
-		ORDER BY FDATETIME DESC
+		SELECT
+			  ws.FNAME workshopName
+			, data.FDATETIME datetime
+			, data.FPH ph
+			, data.FEMISSION_LOAD emissionLoad
+		FROM T_COMPANY_HISTORY_DATA data
+		JOIN T_WORKSHOP ws
+		ON ws.FID = data.FWORKSHOP_ID
+		WHERE ws.FCOMPANY_ID = #{companyId}
+			AND #{startTime} <= data.FDATETIME AND data.FDATETIME < #{endTime}
 	]]>
 	</select>
 </mapper>

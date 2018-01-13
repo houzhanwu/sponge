@@ -3,6 +3,7 @@ package com.apr7.sponge.constants;
 public enum CompanyStatusEnum {
 
 	NORMAL(1, "正常"),
+	OFFLINE(3, "离线"),
 	NOT_INSTALLED(5, "未装");
 
 	private int code;

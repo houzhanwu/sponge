@@ -4,21 +4,14 @@ import java.util.Date;
 
 public class CompanyRealTimeData {
 
-	private Long companyId;
 	private String companyName;
+	private String workshopName;
 	private String areaName;
+	private Long deviceId;
 	private Integer status;
 	private Float ph;
 	private Float emissionLoad;
 	private Date lmodify;
-
-	public Long getCompanyId() {
-		return companyId;
-	}
-
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
-	}
 
 	public String getCompanyName() {
 		return companyName;
@@ -28,12 +21,28 @@ public class CompanyRealTimeData {
 		this.companyName = companyName;
 	}
 
+	public String getWorkshopName() {
+		return workshopName;
+	}
+
+	public void setWorkshopName(String workshopName) {
+		this.workshopName = workshopName;
+	}
+
 	public String getAreaName() {
 		return areaName;
 	}
 
 	public void setAreaName(String areaName) {
 		this.areaName = areaName;
+	}
+
+	public Long getDeviceId() {
+		return deviceId;
+	}
+
+	public void setDeviceId(Long deviceId) {
+		this.deviceId = deviceId;
 	}
 
 	public Integer getStatus() {

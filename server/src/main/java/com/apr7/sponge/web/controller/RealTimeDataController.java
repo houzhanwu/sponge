@@ -22,8 +22,10 @@ public class RealTimeDataController {
 	public List<CompanyRealTimeData> listDeviceByCompany() {
 		List<CompanyRealTimeData> companyRealTimeDatas = realTimeDataService.listAllCompanyRealTimeData();
 		for (CompanyRealTimeData companyRealTimeData : companyRealTimeDatas) {
-			if (companyRealTimeData.getLmodify() == null) {
+			if (companyRealTimeData.getDeviceId() == null) {
 				companyRealTimeData.setStatus(CompanyStatusEnum.NOT_INSTALLED.getCode());
+			} else if (companyRealTimeData.getLmodify() == null) {
+				companyRealTimeData.setStatus(CompanyStatusEnum.OFFLINE.getCode());
 			}
 		}
 		return companyRealTimeDatas;

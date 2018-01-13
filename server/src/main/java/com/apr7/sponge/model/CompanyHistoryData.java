@@ -4,17 +4,17 @@ import java.util.Date;
 
 public class CompanyHistoryData {
 
-	private Long companyId;
+	private String workshopName;
 	private Date dateTime;
 	private Float ph;
 	private Float emissionLoad;
 
-	public Long getCompanyId() {
-		return companyId;
+	public String getWorkshopName() {
+		return workshopName;
 	}
 
-	public void setCompanyId(Long companyId) {
-		this.companyId = companyId;
+	public void setWorkshopName(String workshopName) {
+		this.workshopName = workshopName;
 	}
 
 	public Date getDateTime() {
