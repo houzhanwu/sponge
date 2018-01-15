@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apr7.sponge.dao.CompanyRealTimeDataDao">
-	<select id="listAllCompanyRealTimeData" resultType="com.apr7.sponge.model.CompanyRealTimeData">
+<mapper namespace="com.apr7.sponge.dao.RealTimeDataDao">
+	<select id="listAllRealTimeData" resultType="com.apr7.sponge.model.RealTimeData">
 		SELECT
 			  c.FNAME companyName
 			, ws.FNAME workshopName
@@ -10,6 +10,9 @@
 			, rd.FSTATUS status
 			, rd.FPH ph
 			, rd.FEMISSION_LOAD emissionLoad
+			, rd.FRTD_DATA rtdData
+			, rd.FSTATUS_DATA statusData
+			, rd.FDATA_PROTOCOL dataProtocol
 			, rd.FLMODIFY lmodify
 		FROM T_WORKSHOP ws
 		JOIN T_COMPANY c

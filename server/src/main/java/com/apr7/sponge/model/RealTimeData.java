@@ -2,7 +2,9 @@ package com.apr7.sponge.model;
 
 import java.util.Date;
 
-public class CompanyRealTimeData {
+import com.alibaba.fastjson.JSONObject;
+
+public class RealTimeData {
 
 	private String companyName;
 	private String workshopName;
@@ -11,6 +13,9 @@ public class CompanyRealTimeData {
 	private Integer status;
 	private Float ph;
 	private Float emissionLoad;
+	private JSONObject rtdData;
+	private JSONObject statusData;
+	private Integer dataProtocol;
 	private Date lmodify;
 
 	public String getCompanyName() {
@@ -67,6 +72,30 @@ public class CompanyRealTimeData {
 
 	public void setEmissionLoad(Float emissionLoad) {
 		this.emissionLoad = emissionLoad;
+	}
+
+	public JSONObject getRtdData() {
+		return rtdData;
+	}
+
+	public void setRtdData(JSONObject rtdData) {
+		this.rtdData = rtdData;
+	}
+
+	public JSONObject getStatusData() {
+		return statusData;
+	}
+
+	public void setStatusData(JSONObject statusData) {
+		this.statusData = statusData;
+	}
+
+	public Integer getDataProtocol() {
+		return dataProtocol;
+	}
+
+	public void setDataProtocol(Integer dataProtocol) {
+		this.dataProtocol = dataProtocol;
 	}
 
 	public Date getLmodify() {
