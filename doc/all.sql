@@ -51,45 +51,6 @@ insert  into `T_COMPANY`(`FID`,`FNAME`,`FAREA_ID`) values
 (3,'工厂3',2),
 (4,'工厂4',2);
 
-/*Table structure for table `T_COMPANY_HISTORY_DATA` */
-
-DROP TABLE IF EXISTS `T_COMPANY_HISTORY_DATA`;
-
-CREATE TABLE `T_COMPANY_HISTORY_DATA` (
-  `FWORKSHOP_ID` int(10) unsigned NOT NULL,
-  `FDATETIME` datetime NOT NULL COMMENT '记录时间',
-  `FPH` float DEFAULT NULL COMMENT 'PH值',
-  `FEMISSION_LOAD` float DEFAULT NULL COMMENT '排放量',
-  PRIMARY KEY (`FWORKSHOP_ID`,`FDATETIME`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-/*Data for the table `T_COMPANY_HISTORY_DATA` */
-
-insert  into `T_COMPANY_HISTORY_DATA`(`FWORKSHOP_ID`,`FDATETIME`,`FPH`,`FEMISSION_LOAD`) values 
-(1,'2018-01-07 01:44:26',7,100.99),
-(1,'2018-01-07 01:44:47',7.1,100.1),
-(2,'2018-01-14 01:53:57',6.9,109.1),
-(3,'2018-01-14 02:06:56',7,100);
-
-/*Table structure for table `T_COMPANY_REALTIME_DATA` */
-
-DROP TABLE IF EXISTS `T_COMPANY_REALTIME_DATA`;
-
-CREATE TABLE `T_COMPANY_REALTIME_DATA` (
-  `FWORKSHOP_ID` int(10) unsigned NOT NULL,
-  `FSTATUS` tinyint(4) NOT NULL COMMENT '状态',
-  `FPH` float DEFAULT NULL COMMENT 'PH值',
-  `FEMISSION_LOAD` float DEFAULT NULL COMMENT '排放量',
-  `FLMODIFY` datetime NOT NULL,
-  PRIMARY KEY (`FWORKSHOP_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-/*Data for the table `T_COMPANY_REALTIME_DATA` */
-
-insert  into `T_COMPANY_REALTIME_DATA`(`FWORKSHOP_ID`,`FSTATUS`,`FPH`,`FEMISSION_LOAD`,`FLMODIFY`) values 
-(1,1,7.1,109.9,'2018-01-03 21:54:15'),
-(2,1,6,108.8,'2018-01-13 02:57:05');
-
 /*Table structure for table `T_DEVICE` */
 
 DROP TABLE IF EXISTS `T_DEVICE`;
@@ -108,6 +69,85 @@ CREATE TABLE `T_DEVICE` (
 insert  into `T_DEVICE`(`FID`,`FMN`,`FWORKSHOP_ID`) values 
 (1,'66666660000111',1),
 (2,'66666660000112',2);
+
+/*Table structure for table `T_HISTORY_DATA` */
+
+DROP TABLE IF EXISTS `T_HISTORY_DATA`;
+
+CREATE TABLE `T_HISTORY_DATA` (
+  `FWORKSHOP_ID` int(10) unsigned NOT NULL,
+  `FDATETIME` datetime NOT NULL COMMENT '记录时间',
+  `FRTD_DATA` text COMMENT '数值型数据',
+  `FSTATUS_DATA` text COMMENT '状态型数据',
+  `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_HISTORY_DATA` */
+
+insert  into `T_HISTORY_DATA`(`FWORKSHOP_ID`,`FDATETIME`,`FRTD_DATA`,`FSTATUS_DATA`,`FDATA_PROTOCOL`) values 
+(1,'2018-01-07 01:44:26','{\"ph\":7,\"emissionLoad\":100.99}',NULL,1),
+(1,'2018-01-07 01:44:47','{\"ph\":7.1,\"emissionLoad\":100.1}',NULL,1),
+(2,'2018-01-14 01:53:57','{\"ph\":6.9,\"emissionLoad\":109.1}',NULL,1),
+(3,'2018-01-14 02:06:56','{\"ph\":7,\"emissionLoad\":100}',NULL,1);
+
+/*Table structure for table `T_POLLUTANT` */
+
+DROP TABLE IF EXISTS `T_POLLUTANT`;
+
+CREATE TABLE `T_POLLUTANT` (
+  `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `FNAME` varchar(32) NOT NULL,
+  `FSHOW` tinyint(4) NOT NULL,
+  PRIMARY KEY (`FID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
+
+/*Data for the table `T_POLLUTANT` */
+
+insert  into `T_POLLUTANT`(`FID`,`FNAME`,`FSHOW`) values 
+(1,'pH',1),
+(2,'排放量(m³/h)',1),
+(3,'生产用水量(m³/h)',0);
+
+/*Table structure for table `T_POLLUTANT_MAPPING` */
+
+DROP TABLE IF EXISTS `T_POLLUTANT_MAPPING`;
+
+CREATE TABLE `T_POLLUTANT_MAPPING` (
+  `FPOLLUTANT_ID` int(10) unsigned NOT NULL,
+  `FFIELD_KEY_HJT212` varchar(32) NOT NULL,
+  `FFIELD_KEY_KNT2014` varchar(32) NOT NULL,
+  PRIMARY KEY (`FPOLLUTANT_ID`),
+  UNIQUE KEY `UDX_FIELDKEYHJT212` (`FFIELD_KEY_HJT212`),
+  UNIQUE KEY `UDX_FIELDKEYKNT2014` (`FFIELD_KEY_KNT2014`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='污染物字段映射';
+
+/*Data for the table `T_POLLUTANT_MAPPING` */
+
+insert  into `T_POLLUTANT_MAPPING`(`FPOLLUTANT_ID`,`FFIELD_KEY_HJT212`,`FFIELD_KEY_KNT2014`) values 
+(1,'ph','ph'),
+(2,'emissionLoad','emissionLoad');
+
+/*Table structure for table `T_REALTIME_DATA` */
+
+DROP TABLE IF EXISTS `T_REALTIME_DATA`;
+
+CREATE TABLE `T_REALTIME_DATA` (
+  `FWORKSHOP_ID` int(10) unsigned NOT NULL,
+  `FSTATUS` tinyint(4) NOT NULL COMMENT '状态',
+  `FPH` float DEFAULT NULL COMMENT 'PH值',
+  `FEMISSION_LOAD` float DEFAULT NULL COMMENT '排放量',
+  `FRTD_DATA` text COMMENT '数值型数据',
+  `FSTATUS_DATA` text COMMENT '状态型数据',
+  `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本',
+  `FLMODIFY` datetime NOT NULL,
+  PRIMARY KEY (`FWORKSHOP_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_REALTIME_DATA` */
+
+insert  into `T_REALTIME_DATA`(`FWORKSHOP_ID`,`FSTATUS`,`FPH`,`FEMISSION_LOAD`,`FRTD_DATA`,`FSTATUS_DATA`,`FDATA_PROTOCOL`,`FLMODIFY`) values 
+(1,1,7.1,109.9,NULL,NULL,0,'2018-01-03 21:54:15'),
+(2,1,6,108.8,NULL,NULL,0,'2018-01-13 02:57:05');
 
 /*Table structure for table `T_USER` */
 

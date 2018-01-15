@@ -6,12 +6,10 @@
 		SELECT
 			  ws.FNAME workshopName
 			, data.FDATETIME datetime
-			, data.FPH ph
-			, data.FEMISSION_LOAD emissionLoad
 			, data.FRTD_DATA rtdData
 			, data.FSTATUS_DATA statusData
 			, data.FDATA_PROTOCOL dataProtocol
-		FROM T_COMPANY_HISTORY_DATA data
+		FROM T_HISTORY_DATA data
 		JOIN T_WORKSHOP ws
 		ON ws.FID = data.FWORKSHOP_ID
 		WHERE ws.FCOMPANY_ID = #{companyId}

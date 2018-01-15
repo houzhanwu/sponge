@@ -8,8 +8,6 @@ public class HistoryData {
 
 	private String workshopName;
 	private Date dateTime;
-	private Float ph;
-	private Float emissionLoad;
 	private JSONObject rtdData;
 	private JSONObject statusData;
 	private Integer dataProtocol;
@@ -30,24 +28,8 @@ public class HistoryData {
 		this.dateTime = dateTime;
 	}
 
-	public Float getPh() {
-		return ph;
-	}
-
-	public void setPh(Float ph) {
-		this.ph = ph;
-	}
-
-	public Float getEmissionLoad() {
-		return emissionLoad;
-	}
-
-	public void setEmissionLoad(Float emissionLoad) {
-		this.emissionLoad = emissionLoad;
-	}
-
 	public JSONObject getRtdData() {
-		return rtdData;
+		return rtdData == null ? new JSONObject() : rtdData;
 	}
 
 	public void setRtdData(JSONObject rtdData) {
@@ -55,7 +37,7 @@ public class HistoryData {
 	}
 
 	public JSONObject getStatusData() {
-		return statusData;
+		return statusData == null ? new JSONObject() : statusData;
 	}
 
 	public void setStatusData(JSONObject statusData) {

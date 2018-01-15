@@ -5,7 +5,7 @@
 		select
 			  p.FID id
 			, p.FNAME name
-			, p.FSHOW show
+			, p.FSHOW `show`
 			, pm.FFIELD_KEY_HJT212 fieldKeyHjt212
 			, pm.FFIELD_KEY_KNT2014 fieldKeyKnt2014
 		FROM T_POLLUTANT p
