@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.5.0 (64 bit)
-MySQL - 5.7.20 : Database - SPONGE
+MySQL - 5.6.32 : Database - SPONGE
 *********************************************************************
 */
 
@@ -77,18 +77,18 @@ DROP TABLE IF EXISTS `T_HISTORY_DATA`;
 CREATE TABLE `T_HISTORY_DATA` (
   `FWORKSHOP_ID` int(10) unsigned NOT NULL,
   `FDATETIME` datetime NOT NULL COMMENT '记录时间',
-  `FRTD_DATA` text COMMENT '数值型数据',
-  `FSTATUS_DATA` text COMMENT '状态型数据',
+  `FRTD_DATA` text NOT NULL COMMENT '数值型数据',
+  `FSTATUS_DATA` text NOT NULL COMMENT '状态型数据',
   `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_HISTORY_DATA` */
 
 insert  into `T_HISTORY_DATA`(`FWORKSHOP_ID`,`FDATETIME`,`FRTD_DATA`,`FSTATUS_DATA`,`FDATA_PROTOCOL`) values 
-(1,'2018-01-07 01:44:26','{\"ph\":7,\"emissionLoad\":100.99}',NULL,1),
-(1,'2018-01-07 01:44:47','{\"ph\":7.1,\"emissionLoad\":100.1}',NULL,1),
-(2,'2018-01-14 01:53:57','{\"ph\":6.9,\"emissionLoad\":109.1}',NULL,1),
-(3,'2018-01-14 02:06:56','{\"ph\":7,\"emissionLoad\":100}',NULL,1);
+(1,'2018-01-07 01:44:26','{\"ph\":7,\"emissionLoad\":100.99}','',1),
+(1,'2018-01-07 01:44:47','{\"ph\":7.1,\"emissionLoad\":100.1}','',1),
+(2,'2018-01-14 01:53:57','{\"ph\":6.9,\"emissionLoad\":109.1}','',1),
+(3,'2018-01-14 02:06:56','{\"ph\":7,\"emissionLoad\":100}','',1);
 
 /*Table structure for table `T_POLLUTANT` */
 
@@ -98,15 +98,16 @@ CREATE TABLE `T_POLLUTANT` (
   `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `FNAME` varchar(32) NOT NULL,
   `FSHOW` tinyint(4) NOT NULL,
+  `FORDER` smallint(6) NOT NULL,
   PRIMARY KEY (`FID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
 
 /*Data for the table `T_POLLUTANT` */
 
-insert  into `T_POLLUTANT`(`FID`,`FNAME`,`FSHOW`) values 
-(1,'pH',1),
-(2,'排放量(m³/h)',1),
-(3,'生产用水量(m³/h)',0);
+insert  into `T_POLLUTANT`(`FID`,`FNAME`,`FSHOW`,`FORDER`) values 
+(1,'pH',1,1),
+(2,'排放量(m³/h)',1,2),
+(3,'生产用水量(m³/h)',0,3);
 
 /*Table structure for table `T_POLLUTANT_MAPPING` */
 
@@ -136,8 +137,8 @@ CREATE TABLE `T_REALTIME_DATA` (
   `FSTATUS` tinyint(4) NOT NULL COMMENT '状态',
   `FPH` float DEFAULT NULL COMMENT 'PH值',
   `FEMISSION_LOAD` float DEFAULT NULL COMMENT '排放量',
-  `FRTD_DATA` text COMMENT '数值型数据',
-  `FSTATUS_DATA` text COMMENT '状态型数据',
+  `FRTD_DATA` text NOT NULL COMMENT '数值型数据',
+  `FSTATUS_DATA` text NOT NULL COMMENT '状态型数据',
   `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本',
   `FLMODIFY` datetime NOT NULL,
   PRIMARY KEY (`FWORKSHOP_ID`)
@@ -146,8 +147,8 @@ CREATE TABLE `T_REALTIME_DATA` (
 /*Data for the table `T_REALTIME_DATA` */
 
 insert  into `T_REALTIME_DATA`(`FWORKSHOP_ID`,`FSTATUS`,`FPH`,`FEMISSION_LOAD`,`FRTD_DATA`,`FSTATUS_DATA`,`FDATA_PROTOCOL`,`FLMODIFY`) values 
-(1,1,7.1,109.9,NULL,NULL,0,'2018-01-03 21:54:15'),
-(2,1,6,108.8,NULL,NULL,0,'2018-01-13 02:57:05');
+(1,1,7.1,109.9,'','',0,'2018-01-03 21:54:15'),
+(2,1,6,108.8,'','',0,'2018-01-13 02:57:05');
 
 /*Table structure for table `T_USER` */
 

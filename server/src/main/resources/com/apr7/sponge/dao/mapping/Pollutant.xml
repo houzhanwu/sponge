@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.PollutantDao">
-	<select id="listShowingPollutant" resultType="com.apr7.sponge.model.Pollutant">
+	<select id="listPollutant" resultType="com.apr7.sponge.model.Pollutant">
 		select
 			  p.FID id
 			, p.FNAME name
@@ -13,7 +13,10 @@
 		LEFT JOIN T_POLLUTANT_MAPPING pm
 		ON pm.FPOLLUTANT_ID = p.FID
 		WHERE
-			p.FSHOW = true
+			1 = 1
+		<if test="show != null">
+			AND p.FSHOW = #{show}
+		</if>
 		ORDER BY
 			FORDER, FID
 	</select>

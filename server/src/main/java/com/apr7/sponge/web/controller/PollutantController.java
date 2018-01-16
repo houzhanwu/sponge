@@ -18,9 +18,16 @@ public class PollutantController {
 	@Autowired
 	private PollutantService pollutantService;
 
+	@RequestMapping("/listall")
+	@ResponseBody
+	public List<Pollutant> listShowPollutant() {
+		List<Pollutant> pollutants = pollutantService.listAllPollutant();
+		return pollutants;
+	}
+
 	@RequestMapping("/listshow")
 	@ResponseBody
-	public List<PollutantVO> listShowPollutant() {
+	public List<PollutantVO> listAllPollutant() {
 		List<Pollutant> pollutants = pollutantService.listShowingPollutant();
 		List<PollutantVO> pollutantVOs = new ArrayList<>(pollutants.size());
 		for (Pollutant pollutant : pollutants) {

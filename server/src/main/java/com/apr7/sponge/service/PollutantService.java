@@ -13,7 +13,11 @@ public class PollutantService {
 	@Autowired
 	private PollutantDao pollutantDao;
 
+	public List<Pollutant> listAllPollutant() {
+		return pollutantDao.listPollutant(null);
+	}
+
 	public List<Pollutant> listShowingPollutant() {
-		return pollutantDao.listShowingPollutant();
+		return pollutantDao.listPollutant(true);
 	}
 }
