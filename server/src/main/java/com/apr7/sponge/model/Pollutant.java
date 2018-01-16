@@ -5,8 +5,8 @@ public class Pollutant {
 	private Long id;
 	private String name;
 	private Boolean show;
-	private String fieldKeyHjt212;
-	private String fieldKeyKnt2014;
+	private Integer order;
+	private PollutantMapping mapping;
 
 	public Long getId() {
 		return id;
@@ -32,19 +32,19 @@ public class Pollutant {
 		this.show = show;
 	}
 
-	public String getFieldKeyHjt212() {
-		return fieldKeyHjt212;
+	public Integer getOrder() {
+		return order;
 	}
 
-	public void setFieldKeyHjt212(String fieldKeyHjt212) {
-		this.fieldKeyHjt212 = fieldKeyHjt212;
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 
-	public String getFieldKeyKnt2014() {
-		return fieldKeyKnt2014;
+	public PollutantMapping getMapping() {
+		return mapping;
 	}
 
-	public void setFieldKeyKnt2014(String fieldKeyKnt2014) {
-		this.fieldKeyKnt2014 = fieldKeyKnt2014;
+	public void setMapping(PollutantMapping mapping) {
+		this.mapping = mapping;
 	}
 }

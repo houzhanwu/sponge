@@ -57,15 +57,15 @@ public class HistoryDataController {
 				String value = null;
 				switch (dataProtocolEnum) {
 				case HJT212:
-					value = rtdData.getString(pollutant.getFieldKeyHjt212());
+					value = rtdData.getString(pollutant.getMapping().getFieldKeyHjt212());
 					if (value == null) {
-						value = statusData.getString(pollutant.getFieldKeyHjt212());
+						value = statusData.getString(pollutant.getMapping().getFieldKeyHjt212());
 					}
 					break;
 				case KNT2014:
-					value = rtdData.getString(pollutant.getFieldKeyKnt2014());
+					value = rtdData.getString(pollutant.getMapping().getFieldKeyKnt2014());
 					if (value == null) {
-						value = statusData.getString(pollutant.getFieldKeyKnt2014());
+						value = statusData.getString(pollutant.getMapping().getFieldKeyKnt2014());
 					}
 					break;
 				default:

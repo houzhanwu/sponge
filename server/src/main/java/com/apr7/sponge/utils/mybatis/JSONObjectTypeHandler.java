@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
@@ -24,16 +25,26 @@ public class JSONObjectTypeHandler extends BaseTypeHandler<JSONObject> {
 
 	@Override
 	public JSONObject getNullableResult(ResultSet rs, String columnName) throws SQLException {
-		return JSON.parseObject(rs.getString(columnName));
+		return create(rs.getString(columnName));
 	}
 
 	@Override
 	public JSONObject getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
-		return JSON.parseObject(rs.getString(columnIndex));
+		return create(rs.getString(columnIndex));
 	}
 
 	@Override
 	public JSONObject getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
-		return JSON.parseObject(cs.getString(columnIndex));
+		return create(cs.getString(columnIndex));
+	}
+
+	private JSONObject create(String s) {
+		if (s == null) {
+			return null;
+		} else if (StringUtils.isBlank(s)) {
+			return new JSONObject();
+		} else {
+			return JSON.parseObject(s);
+		}
 	}
 }

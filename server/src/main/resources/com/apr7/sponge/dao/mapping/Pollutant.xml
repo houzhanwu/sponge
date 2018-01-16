@@ -6,12 +6,15 @@
 			  p.FID id
 			, p.FNAME name
 			, p.FSHOW `show`
-			, pm.FFIELD_KEY_HJT212 fieldKeyHjt212
-			, pm.FFIELD_KEY_KNT2014 fieldKeyKnt2014
+			, p.FORDER `order`
+			, pm.FFIELD_KEY_HJT212 `mapping.fieldKeyHjt212`
+			, pm.FFIELD_KEY_KNT2014 `mapping.fieldKeyKnt2014`
 		FROM T_POLLUTANT p
 		LEFT JOIN T_POLLUTANT_MAPPING pm
 		ON pm.FPOLLUTANT_ID = p.FID
 		WHERE
 			p.FSHOW = true
+		ORDER BY
+			FORDER, FID
 	</select>
 </mapper>
