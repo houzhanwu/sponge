@@ -1,8 +1,12 @@
-package com.apr7.sponge.model.vo;
+package com.apr7.sponge.model.param;
+
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.apr7.sponge.model.Pollutant;
+import com.apr7.sponge.model.PollutantMapping;
 
-public class PollutantVO {
+public class PollutantParam {
 
 	private Long id;
 	private String name;
@@ -50,13 +54,17 @@ public class PollutantVO {
 		this.fieldKeyKnt2014 = fieldKeyKnt2014;
 	}
 
-	public static PollutantVO build(Pollutant pollutant) {
-		PollutantVO pollutantVO = new PollutantVO();
-		pollutantVO.setId(pollutant.getId());
-		pollutantVO.setName(pollutant.getName());
-		pollutantVO.setShow(pollutant.getShow());
-		pollutantVO.setFieldKeyHjt212(pollutant.getMapping().getFieldKeyHjt212());
-		pollutantVO.setFieldKeyKnt2014(pollutant.getMapping().getFieldKeyKnt2014());
-		return pollutantVO;
+	public Pollutant toModel() {
+		Pollutant pollutant = new Pollutant();
+		pollutant.setId(this.getId());
+		pollutant.setName(this.getName());
+		pollutant.setShow(ObjectUtils.defaultIfNull(this.getShow(), Boolean.FALSE));
+		pollutant.setOrder(0);
+		PollutantMapping mapping = new PollutantMapping();
+		mapping.setPollutantId(this.getId());
+		mapping.setFieldKeyHjt212(StringUtils.isBlank(this.getFieldKeyHjt212()) ? null : this.getFieldKeyHjt212());
+		mapping.setFieldKeyKnt2014(StringUtils.isBlank(this.getFieldKeyKnt2014()) ? null : this.getFieldKeyKnt2014());
+		pollutant.setMapping(mapping);
+		return pollutant;
 	}
 }

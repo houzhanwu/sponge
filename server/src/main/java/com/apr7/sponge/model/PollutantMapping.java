@@ -2,8 +2,17 @@ package com.apr7.sponge.model;
 
 public class PollutantMapping {
 
+	private Long pollutantId;
 	private String fieldKeyHjt212;
 	private String fieldKeyKnt2014;
+
+	public Long getPollutantId() {
+		return pollutantId;
+	}
+
+	public void setPollutantId(Long pollutantId) {
+		this.pollutantId = pollutantId;
+	}
 
 	public String getFieldKeyHjt212() {
 		return fieldKeyHjt212;

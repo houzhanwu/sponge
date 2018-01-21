@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apr7.sponge.model.Pollutant;
+import com.apr7.sponge.model.param.PollutantParam;
+import com.apr7.sponge.model.vo.PollutantSimpleVO;
 import com.apr7.sponge.model.vo.PollutantVO;
 import com.apr7.sponge.service.PollutantService;
 
@@ -18,21 +20,38 @@ public class PollutantController {
 	@Autowired
 	private PollutantService pollutantService;
 
-	@RequestMapping("/listall")
+	@RequestMapping("/add")
 	@ResponseBody
-	public List<Pollutant> listShowPollutant() {
-		List<Pollutant> pollutants = pollutantService.listAllPollutant();
-		return pollutants;
+	public void addPollutant(PollutantParam pollutantParam) {
+		Pollutant pollutant = pollutantParam.toModel();
+		pollutantService.addPollutant(pollutant);
 	}
 
-	@RequestMapping("/listshow")
+	@RequestMapping("/delete")
 	@ResponseBody
-	public List<PollutantVO> listAllPollutant() {
-		List<Pollutant> pollutants = pollutantService.listShowingPollutant();
+	public void deletePollutant(Long pollutantId) {
+		pollutantService.deletePollutant(pollutantId);
+	}
+
+	@RequestMapping("/listall")
+	@ResponseBody
+	public List<PollutantVO> listShowPollutant() {
+		List<Pollutant> pollutants = pollutantService.listAllPollutant();
 		List<PollutantVO> pollutantVOs = new ArrayList<>(pollutants.size());
 		for (Pollutant pollutant : pollutants) {
 			pollutantVOs.add(PollutantVO.build(pollutant));
 		}
 		return pollutantVOs;
+	}
+
+	@RequestMapping("/listshow")
+	@ResponseBody
+	public List<PollutantSimpleVO> listAllPollutant() {
+		List<Pollutant> pollutants = pollutantService.listShowingPollutant();
+		List<PollutantSimpleVO> pollutantSimpleVOs = new ArrayList<>(pollutants.size());
+		for (Pollutant pollutant : pollutants) {
+			pollutantSimpleVOs.add(PollutantSimpleVO.build(pollutant));
+		}
+		return pollutantSimpleVOs;
 	}
 }

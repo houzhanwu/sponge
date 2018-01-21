@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.5.0 (64 bit)
-MySQL - 5.6.32 : Database - SPONGE
+MySQL - 5.7.20 : Database - SPONGE
 *********************************************************************
 */
 
@@ -100,7 +100,7 @@ CREATE TABLE `T_POLLUTANT` (
   `FSHOW` tinyint(4) NOT NULL,
   `FORDER` smallint(6) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
 
 /*Data for the table `T_POLLUTANT` */
 
@@ -115,8 +115,8 @@ DROP TABLE IF EXISTS `T_POLLUTANT_MAPPING`;
 
 CREATE TABLE `T_POLLUTANT_MAPPING` (
   `FPOLLUTANT_ID` int(10) unsigned NOT NULL,
-  `FFIELD_KEY_HJT212` varchar(32) NOT NULL,
-  `FFIELD_KEY_KNT2014` varchar(32) NOT NULL,
+  `FFIELD_KEY_HJT212` varchar(32) DEFAULT NULL,
+  `FFIELD_KEY_KNT2014` varchar(32) DEFAULT NULL,
   PRIMARY KEY (`FPOLLUTANT_ID`),
   UNIQUE KEY `UDX_FIELDKEYHJT212` (`FFIELD_KEY_HJT212`),
   UNIQUE KEY `UDX_FIELDKEYKNT2014` (`FFIELD_KEY_KNT2014`)
@@ -126,7 +126,8 @@ CREATE TABLE `T_POLLUTANT_MAPPING` (
 
 insert  into `T_POLLUTANT_MAPPING`(`FPOLLUTANT_ID`,`FFIELD_KEY_HJT212`,`FFIELD_KEY_KNT2014`) values 
 (1,'ph','ph'),
-(2,'emissionLoad','emissionLoad');
+(2,'emissionLoad','emissionLoad'),
+(3,NULL,NULL);
 
 /*Table structure for table `T_REALTIME_DATA` */
 

@@ -1,12 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.PollutantDao">
+	<insert id="addPollutant" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO T_POLLUTANT (FNAME,FSHOW,FORDER)
+		VALUES (#{name},#{show},#{order})
+	</insert>
+	<insert id="addPollutantMapping">
+		INSERT INTO T_POLLUTANT_MAPPING (FPOLLUTANT_ID,FFIELD_KEY_HJT212,FFIELD_KEY_KNT2014)
+		VALUES (#{pollutantId},#{fieldKeyHjt212},#{fieldKeyKnt2014})
+	</insert>
+
+	<delete id="deletePollutant">
+		DELETE FROM T_POLLUTANT WHERE FID=#{pollutantId}
+	</delete>
+	<delete id="deletePollutantMapping">
+		DELETE FROM T_POLLUTANT_MAPPING WHERE FPOLLUTANT_ID=#{pollutantId}
+	</delete>
+
 	<select id="listPollutant" resultType="com.apr7.sponge.model.Pollutant">
-		select
+		SELECT
 			  p.FID id
 			, p.FNAME name
 			, p.FSHOW `show`
 			, p.FORDER `order`
+			, p.FID `mapping.pollutantId`
 			, pm.FFIELD_KEY_HJT212 `mapping.fieldKeyHjt212`
 			, pm.FFIELD_KEY_KNT2014 `mapping.fieldKeyKnt2014`
 		FROM T_POLLUTANT p
@@ -19,5 +36,9 @@
 		</if>
 		ORDER BY
 			FORDER, FID
+	</select>
+
+	<select id="getMaxOrder" resultType="int">
+		SELECT IFNULL(MAX(FORDER),0)+1 FROM T_POLLUTANT
 	</select>
 </mapper>
