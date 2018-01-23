@@ -6,18 +6,19 @@ import com.alibaba.fastjson.JSONObject;
 
 public class HistoryData {
 
-	private String workshopName;
+	private Long workshopId;
 	private Date dateTime;
+	private Long companyId;
 	private JSONObject rtdData;
 	private JSONObject statusData;
 	private Integer dataProtocol;
 
-	public String getWorkshopName() {
-		return workshopName;
+	public Long getWorkshopId() {
+		return workshopId;
 	}
 
-	public void setWorkshopName(String workshopName) {
-		this.workshopName = workshopName;
+	public void setWorkshopId(Long workshopId) {
+		this.workshopId = workshopId;
 	}
 
 	public Date getDateTime() {
@@ -26,6 +27,14 @@ public class HistoryData {
 
 	public void setDateTime(Date dateTime) {
 		this.dateTime = dateTime;
+	}
+
+	public Long getCompanyId() {
+		return companyId;
+	}
+
+	public void setCompanyId(Long companyId) {
+		this.companyId = companyId;
 	}
 
 	public JSONObject getRtdData() {

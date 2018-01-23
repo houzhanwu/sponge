@@ -14,7 +14,11 @@ public class HistoryDataService {
 	@Autowired
 	private HistoryDataDao historyDataDao;
 
-	public List<HistoryData> listHistoryDataByCompanyId(Long companyId, Date startTime, Date endTime) {
-		return historyDataDao.listHistoryDataByCompanyId(companyId, startTime, endTime);
+	public void addHistoryDatas(List<HistoryData> historyDatas) {
+		historyDataDao.addHistoryDatas(historyDatas);
+	}
+
+	public List<HistoryData> listHistoryDataByCompanyId(Long companyId, Long workshopId, Date startTime, Date endTime) {
+		return historyDataDao.listHistoryDataByCompanyId(companyId, workshopId, startTime, endTime);
 	}
 }

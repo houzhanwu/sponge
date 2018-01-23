@@ -10,6 +10,15 @@
 		</collection>
 	</resultMap>
 
+	<select id="listWorkshopByCompanyId" resultType="com.apr7.sponge.model.Workshop">
+		SELECT
+			  FID id
+			, FNAME name
+		FROM T_WORKSHOP
+		WHERE
+			FCOMPANY_ID = #{companyId}
+	</select>
+
 	<select id="listAllCompanyWorkshopVO">
 		SELECT
 			  c.FID companyId

@@ -10,5 +10,8 @@ import com.apr7.sponge.model.HistoryData;
 
 @MapperScan
 public interface HistoryDataDao {
-	List<HistoryData> listHistoryDataByCompanyId(@Param("companyId") Long companyId, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
+
+	void addHistoryDatas(@Param("historyDatas") List<HistoryData> historyDatas);
+
+	List<HistoryData> listHistoryDataByCompanyId(@Param("companyId") Long companyId, @Param("workshopId") Long workshopId, @Param("startTime") Date startTime, @Param("endTime") Date endTime);
 }
