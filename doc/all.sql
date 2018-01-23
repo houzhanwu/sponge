@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.5.0 (64 bit)
-MySQL - 5.7.20 : Database - SPONGE
+MySQL - 5.6.32 : Database - SPONGE
 *********************************************************************
 */
 
@@ -75,20 +75,24 @@ insert  into `T_DEVICE`(`FID`,`FMN`,`FWORKSHOP_ID`) values
 DROP TABLE IF EXISTS `T_HISTORY_DATA`;
 
 CREATE TABLE `T_HISTORY_DATA` (
-  `FWORKSHOP_ID` int(10) unsigned NOT NULL,
+  `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `FWORKSHOP_ID` int(10) unsigned NOT NULL COMMENT '车间ID',
   `FDATETIME` datetime NOT NULL COMMENT '记录时间',
+  `FCOMPANY_ID` int(10) unsigned NOT NULL COMMENT '企业ID',
   `FRTD_DATA` text NOT NULL COMMENT '数值型数据',
   `FSTATUS_DATA` text NOT NULL COMMENT '状态型数据',
-  `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本',
+  PRIMARY KEY (`FID`),
+  UNIQUE KEY `UDX_DATETIME_COMPANYID_WORKSHOPID` (`FDATETIME`,`FCOMPANY_ID`,`FWORKSHOP_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_HISTORY_DATA` */
 
-insert  into `T_HISTORY_DATA`(`FWORKSHOP_ID`,`FDATETIME`,`FRTD_DATA`,`FSTATUS_DATA`,`FDATA_PROTOCOL`) values 
-(1,'2018-01-07 01:44:26','{\"ph\":7,\"emissionLoad\":100.99}','',1),
-(1,'2018-01-07 01:44:47','{\"ph\":7.1,\"emissionLoad\":100.1}','',1),
-(2,'2018-01-14 01:53:57','{\"ph\":6.9,\"emissionLoad\":109.1}','',1),
-(3,'2018-01-14 02:06:56','{\"ph\":7,\"emissionLoad\":100}','',1);
+insert  into `T_HISTORY_DATA`(`FID`,`FWORKSHOP_ID`,`FDATETIME`,`FCOMPANY_ID`,`FRTD_DATA`,`FSTATUS_DATA`,`FDATA_PROTOCOL`) values 
+(1,1,'2018-01-07 01:40:00',1,'{\"ph\":7,\"emissionLoad\":100.99}','',1),
+(2,1,'2018-01-07 01:45:00',1,'{\"ph\":7.1,\"emissionLoad\":100.1}','',1),
+(3,2,'2018-01-14 01:50:00',1,'{\"ph\":6.9,\"emissionLoad\":109.1}','',1),
+(4,3,'2018-01-14 02:05:00',2,'{\"ph\":7,\"emissionLoad\":100}','',1);
 
 /*Table structure for table `T_POLLUTANT` */
 
@@ -182,7 +186,7 @@ CREATE TABLE `T_WORKSHOP` (
 
 insert  into `T_WORKSHOP`(`FID`,`FNAME`,`FCOMPANY_ID`,`FREMARK`) values 
 (1,'车间102',1,NULL),
-(2,'车间101',1,NULL),
+(2,'车间101',3,NULL),
 (3,'车间201',2,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
