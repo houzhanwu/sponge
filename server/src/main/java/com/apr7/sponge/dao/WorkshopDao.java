@@ -5,12 +5,11 @@ import java.util.List;
 import org.mybatis.spring.annotation.MapperScan;
 
 import com.apr7.sponge.model.Workshop;
-import com.apr7.sponge.model.vo.CompanyWorkshopVO;
 
 @MapperScan
 public interface WorkshopDao {
 
-	List<Workshop> listWorkshopByCompanyId(Long companyId);
+	Workshop getWorkshop(Long workshopId);
 
-	List<CompanyWorkshopVO> listAllCompanyWorkshopVO();
+	List<Workshop> listWorkshopByCompanyId(Long companyId);
 }

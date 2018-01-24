@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.WorkshopDao">
-	<resultMap id="companyWorkshopVO" type="com.apr7.sponge.model.vo.CompanyWorkshopVO">
-		<id column="companyId" property="id"/>
-		<result column="companyName" property="name"/>
-		<collection property="workshops" ofType="com.apr7.sponge.model.Workshop">
-			<id column="workshopId" property="id" />
-		<result column="workshopName" property="name"/>
-		</collection>
-	</resultMap>
+	<select id="getWorkshop" resultType="com.apr7.sponge.model.Workshop">
+		SELECT
+			  FID id
+			, FNAME name
+		FROM T_WORKSHOP
+		WHERE
+			FID = #{workshopId}
+	</select>
 
 	<select id="listWorkshopByCompanyId" resultType="com.apr7.sponge.model.Workshop">
 		SELECT
@@ -17,16 +17,5 @@
 		FROM T_WORKSHOP
 		WHERE
 			FCOMPANY_ID = #{companyId}
-	</select>
-
-	<select id="listAllCompanyWorkshopVO">
-		SELECT
-			  c.FID companyId
-			, c.FNAME companyName
-			, ws.FID workshopId
-			, ws.FNAME workshopName
-		FROM T_WORKSHOP ws
-		JOIN T_COMPANY c
-		ON c.FID = ws.FCOMPANY_ID
 	</select>
 </mapper>

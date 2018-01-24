@@ -1,6 +1,7 @@
 package com.apr7.sponge.web.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
@@ -66,7 +67,12 @@ public class HistoryDataController {
 		}
 		List<HistoryData> historyDatas = historyDataService.listHistoryDataByCompanyId(companyId, workshopId, pageStartTime, pageEndTime);
 		List<Pollutant> pollutants = pollutantService.listShowingPollutant();
-		List<Workshop> workshops = companyService.listWorkshopByCompanyId(companyId);
+		List<Workshop> workshops;
+		if (workshopId != null) {
+			workshops = Arrays.asList(companyService.getWorkshop(workshopId));
+		} else {
+			workshops = companyService.listWorkshopByCompanyId(companyId);
+		}
 		Collections.sort(workshops, (o1, o2) -> {
 			return o2.getId().compareTo(o1.getId());
 		});

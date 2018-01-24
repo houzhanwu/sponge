@@ -9,7 +9,6 @@ import com.apr7.sponge.dao.CompanyDao;
 import com.apr7.sponge.dao.WorkshopDao;
 import com.apr7.sponge.model.Company;
 import com.apr7.sponge.model.Workshop;
-import com.apr7.sponge.model.vo.CompanyWorkshopVO;
 
 @Service
 public class CompanyService {
@@ -22,11 +21,11 @@ public class CompanyService {
 		return companyDao.listAllCompany();
 	}
 
-	public List<Workshop> listWorkshopByCompanyId(Long companyId) {
-		return workshopDao.listWorkshopByCompanyId(companyId);
+	public Workshop getWorkshop(Long workshopId) {
+		return workshopDao.getWorkshop(workshopId);
 	}
 
-	public List<CompanyWorkshopVO> listAllCompanyWorkshopVO() {
-		return workshopDao.listAllCompanyWorkshopVO();
+	public List<Workshop> listWorkshopByCompanyId(Long companyId) {
+		return workshopDao.listWorkshopByCompanyId(companyId);
 	}
 }
