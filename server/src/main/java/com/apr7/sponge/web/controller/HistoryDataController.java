@@ -58,34 +58,44 @@ public class HistoryDataController {
 	@ResponseBody
 	public JSONObject history(Long companyId, Long workshopId, @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date startTime,
 			@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") Date endTime, int page) {
-		final int pageSize = 30;
 		final int dataFrequencyMins = 5;
-		Date pageStartTime = DateUtilsX.ceil(DateUtils.addMinutes(endTime, page * pageSize * -dataFrequencyMins), TimeUnit.MINUTES, dataFrequencyMins);
-		Date pageEndTime = DateUtilsX.ceil(DateUtils.addMinutes(endTime, (page - 1) * pageSize * -dataFrequencyMins), TimeUnit.MINUTES, dataFrequencyMins);
-		if (pageStartTime.before(startTime)) {
-			pageStartTime = DateUtilsX.ceil(startTime, TimeUnit.MINUTES, dataFrequencyMins);
-		}
-		List<HistoryData> historyDatas = historyDataService.listHistoryDataByCompanyId(companyId, workshopId, pageStartTime, pageEndTime);
-		List<Pollutant> pollutants = pollutantService.listShowingPollutant();
 		List<Workshop> workshops;
 		if (workshopId != null) {
 			workshops = Arrays.asList(companyService.getWorkshop(workshopId));
 		} else {
 			workshops = companyService.listWorkshopByCompanyId(companyId);
+			Collections.sort(workshops, (o1, o2) -> {
+				return o2.getId().compareTo(o1.getId());
+			});
 		}
-		Collections.sort(workshops, (o1, o2) -> {
-			return o2.getId().compareTo(o1.getId());
-		});
-		List<HistoryDataVO> data = new ArrayList<>(pageSize);
+		if (workshops.isEmpty()) {
+			JSONObject value = new JSONObject();
+			value.put("total", 0);
+			value.put("data", new ArrayList<HistoryDataVO>());
+			return value;
+		}
+		int multiple = (int) Math.ceil(30D / workshops.size());
+		int size = multiple * workshops.size();
+		Date pageStartTime = DateUtilsX.ceil(DateUtils.addMinutes(endTime, page * multiple * -dataFrequencyMins), TimeUnit.MINUTES,
+				dataFrequencyMins);
+		Date pageEndTime = DateUtilsX.ceil(DateUtils.addMinutes(endTime, (page - 1) * multiple * -dataFrequencyMins), TimeUnit.MINUTES, dataFrequencyMins);
+		if (pageStartTime.before(startTime)) {
+			pageStartTime = DateUtilsX.ceil(startTime, TimeUnit.MINUTES, dataFrequencyMins);
+		}
+		List<HistoryData> historyDatas = historyDataService.listHistoryDataByCompanyId(companyId, workshopId, pageStartTime, pageEndTime);
+		List<Pollutant> pollutants = pollutantService.listShowingPollutant();
+		List<HistoryDataVO> data = new ArrayList<>(size);
 		Iterator<HistoryData> it = historyDatas.iterator();
 		HistoryData historyData = null;
 		if (it.hasNext()) {
 			historyData = it.next();
 		}
-		for (Date currentTime = DateUtils.addMinutes(pageEndTime, -dataFrequencyMins); !currentTime.before(pageStartTime); currentTime = DateUtils.addMinutes(currentTime, -dataFrequencyMins)) {
+		for (Date currentTime = DateUtils.addMinutes(pageEndTime, -dataFrequencyMins); !currentTime.before(pageStartTime); currentTime = DateUtils
+				.addMinutes(currentTime, -dataFrequencyMins)) {
 			for (Workshop workshop : workshops) {
 				JSONObject dataSet = new JSONObject();
-				if (historyData != null && currentTime.equals(DateUtilsX.floor(historyData.getDateTime(), TimeUnit.MINUTES, dataFrequencyMins)) && workshop.getId().equals(historyData.getWorkshopId())) {
+				if (historyData != null && currentTime.equals(DateUtilsX.floor(historyData.getDateTime(), TimeUnit.MINUTES, dataFrequencyMins))
+						&& workshop.getId().equals(historyData.getWorkshopId())) {
 					DataProtocolEnum dataProtocolEnum = DataProtocolEnum.fromCode(historyData.getDataProtocol());
 					if (dataProtocolEnum == null) {
 						for (Pollutant pollutant : pollutants) {
@@ -135,7 +145,8 @@ public class HistoryDataController {
 			}
 		}
 		JSONObject value = new JSONObject();
-		value.put("total", (DateUtilsX.ceil(endTime, TimeUnit.MINUTES, dataFrequencyMins).getTime() - DateUtilsX.ceil(startTime, TimeUnit.MINUTES, dataFrequencyMins).getTime()) / TimeUnit.MINUTES.toMillis(dataFrequencyMins));
+		value.put("total", (DateUtilsX.ceil(endTime, TimeUnit.MINUTES, dataFrequencyMins).getTime()
+				- DateUtilsX.ceil(startTime, TimeUnit.MINUTES, dataFrequencyMins).getTime()) / TimeUnit.MINUTES.toMillis(dataFrequencyMins) * workshops.size());
 		value.put("data", data);
 		return value;
 	}
