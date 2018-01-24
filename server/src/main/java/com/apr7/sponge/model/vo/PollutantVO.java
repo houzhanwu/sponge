@@ -7,6 +7,7 @@ public class PollutantVO {
 	private Long id;
 	private String name;
 	private Boolean show;
+	private Integer order;
 	private String fieldKeyHjt212;
 	private String fieldKeyKnt2014;
 
@@ -34,6 +35,14 @@ public class PollutantVO {
 		this.show = show;
 	}
 
+	public Integer getOrder() {
+		return order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
+	}
+
 	public String getFieldKeyHjt212() {
 		return fieldKeyHjt212;
 	}
@@ -55,6 +64,7 @@ public class PollutantVO {
 		pollutantVO.setId(pollutant.getId());
 		pollutantVO.setName(pollutant.getName());
 		pollutantVO.setShow(pollutant.getShow());
+		pollutantVO.setOrder(pollutant.getOrder());
 		pollutantVO.setFieldKeyHjt212(pollutant.getMapping().getFieldKeyHjt212());
 		pollutantVO.setFieldKeyKnt2014(pollutant.getMapping().getFieldKeyKnt2014());
 		return pollutantVO;
