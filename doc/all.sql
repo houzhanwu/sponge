@@ -103,7 +103,8 @@ CREATE TABLE `T_POLLUTANT` (
   `FNAME` varchar(32) NOT NULL,
   `FSHOW` tinyint(4) NOT NULL,
   `FORDER` smallint(6) NOT NULL,
-  PRIMARY KEY (`FID`)
+  PRIMARY KEY (`FID`),
+  UNIQUE KEY `UDX_ORDER` (`FORDER`)
 ) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
 
 /*Data for the table `T_POLLUTANT` */
@@ -111,7 +112,7 @@ CREATE TABLE `T_POLLUTANT` (
 insert  into `T_POLLUTANT`(`FID`,`FNAME`,`FSHOW`,`FORDER`) values 
 (1,'pH',1,1),
 (2,'排放量(m³/h)',1,2),
-(3,'生产用水量(m³/h)',0,3);
+(3,'生产用水量(m³/h)',0,4);
 
 /*Table structure for table `T_POLLUTANT_MAPPING` */
 
@@ -180,14 +181,15 @@ CREATE TABLE `T_WORKSHOP` (
   `FREMARK` varchar(50) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`FID`),
   KEY `IDX_COMPANYID` (`FCOMPANY_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_WORKSHOP` */
 
 insert  into `T_WORKSHOP`(`FID`,`FNAME`,`FCOMPANY_ID`,`FREMARK`) values 
-(1,'车间102',1,NULL),
-(2,'车间101',3,NULL),
-(3,'车间201',2,NULL);
+(1,'车间101',1,NULL),
+(2,'车间102',1,NULL),
+(3,'车间103',1,NULL),
+(4,'车间104',1,NULL);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

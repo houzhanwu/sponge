@@ -11,13 +11,17 @@ import com.apr7.sponge.model.PollutantMapping;
 @MapperScan
 public interface PollutantDao {
 
-	public void addPollutant(Pollutant pollutant);
+	void addPollutant(Pollutant pollutant);
 
-	public void addPollutantMapping(PollutantMapping pollutantMapping);
+	void addPollutantMapping(PollutantMapping pollutantMapping);
 
-	public void deletePollutant(@Param("pollutantId") Long pollutantId);
+	void deletePollutant(@Param("pollutantId") Long pollutantId);
 
-	public void deletePollutantMapping(@Param("pollutantId") Long pollutantId);
+	void deletePollutantMapping(@Param("pollutantId") Long pollutantId);
+
+	void updateOrderToNegative(@Param("pollutantIds") List<Long> pollutantIds);
+
+	void updateOrder(@Param("pollutantId") Long pollutantId, @Param("order") Integer order);
 
 	List<Pollutant> listPollutant(@Param("show") Boolean show);
 

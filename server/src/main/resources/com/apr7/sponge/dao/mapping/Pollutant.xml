@@ -17,6 +17,27 @@
 		DELETE FROM T_POLLUTANT_MAPPING WHERE FPOLLUTANT_ID=#{pollutantId}
 	</delete>
 
+	<update id="updateOrderToNegative">
+		UPDATE
+			T_POLLUTANT
+		SET
+			FORDER = -FORDER
+		WHERE
+			FID IN
+		<foreach collection="pollutantIds" item="pollutantId" separator="," open="(" close=")">
+			#{pollutantId}
+		</foreach>
+	</update>
+
+	<update id="updateOrder">
+		UPDATE
+			T_POLLUTANT
+		SET
+			FORDER = #{order}
+		WHERE
+			FID = #{pollutantId}
+	</update>
+
 	<select id="listPollutant" resultType="com.apr7.sponge.model.Pollutant">
 		SELECT
 			  p.FID id
