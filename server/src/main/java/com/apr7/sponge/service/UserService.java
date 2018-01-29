@@ -23,6 +23,10 @@ public class UserService {
 		return userDao.getUserById(userId);
 	}
 
+	public User getUserByToken(String token) {
+		return userDao.getUserByToken(token);
+	}
+
 	public LoginVO login(String username, String password) {
 		User user = userDao.getUserByLogin(username, DigestUtils.md5Hex(password));
 		if (user == null) {

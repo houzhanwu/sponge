@@ -11,5 +11,7 @@ public interface UserDao {
 
 	User getUserById(@Param("userId") Long userId);
 
+	User getUserByToken(@Param("token") String token);
+
 	User getUserByLogin(@Param("username") String username, @Param("password") String password);
 }

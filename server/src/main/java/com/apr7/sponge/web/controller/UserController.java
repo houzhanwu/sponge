@@ -1,13 +1,12 @@
 package com.apr7.sponge.web.controller;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.apr7.sponge.model.User;
 import com.apr7.sponge.model.vo.LoginVO;
 import com.apr7.sponge.service.UserService;
 
@@ -26,8 +25,8 @@ public class UserController {
 
 	@RequestMapping("/getInfo")
 	@ResponseBody
-	public void getInfo(HttpServletRequest request) {
-		Cookie[] cookies = request.getCookies();
-		System.out.println(cookies);
+	public User getInfo(@CookieValue String token) {
+		User user = userService.getUserByToken(token);
+		return user;
 	}
 }

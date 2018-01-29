@@ -10,6 +10,7 @@
 		WHERE
 			FID = #{id}
 	</update>
+
 	<select id="getUserById" resultType="com.apr7.sponge.model.User">
 		SELECT
 			  FID id
@@ -21,6 +22,20 @@
 			T_AUTH_USER
 		WHERE
 			FID = #{userId}
+	</select>
+
+	<select id="getUserByToken" resultType="com.apr7.sponge.model.User">
+		SELECT
+			  FID id
+			, FUSERNAME username
+			, FNICKNAME nickname
+			, FTOKEN token
+			, FTOKEN_EXPIRE tokenExpire
+		FROM
+			T_AUTH_USER
+		WHERE
+				FTOKEN = #{token}
+			AND FTOKEN_EXPIRE > NOW()
 	</select>
 
 	<select id="getUserByLogin" resultType="com.apr7.sponge.model.User">

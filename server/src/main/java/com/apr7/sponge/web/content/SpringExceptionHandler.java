@@ -6,16 +6,25 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.apr7.sponge.exception.ExceptionCode;
+import com.apr7.sponge.exception.SpongeException;
+
 @ControllerAdvice
 public class SpringExceptionHandler {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SpringExceptionHandler.class);
 
 	@ExceptionHandler
 	@ResponseBody
-	public ResponseBodyModel handleOtherExceptions(RuntimeException e) {
+	public ResponseBodyModel handleOtherExceptions(Exception e) {
 		LOGGER.error(e.toString(), e);
 		ResponseBodyModel responseBodyModel = new ResponseBodyModel();
-		responseBodyModel.setCode(11000);
+		if (e instanceof SpongeException) {
+			SpongeException spongeException = (SpongeException) e;
+			responseBodyModel.setCode(spongeException.getCode());
+			responseBodyModel.setMessage(spongeException.getMessage());
+		} else {
+			responseBodyModel.setCode(ExceptionCode.UNKNOW);
+		}
 		return responseBodyModel;
 	}
 }
