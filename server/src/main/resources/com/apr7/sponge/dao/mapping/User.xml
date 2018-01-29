@@ -1,7 +1,39 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.UserDao">
+	<update id="updateUserToken">
+		UPDATE
+			T_AUTH_USER
+		SET
+			  FTOKEN = #{token}
+			, FTOKEN_EXPIRE = #{tokenExpire}
+		WHERE
+			FID = #{id}
+	</update>
 	<select id="getUserById" resultType="com.apr7.sponge.model.User">
-		select FID id from T_USER where FID=#{userId}
+		SELECT
+			  FID id
+			, FUSERNAME username
+			, FNICKNAME nickname
+			, FTOKEN token
+			, FTOKEN_EXPIRE tokenExpire
+		FROM
+			T_AUTH_USER
+		WHERE
+			FID = #{userId}
+	</select>
+
+	<select id="getUserByLogin" resultType="com.apr7.sponge.model.User">
+		SELECT
+			  FID id
+			, FUSERNAME username
+			, FNICKNAME nickname
+			, FTOKEN token
+			, FTOKEN_EXPIRE tokenExpire
+		FROM
+			T_AUTH_USER
+		WHERE
+				FUSERNAME = #{username}
+			AND FPASSWORD = #{password}
 	</select>
 </mapper>
