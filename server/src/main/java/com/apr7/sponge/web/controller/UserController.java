@@ -1,5 +1,6 @@
 package com.apr7.sponge.web.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -27,6 +28,7 @@ public class UserController {
 	@ResponseBody
 	public User getInfo(@CookieValue String token) {
 		User user = userService.getUserByToken(token);
+		user.setNickname(StringUtils.defaultIfBlank(user.getNickname(), user.getUsername()));
 		return user;
 	}
 }

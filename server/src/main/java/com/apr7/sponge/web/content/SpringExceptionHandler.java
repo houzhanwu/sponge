@@ -16,13 +16,14 @@ public class SpringExceptionHandler {
 	@ExceptionHandler
 	@ResponseBody
 	public ResponseBodyModel handleOtherExceptions(Exception e) {
-		LOGGER.error(e.toString(), e);
 		ResponseBodyModel responseBodyModel = new ResponseBodyModel();
 		if (e instanceof SpongeException) {
+			LOGGER.error(e.toString());
 			SpongeException spongeException = (SpongeException) e;
 			responseBodyModel.setCode(spongeException.getCode());
 			responseBodyModel.setMessage(spongeException.getMessage());
 		} else {
+			LOGGER.error(e.toString(), e);
 			responseBodyModel.setCode(ExceptionCode.UNKNOW);
 		}
 		return responseBodyModel;

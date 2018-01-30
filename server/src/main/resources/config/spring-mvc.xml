@@ -56,4 +56,11 @@
 			</set>
 		</property>
 	</bean>
+
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<bean class="com.apr7.sponge.web.content.AuthInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
 </beans>

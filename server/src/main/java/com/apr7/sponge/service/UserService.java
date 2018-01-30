@@ -19,6 +19,10 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 
+	public void updateUserToken(User user) {
+		userDao.updateUserToken(user);
+	}
+
 	public User getUserById(Long userId) {
 		return userDao.getUserById(userId);
 	}
