@@ -60,7 +60,14 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean class="com.apr7.sponge.web.content.AuthInterceptor" />
+			<mvc:exclude-mapping path="/user/login"/>
+			<bean class="com.apr7.sponge.web.content.AuthInterceptor">
+				<property name="whitelistsPath">
+					<set>
+						<value>/user/getInfo</value>
+					</set>
+				</property>
+			</bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
 </beans>

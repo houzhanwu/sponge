@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.5.0 (64 bit)
-MySQL - 5.6.32 : Database - SPONGE
+MySQL - 5.7.20 : Database - SPONGE
 *********************************************************************
 */
 
@@ -31,6 +31,103 @@ CREATE TABLE `T_AREA` (
 insert  into `T_AREA`(`FID`,`FNAME`) values 
 (1,'禅城区'),
 (2,'南海区');
+
+/*Table structure for table `T_AUTH_RESOURCE` */
+
+DROP TABLE IF EXISTS `T_AUTH_RESOURCE`;
+
+CREATE TABLE `T_AUTH_RESOURCE` (
+  `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `FNAME` varchar(32) NOT NULL,
+  `FPATH` varchar(128) NOT NULL,
+  `FTYPE` enum('NAV','ENTER','API') NOT NULL,
+  PRIMARY KEY (`FID`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_AUTH_RESOURCE` */
+
+insert  into `T_AUTH_RESOURCE`(`FID`,`FNAME`,`FPATH`,`FTYPE`) values 
+(1,'查看区域列表','/area/listall','API'),
+(2,'获取所有监控状态菜单','/company/status/listall','API'),
+(3,'查看实时数据','/data/realtime','API'),
+(4,'查看企业列表','/company/listall','API'),
+(5,'获取监控中的污染物列表','/pollutant/listshow','API'),
+(6,'查看历史数据','/data/history','API'),
+(7,'查看企业车间列表','/company/workshop/list','API'),
+(8,'查看污染物配置','/pollutant/listall','API');
+
+/*Table structure for table `T_AUTH_ROLE` */
+
+DROP TABLE IF EXISTS `T_AUTH_ROLE`;
+
+CREATE TABLE `T_AUTH_ROLE` (
+  `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `FNAME` varchar(32) NOT NULL,
+  PRIMARY KEY (`FID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_AUTH_ROLE` */
+
+insert  into `T_AUTH_ROLE`(`FID`,`FNAME`) values 
+(1,'超级管理员');
+
+/*Table structure for table `T_AUTH_ROLE_RESOURCE_MAPPING` */
+
+DROP TABLE IF EXISTS `T_AUTH_ROLE_RESOURCE_MAPPING`;
+
+CREATE TABLE `T_AUTH_ROLE_RESOURCE_MAPPING` (
+  `FROLE_ID` int(10) unsigned NOT NULL,
+  `FRESOURCE_ID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`FROLE_ID`,`FRESOURCE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_AUTH_ROLE_RESOURCE_MAPPING` */
+
+insert  into `T_AUTH_ROLE_RESOURCE_MAPPING`(`FROLE_ID`,`FRESOURCE_ID`) values 
+(1,1),
+(1,2),
+(1,3),
+(1,4),
+(1,5),
+(1,6),
+(1,7),
+(1,8);
+
+/*Table structure for table `T_AUTH_USER` */
+
+DROP TABLE IF EXISTS `T_AUTH_USER`;
+
+CREATE TABLE `T_AUTH_USER` (
+  `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `FUSERNAME` varchar(32) NOT NULL,
+  `FPASSWORD` char(32) NOT NULL,
+  `FNICKNAME` varchar(32) NOT NULL,
+  `FTOKEN` char(36) NOT NULL,
+  `FTOKEN_EXPIRE` datetime NOT NULL DEFAULT '1970-01-01 08:00:00',
+  `FCREATE_TIME` datetime NOT NULL DEFAULT '1970-01-01 08:00:00',
+  PRIMARY KEY (`FID`),
+  UNIQUE KEY `UDX_USERNAME` (`FUSERNAME`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_AUTH_USER` */
+
+insert  into `T_AUTH_USER`(`FID`,`FUSERNAME`,`FPASSWORD`,`FNICKNAME`,`FTOKEN`,`FTOKEN_EXPIRE`,`FCREATE_TIME`) values 
+(1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','6714ae50-facc-4b79-ba59-8dd408efff8c','2018-01-31 01:11:46','1970-01-01 08:00:00');
+
+/*Table structure for table `T_AUTH_USER_ROLE_MAPPING` */
+
+DROP TABLE IF EXISTS `T_AUTH_USER_ROLE_MAPPING`;
+
+CREATE TABLE `T_AUTH_USER_ROLE_MAPPING` (
+  `FUSER_ID` int(10) unsigned NOT NULL,
+  `FROLE_ID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`FUSER_ID`,`FROLE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_AUTH_USER_ROLE_MAPPING` */
+
+insert  into `T_AUTH_USER_ROLE_MAPPING`(`FUSER_ID`,`FROLE_ID`) values 
+(1,1);
 
 /*Table structure for table `T_COMPANY` */
 
@@ -105,7 +202,7 @@ CREATE TABLE `T_POLLUTANT` (
   `FORDER` smallint(6) NOT NULL,
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_ORDER` (`FORDER`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
 
 /*Data for the table `T_POLLUTANT` */
 

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apr7.sponge.dao.AuthUserRoleMappingDao">
+	<select id="listRoleByUserId" resultType="com.apr7.sponge.model.AuthRole">
+		SELECT
+			  r.FID id
+			, r.FNAME name
+		FROM
+			T_AUTH_USER_ROLE_MAPPING m
+		JOIN
+			T_AUTH_ROLE r
+		ON
+			r.FID = m.FROLE_ID
+		WHERE
+			m.FUSER_ID = #{userId}
+	</select>
+</mapper>

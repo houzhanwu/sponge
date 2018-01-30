@@ -1,6 +1,7 @@
 package com.apr7.sponge.web.content;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -8,19 +9,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.apr7.sponge.exception.SpongeAuthException;
+import com.apr7.sponge.exception.SpongeLoginException;
+import com.apr7.sponge.exception.SpongeNotLoggedInException;
 import com.apr7.sponge.model.User;
+import com.apr7.sponge.service.AuthService;
 import com.apr7.sponge.service.UserService;
 
-@Component
 public class AuthInterceptor implements HandlerInterceptor {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AuthService authService;
+
+	private Set<String> whitelistsPath;
+
+	public void setWhitelistsPath(Set<String> whitelistsPath) {
+		this.whitelistsPath = whitelistsPath;
+	}
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -33,27 +43,29 @@ public class AuthInterceptor implements HandlerInterceptor {
 			}
 		}
 		if (token == null) {
-			throw new SpongeAuthException("未登陆");
+			throw new SpongeNotLoggedInException("未登陆");
 		}
 		User user = userService.getUserByToken(token);
 		if (user == null) {
-			throw new SpongeAuthException("登陆已失效");
+			throw new SpongeNotLoggedInException("登陆已失效");
 		}
 		int expireMins = 30;
 		user.setTokenExpire(DateUtils.addMinutes(new Date(), expireMins));
 		userService.updateUserToken(user);
+
+		if (!whitelistsPath.contains(request.getRequestURI()) && !authService.checkAuth(user.getId(), request.getRequestURI())) {
+			throw new SpongeAuthException("没有该权限");
+		}
 		return true;
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-		// TODO Auto-generated method stub
 
 	}
 }

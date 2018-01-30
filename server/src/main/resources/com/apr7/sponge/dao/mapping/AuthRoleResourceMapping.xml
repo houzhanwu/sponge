@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apr7.sponge.dao.AuthRoleResourceMappingDao">
+	<select id="listResourceByRoleIds" resultType="com.apr7.sponge.dao.AuthResource">
+		SELECT
+			  r.FID id
+			, r.FNAME name
+			, r.FPATH path
+			, r.FTYPE type
+		FROM
+			T_AUTH_ROLE_RESOURCE_MAPPING m
+		JOIN
+			T_AUTH_RESOURCE r
+		ON
+			r.FID = m.FRESOURCE_ID
+		WHERE
+			m.FROLE_ID IN
+		<foreach collection="roleIds" item="roleId" separator="," open="(" close=")">
+			#{roleId}
+		</foreach>
+	</select>
+</mapper>
