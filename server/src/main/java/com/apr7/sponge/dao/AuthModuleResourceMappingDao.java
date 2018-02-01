@@ -6,6 +6,6 @@ import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
 @MapperScan
-public interface AuthRoleResourceMappingDao {
-	List<AuthResource> listResourceByRoleIds(@Param("roleIds") List<Long> roleIds);
+public interface AuthModuleResourceMappingDao {
+	List<AuthResource> listResourceByModuleIds(@Param("moduleIds") List<Long> moduleIds);
 }

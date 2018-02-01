@@ -7,13 +7,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.apr7.sponge.exception.SpongeAuthException;
-import com.apr7.sponge.exception.SpongeLoginException;
 import com.apr7.sponge.exception.SpongeNotLoggedInException;
 import com.apr7.sponge.model.User;
 import com.apr7.sponge.service.AuthService;
@@ -36,10 +36,12 @@ public class AuthInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		String token = null;
 		Cookie[] cookies = request.getCookies();
-		for (Cookie cookie : cookies) {
-			if (cookie.getName().equals("token")) {
-				token = cookie.getValue();
-				break;
+		if (ArrayUtils.isNotEmpty(cookies)) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("token")) {
+					token = cookie.getValue();
+					break;
+				}
 			}
 		}
 		if (token == null) {

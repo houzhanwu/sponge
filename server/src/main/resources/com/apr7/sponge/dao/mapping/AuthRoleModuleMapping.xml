@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apr7.sponge.dao.AuthRoleModuleMappingDao">
+	<select id="listModuleIdByRoleIds" resultType="java.lang.Long">
+		SELECT
+			md.FID
+		FROM
+			T_AUTH_ROLE_MODULE_MAPPING m
+		JOIN
+			T_AUTH_MODULE md
+		ON
+			md.FID = m.FMODULE_ID
+		WHERE
+			m.FROLE_ID IN
+		<foreach collection="roleIds" item="roleId" separator="," open="(" close=")">
+			#{roleId}
+		</foreach>
+	</select>
+
+	<select id="listKeysByRoleIds" resultType="String">
+		SELECT
+			md.FKEY
+		FROM
+			T_AUTH_ROLE_MODULE_MAPPING m
+		JOIN
+			T_AUTH_MODULE md
+		ON
+			md.FID = m.FMODULE_ID
+		WHERE
+			m.FROLE_ID IN
+		<foreach collection="roleIds" item="roleId" separator="," open="(" close=")">
+			#{roleId}
+		</foreach>
+			AND md.FKEY IS NOT NULL
+	</select>
+</mapper>
