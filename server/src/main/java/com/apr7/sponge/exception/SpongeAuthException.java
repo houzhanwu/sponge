@@ -4,7 +4,7 @@ public class SpongeAuthException extends SpongeException {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7772069344562489287L;
+	private static final long serialVersionUID = 1L;
 	private int code = ExceptionCode.AUTH;
 
 	public int getCode() {
@@ -15,11 +15,7 @@ public class SpongeAuthException extends SpongeException {
 		super(message);
 	}
 
-	public SpongeAuthException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public SpongeAuthException(Throwable cause) {
-		super(cause);
+	public SpongeAuthException(String message, String logRemark) {
+		super(message, logRemark);
 	}
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apr7.sponge.dao.AuthRoleDao">
+	<insert id="addRole">
+		INSERT INTO T_AUTH_ROLE (FID,FNAME,FREMARKS)
+		VALUES(NULL,#{name},#{remarks})
+	</insert>
+
+	<delete id="deleteRole">
+		DELETE FROM T_AUTH_ROLE
+		WHERE FID = #{roleId}
+	</delete>
+
+	<update id="updateRole">
+		UPDATE
+			T_AUTH_ROLE
+		SET
+			  FNAME = #{name}
+			, FREMARKS = #{remarks}
+		WHERE
+			FID = #{id}
+	</update>
+
+	<select id="listAllRole" resultType="com.apr7.sponge.model.AuthRole">
+		SELECT FID id, FNAME name, FREMARKS remarks FROM T_AUTH_ROLE WHERE FID != 1
+	</select>
+</mapper>

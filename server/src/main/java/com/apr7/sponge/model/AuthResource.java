@@ -1,4 +1,4 @@
-package com.apr7.sponge.dao;
+package com.apr7.sponge.model;
 
 public class AuthResource {
 	private Long id;

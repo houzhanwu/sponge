@@ -17,6 +17,20 @@
 		</foreach>
 	</select>
 
+	<select id="listModulesByRoleId" resultType="com.apr7.sponge.model.AuthModule">
+		SELECT
+			  md.FID id
+			, md.FNAME name
+		FROM
+			T_AUTH_ROLE_MODULE_MAPPING m
+		JOIN
+			T_AUTH_MODULE md
+		ON
+			md.FID = m.FMODULE_ID
+		WHERE
+			m.FROLE_ID = #{roleId}
+	</select>
+
 	<select id="listKeysByRoleIds" resultType="String">
 		SELECT
 			md.FKEY

@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.apr7.sponge.dao.AuthModuleResourceMappingDao;
-import com.apr7.sponge.dao.AuthResource;
 import com.apr7.sponge.dao.AuthRoleModuleMappingDao;
 import com.apr7.sponge.dao.AuthUserRoleMappingDao;
+import com.apr7.sponge.model.AuthResource;
 
 @Service
 public class AuthService {

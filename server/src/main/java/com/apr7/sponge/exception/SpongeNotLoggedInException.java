@@ -4,7 +4,7 @@ public class SpongeNotLoggedInException extends SpongeException {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -242283576464289705L;
+	private static final long serialVersionUID = 1L;
 	private int code = ExceptionCode.NOT_LOGGED_IN;
 
 	public int getCode() {
@@ -13,13 +13,5 @@ public class SpongeNotLoggedInException extends SpongeException {
 
 	public SpongeNotLoggedInException(String message) {
 		super(message);
-	}
-
-	public SpongeNotLoggedInException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public SpongeNotLoggedInException(Throwable cause) {
-		super(cause);
 	}
 }
