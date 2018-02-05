@@ -2,18 +2,18 @@ package com.apr7.sponge.model.vo;
 
 import java.util.List;
 
-import com.apr7.sponge.model.User;
+import com.apr7.sponge.model.AuthUser;
 
 public class UserInfoVO {
 
-	private User user;
+	private AuthUser user;
 	private List<String> enters;
 
-	public User getUser() {
+	public AuthUser getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
+	public void setUser(AuthUser user) {
 		this.user = user;
 	}
 

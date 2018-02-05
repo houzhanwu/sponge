@@ -53,6 +53,7 @@
 	<bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
 		<property name="converters">
 			<set>
+				<bean class="com.apr7.sponge.utils.spring.LongListConverter" />
 			</set>
 		</property>
 	</bean>
@@ -61,11 +62,15 @@
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/user/login" />
+			<mvc:exclude-mapping path="/user/logout" />
+			<mvc:exclude-mapping path="/user/register" />
 			<bean class="com.apr7.sponge.web.content.LoginInterceptor"></bean>
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
 			<mvc:exclude-mapping path="/user/login" />
+			<mvc:exclude-mapping path="/user/logout" />
+			<mvc:exclude-mapping path="/user/register" />
 			<bean class="com.apr7.sponge.web.content.AuthInterceptor">
 				<property name="whitelistsPath">
 					<set>

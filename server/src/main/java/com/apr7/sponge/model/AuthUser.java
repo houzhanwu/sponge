@@ -2,7 +2,7 @@ package com.apr7.sponge.model;
 
 import java.util.Date;
 
-public class User {
+public class AuthUser {
 
 	private Long id;
 	private String username;

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.apr7.sponge.dao.UserDao">
+<mapper namespace="com.apr7.sponge.dao.AuthUserDao">
+	<insert id="addUser">
+		INSERT INTO T_AUTH_USER (FID,FUSERNAME,FPASSWORD,FNICKNAME,FTOKEN,FCREATE_TIME)
+		VALUES (NULL,#{user.username},#{password},#{user.nickname},'',NOW())
+	</insert>
+
 	<update id="updateUserToken">
 		UPDATE
 			T_AUTH_USER
@@ -11,7 +16,7 @@
 			FID = #{id}
 	</update>
 
-	<select id="getUserById" resultType="com.apr7.sponge.model.User">
+	<select id="getUserById" resultType="com.apr7.sponge.model.AuthUser">
 		SELECT
 			  FID id
 			, FUSERNAME username
@@ -24,7 +29,7 @@
 			FID = #{userId}
 	</select>
 
-	<select id="getUserByToken" resultType="com.apr7.sponge.model.User">
+	<select id="getUserByToken" resultType="com.apr7.sponge.model.AuthUser">
 		SELECT
 			  FID id
 			, FUSERNAME username
@@ -38,7 +43,7 @@
 			AND FTOKEN_EXPIRE > NOW()
 	</select>
 
-	<select id="getUserByLogin" resultType="com.apr7.sponge.model.User">
+	<select id="getUserByLogin" resultType="com.apr7.sponge.model.AuthUser">
 		SELECT
 			  FID id
 			, FUSERNAME username
@@ -50,5 +55,13 @@
 		WHERE
 				FUSERNAME = #{username}
 			AND FPASSWORD = #{password}
+	</select>
+	<select id="getUserIdByUsername" resultType="java.lang.Long">
+		SELECT
+			FID
+		FROM
+			T_AUTH_USER
+		WHERE
+			FUSERNAME = #{username}
 	</select>
 </mapper>

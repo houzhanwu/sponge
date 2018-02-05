@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.apr7.sponge.exception.SpongeAuthException;
-import com.apr7.sponge.model.User;
+import com.apr7.sponge.model.AuthUser;
 import com.apr7.sponge.service.AuthService;
 
 public class AuthInterceptor extends HandlerInterceptorAdapter {
@@ -25,8 +25,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		User user = ThreadLocalHolder.getUser();
-		if (!whitelistsPath.contains(request.getRequestURI()) && !authService.checkAuth(user.getId(), request.getRequestURI())) {
+		AuthUser authUser = ThreadLocalHolder.getUser();
+		if (!whitelistsPath.contains(request.getRequestURI()) && !authService.checkAuth(authUser.getId(), request.getRequestURI())) {
 			throw new SpongeAuthException("没有该权限", request.getRequestURI());
 		}
 		return true;

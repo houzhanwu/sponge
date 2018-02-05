@@ -102,9 +102,13 @@ insert  into `T_AUTH_MODULE_RESOURCE_MAPPING`(`FMODULE_ID`,`FRESOURCE_ID`) value
 (5,13),
 (5,17),
 (5,18),
+(5,20),
 (6,14),
 (6,15),
-(6,16);
+(6,16),
+(6,19),
+(6,21),
+(6,22);
 
 /*Table structure for table `T_AUTH_RESOURCE` */
 
@@ -115,7 +119,7 @@ CREATE TABLE `T_AUTH_RESOURCE` (
   `FNAME` varchar(32) NOT NULL,
   `FPATH` varchar(128) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_RESOURCE` */
 
@@ -137,7 +141,11 @@ insert  into `T_AUTH_RESOURCE`(`FID`,`FNAME`,`FPATH`) values
 (15,'修改角色信息','/role/update'),
 (16,'删除角色','/role/delete'),
 (17,'查询角色权限','/role/listModule'),
-(18,'查询所有权限','/module/listByGroup');
+(18,'查询所有权限','/module/listByGroup'),
+(19,'修改角色权限','/role/updateModule'),
+(20,'查看角色用户','/role/listUser'),
+(21,'新增角色用户','/role/addUser'),
+(22,'移除角色用户','/role/removeUser');
 
 /*Table structure for table `T_AUTH_ROLE` */
 
@@ -177,6 +185,28 @@ insert  into `T_AUTH_ROLE_MODULE_MAPPING`(`FROLE_ID`,`FMODULE_ID`) values
 (1,6),
 (3,1);
 
+/*Table structure for table `T_AUTH_ROLE_RESOURCE_MAPPING` */
+
+DROP TABLE IF EXISTS `T_AUTH_ROLE_RESOURCE_MAPPING`;
+
+CREATE TABLE `T_AUTH_ROLE_RESOURCE_MAPPING` (
+  `FROLE_ID` int(10) unsigned NOT NULL,
+  `FRESOURCE_ID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`FROLE_ID`,`FRESOURCE_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_AUTH_ROLE_RESOURCE_MAPPING` */
+
+insert  into `T_AUTH_ROLE_RESOURCE_MAPPING`(`FROLE_ID`,`FRESOURCE_ID`) values 
+(1,1),
+(1,2),
+(1,3),
+(1,4),
+(1,5),
+(1,6),
+(1,7),
+(1,8);
+
 /*Table structure for table `T_AUTH_USER` */
 
 DROP TABLE IF EXISTS `T_AUTH_USER`;
@@ -191,27 +221,39 @@ CREATE TABLE `T_AUTH_USER` (
   `FCREATE_TIME` datetime NOT NULL DEFAULT '1970-01-01 08:00:00',
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_USERNAME` (`FUSERNAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_USER` */
 
 insert  into `T_AUTH_USER`(`FID`,`FUSERNAME`,`FPASSWORD`,`FNICKNAME`,`FTOKEN`,`FTOKEN_EXPIRE`,`FCREATE_TIME`) values 
-(1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','ab41e7cb-e43c-4a2f-9c28-fba9fcb59240','2018-02-02 18:50:51','1970-01-01 08:00:00');
+(1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','71298b74-8692-45a2-8af9-7452e66e4a7b','2018-02-05 17:44:25','1970-01-01 08:00:00'),
+(2,'create','81dc9bdb52d04dc20036dbd8313ed055','create','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
+(3,'user1','81dc9bdb52d04dc20036dbd8313ed055','user1','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
+(4,'user2','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:03:57'),
+(5,'user3','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:05:48'),
+(6,'user4','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:09:31'),
+(7,'user5','e10adc3949ba59abbe56e057f20f883e','','48ea85d1-1ae8-4bb2-9e07-ceff547474ff','2018-02-05 17:47:10','2018-02-05 17:10:25');
 
 /*Table structure for table `T_AUTH_USER_ROLE_MAPPING` */
 
 DROP TABLE IF EXISTS `T_AUTH_USER_ROLE_MAPPING`;
 
 CREATE TABLE `T_AUTH_USER_ROLE_MAPPING` (
+  `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `FUSER_ID` int(10) unsigned NOT NULL,
   `FROLE_ID` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`FUSER_ID`,`FROLE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`FID`),
+  UNIQUE KEY `UDX_USERID_ROLEID` (`FUSER_ID`,`FROLE_ID`),
+  UNIQUE KEY `UDX_ROLEID_USERID` (`FROLE_ID`,`FUSER_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_USER_ROLE_MAPPING` */
 
-insert  into `T_AUTH_USER_ROLE_MAPPING`(`FUSER_ID`,`FROLE_ID`) values 
-(1,1);
+insert  into `T_AUTH_USER_ROLE_MAPPING`(`FID`,`FUSER_ID`,`FROLE_ID`) values 
+(1,1,1),
+(2,2,3),
+(5,3,3),
+(6,7,3);
 
 /*Table structure for table `T_COMPANY` */
 

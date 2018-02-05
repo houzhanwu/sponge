@@ -4,4 +4,11 @@
 	<select id="listAllModule" resultType="com.apr7.sponge.model.AuthModule">
 		SELECT FID id, FNAME name, FGROUP groupId, FORDER `order` FROM T_AUTH_MODULE
 	</select>
+	<select id="checkExists" resultType="java.lang.Long">
+		SELECT FID FROM T_AUTH_MODULE
+		WHERE FID IN
+		<foreach collection="moduleIds" item="moduleId" separator="," open="(" close=")">
+			#{moduleId}
+		</foreach>
+	</select>
 </mapper>

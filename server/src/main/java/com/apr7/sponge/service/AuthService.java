@@ -36,6 +36,9 @@ public class AuthService {
 
 	public List<String> getAuthEnters(Long userId) {
 		List<Long> roleIds = authUserRoleMappingDao.listRoleIdByUserId(userId);
+		if (roleIds.isEmpty()) {
+			return new ArrayList<>();
+		}
 		Set<String> keys = authRoleModuleMappingDao.listKeysByRoleIds(roleIds);
 		return new ArrayList<>(keys);
 	}

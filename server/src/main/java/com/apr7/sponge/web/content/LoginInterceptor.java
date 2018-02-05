@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.apr7.sponge.exception.SpongeNotLoggedInException;
-import com.apr7.sponge.model.User;
+import com.apr7.sponge.model.AuthUser;
 import com.apr7.sponge.service.UserService;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
@@ -35,14 +35,14 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		if (token == null) {
 			throw new SpongeNotLoggedInException("未登陆");
 		}
-		User user = userService.getUserByToken(token);
-		if (user == null) {
+		AuthUser authUser = userService.getUserByToken(token);
+		if (authUser == null) {
 			throw new SpongeNotLoggedInException("登陆已失效");
 		}
 		int expireMins = 30;
-		user.setTokenExpire(DateUtils.addMinutes(new Date(), expireMins));
-		userService.updateUserToken(user);
-		ThreadLocalHolder.setUser(user);
+		authUser.setTokenExpire(DateUtils.addMinutes(new Date(), expireMins));
+		userService.updateUserToken(authUser);
+		ThreadLocalHolder.setUser(authUser);
 		return true;
 	}
 

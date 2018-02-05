@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.AuthRoleModuleMappingDao">
+	<insert id="saveRoleModuleIds">
+		INSERT IGNORE INTO T_AUTH_ROLE_MODULE_MAPPING (FROLE_ID,FMODULE_ID)
+		VALUES
+		<foreach collection="moduleIds" item="moduleId" separator=",">
+			(#{roleId},#{moduleId})
+		</foreach>
+	</insert>
+	<delete id="deleteRoleModuleIdsExcept">
+		DELETE FROM
+			T_AUTH_ROLE_MODULE_MAPPING
+		WHERE
+				FROLE_ID = #{roleId}
+		<if test="moduleIds != null and moduleIds.size() > 0">
+			AND FMODULE_ID NOT IN
+		<foreach collection="moduleIds" item="moduleId" separator="," open="(" close=")">
+			#{moduleId}
+		</foreach>
+		</if>
+	</delete>
 	<select id="listModuleIdByRoleIds" resultType="java.lang.Long">
 		SELECT
 			md.FID

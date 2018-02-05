@@ -10,6 +10,10 @@ import com.apr7.sponge.model.AuthModule;
 
 @MapperScan
 public interface AuthRoleModuleMappingDao {
+	void saveRoleModuleIds(@Param("roleId") Long roleId, @Param("moduleIds") List<Long> moduleIds);
+
+	void deleteRoleModuleIdsExcept(@Param("roleId") Long roleId, @Param("moduleIds") List<Long> moduleIds);
+
 	List<Long> listModuleIdByRoleIds(@Param("roleIds") List<Long> roleIds);
 
 	List<AuthModule> listModulesByRoleId(@Param("roleId") Long roleId);

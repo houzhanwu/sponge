@@ -24,4 +24,8 @@ public class AuthModuleService {
 	public List<AuthModuleGroup> listAllModuleGroup() {
 		return authModuleGroupDao.listAllModuleGroup();
 	}
+
+	public List<Long> checkExists(List<Long> moduleIds) {
+		return authModuleDao.checkExists(moduleIds);
+	}
 }
