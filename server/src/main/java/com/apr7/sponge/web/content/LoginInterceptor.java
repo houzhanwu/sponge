@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.time.DateUtils;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -43,6 +44,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		authUser.setTokenExpire(DateUtils.addMinutes(new Date(), expireMins));
 		userService.updateUserToken(authUser);
 		ThreadLocalHolder.setUser(authUser);
+		MDC.put("ctx_username", authUser.getUsername());
 		return true;
 	}
 
