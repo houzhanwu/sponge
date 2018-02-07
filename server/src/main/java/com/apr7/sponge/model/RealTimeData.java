@@ -10,9 +10,6 @@ public class RealTimeData {
 	private String workshopName;
 	private String areaName;
 	private Long deviceId;
-	private Integer status;
-	private Float ph;
-	private Float emissionLoad;
 	private JSONObject rtdData;
 	private JSONObject statusData;
 	private Integer dataProtocol;
@@ -48,30 +45,6 @@ public class RealTimeData {
 
 	public void setDeviceId(Long deviceId) {
 		this.deviceId = deviceId;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
-
-	public Float getPh() {
-		return ph;
-	}
-
-	public void setPh(Float ph) {
-		this.ph = ph;
-	}
-
-	public Float getEmissionLoad() {
-		return emissionLoad;
-	}
-
-	public void setEmissionLoad(Float emissionLoad) {
-		this.emissionLoad = emissionLoad;
 	}
 
 	public JSONObject getRtdData() {

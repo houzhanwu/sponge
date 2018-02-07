@@ -7,9 +7,6 @@
 			, ws.FNAME workshopName
 			, a.FNAME areaName
 			, d.FID deviceId
-			, rd.FSTATUS status
-			, rd.FPH ph
-			, rd.FEMISSION_LOAD emissionLoad
 			, rd.FRTD_DATA rtdData
 			, rd.FSTATUS_DATA statusData
 			, rd.FDATA_PROTOCOL dataProtocol

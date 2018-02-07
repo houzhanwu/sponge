@@ -51,9 +51,9 @@ insert  into `T_AUTH_MODULE`(`FID`,`FNAME`,`FKEY`,`FGROUP`,`FORDER`) values
 (1,'查看实时数据','realtime',1,1),
 (2,'查看历史数据','history',2,1),
 (3,'查看污染物配置','pollutant',3,1),
-(4,'修改污染物配置',NULL,3,2),
+(4,'修改污染物配置','edit_pollutant',3,2),
 (5,'查看角色管理','role',4,1),
-(6,'修改角色配置',NULL,4,2);
+(6,'修改角色配置','edit_role',4,2);
 
 /*Table structure for table `T_AUTH_MODULE_GROUP` */
 
@@ -72,7 +72,7 @@ insert  into `T_AUTH_MODULE_GROUP`(`FID`,`FNAME`,`FORDER`) values
 (1,'实时数据',1),
 (2,'历史数据',2),
 (3,'污染物配置',3),
-(4,'角色管理',4);
+(4,'权限管理',4);
 
 /*Table structure for table `T_AUTH_MODULE_RESOURCE_MAPPING` */
 
@@ -183,7 +183,10 @@ insert  into `T_AUTH_ROLE_MODULE_MAPPING`(`FROLE_ID`,`FMODULE_ID`) values
 (1,4),
 (1,5),
 (1,6),
-(3,1);
+(3,1),
+(3,2),
+(3,3),
+(3,5);
 
 /*Table structure for table `T_AUTH_ROLE_RESOURCE_MAPPING` */
 
@@ -226,13 +229,13 @@ CREATE TABLE `T_AUTH_USER` (
 /*Data for the table `T_AUTH_USER` */
 
 insert  into `T_AUTH_USER`(`FID`,`FUSERNAME`,`FPASSWORD`,`FNICKNAME`,`FTOKEN`,`FTOKEN_EXPIRE`,`FCREATE_TIME`) values 
-(1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','71298b74-8692-45a2-8af9-7452e66e4a7b','2018-02-05 17:44:25','1970-01-01 08:00:00'),
+(1,'admin','a9e7f4848e40deb03cba8edd294d3a17','admin','32af8d45-c782-4ba8-97d4-c494ef882116','2018-02-07 18:45:58','1970-01-01 08:00:00'),
 (2,'create','81dc9bdb52d04dc20036dbd8313ed055','create','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
 (3,'user1','81dc9bdb52d04dc20036dbd8313ed055','user1','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
 (4,'user2','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:03:57'),
 (5,'user3','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:05:48'),
 (6,'user4','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:09:31'),
-(7,'user5','e10adc3949ba59abbe56e057f20f883e','','48ea85d1-1ae8-4bb2-9e07-ceff547474ff','2018-02-05 17:47:10','2018-02-05 17:10:25');
+(7,'user5','e10adc3949ba59abbe56e057f20f883e','','5f68a834-d9ea-42d4-a1ca-c745a5a6d28a','2018-02-06 18:32:52','2018-02-05 17:10:25');
 
 /*Table structure for table `T_AUTH_USER_ROLE_MAPPING` */
 
@@ -363,9 +366,6 @@ DROP TABLE IF EXISTS `T_REALTIME_DATA`;
 
 CREATE TABLE `T_REALTIME_DATA` (
   `FWORKSHOP_ID` int(10) unsigned NOT NULL,
-  `FSTATUS` tinyint(4) NOT NULL COMMENT '状态',
-  `FPH` float DEFAULT NULL COMMENT 'PH值',
-  `FEMISSION_LOAD` float DEFAULT NULL COMMENT '排放量',
   `FRTD_DATA` text NOT NULL COMMENT '数值型数据',
   `FSTATUS_DATA` text NOT NULL COMMENT '状态型数据',
   `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本',
@@ -375,9 +375,9 @@ CREATE TABLE `T_REALTIME_DATA` (
 
 /*Data for the table `T_REALTIME_DATA` */
 
-insert  into `T_REALTIME_DATA`(`FWORKSHOP_ID`,`FSTATUS`,`FPH`,`FEMISSION_LOAD`,`FRTD_DATA`,`FSTATUS_DATA`,`FDATA_PROTOCOL`,`FLMODIFY`) values 
-(1,1,7.1,109.9,'','',0,'2018-01-03 21:54:15'),
-(2,1,6,108.8,'','',0,'2018-01-13 02:57:05');
+insert  into `T_REALTIME_DATA`(`FWORKSHOP_ID`,`FRTD_DATA`,`FSTATUS_DATA`,`FDATA_PROTOCOL`,`FLMODIFY`) values 
+(1,'{\"ph\":7,\"emissionLoad\":100.99}','',1,'2018-01-03 21:54:15'),
+(2,'{\"ph\":7.1,\"emissionLoad\":100.1}','',1,'2018-01-13 02:57:05');
 
 /*Table structure for table `T_WORKSHOP` */
 
