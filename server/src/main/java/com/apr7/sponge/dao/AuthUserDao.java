@@ -11,11 +11,15 @@ public interface AuthUserDao {
 
 	void updateUserToken(AuthUser authUser);
 
+	void updatePassword(@Param("userId") Long userId, @Param("password") String password);
+
 	AuthUser getUserById(@Param("userId") Long userId);
 
 	AuthUser getUserByToken(@Param("token") String token);
 
 	AuthUser getUserByLogin(@Param("username") String username, @Param("password") String password);
+
+	Long checkPasswordByUserId(@Param("userId") Long userId, @Param("password") String password);
 
 	Long getUserIdByUsername(@Param("username") String username);
 }

@@ -15,10 +15,11 @@ import com.apr7.sponge.model.vo.LoginVO;
 import com.apr7.sponge.model.vo.UserInfoVO;
 import com.apr7.sponge.service.AuthService;
 import com.apr7.sponge.service.UserService;
+import com.apr7.sponge.web.content.ThreadLocalHolder;
 
 @Controller
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/personal")
+public class PersonalController {
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -48,13 +49,20 @@ public class UserController {
 
 	@RequestMapping("/getInfo")
 	@ResponseBody
-	public UserInfoVO getInfo(@CookieValue String token) {
-		AuthUser authUser = userService.getUserByToken(token);
+	public UserInfoVO getInfo() {
+		AuthUser authUser = ThreadLocalHolder.getUser();
 		authUser.setNickname(StringUtils.defaultIfBlank(authUser.getNickname(), authUser.getUsername()));
 		List<String> enters = authService.getAuthEnters(authUser.getId());
 		UserInfoVO userInfoVO = new UserInfoVO();
 		userInfoVO.setUser(authUser);
 		userInfoVO.setEnters(enters);
 		return userInfoVO;
+	}
+
+	@RequestMapping("/changePassword")
+	@ResponseBody
+	public void changePassword(String password, String newPassword) {
+		AuthUser authUser = ThreadLocalHolder.getUser();
+		userService.changePassword(authUser.getId(), password, newPassword);
 	}
 }

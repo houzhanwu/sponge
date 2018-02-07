@@ -16,6 +16,15 @@
 			FID = #{id}
 	</update>
 
+	<update id="updatePassword">
+		UPDATE
+			T_AUTH_USER
+		SET
+			FPASSWORD = #{password}
+		WHERE
+			FID = #{userId}
+	</update>
+
 	<select id="getUserById" resultType="com.apr7.sponge.model.AuthUser">
 		SELECT
 			  FID id
@@ -56,6 +65,17 @@
 				FUSERNAME = #{username}
 			AND FPASSWORD = #{password}
 	</select>
+
+	<select id="checkPasswordByUserId" resultType="java.lang.Long">
+		SELECT
+			FID
+		FROM
+			T_AUTH_USER
+		WHERE
+				FID = #{userId}
+			AND FPASSWORD = #{password}
+	</select>
+
 	<select id="getUserIdByUsername" resultType="java.lang.Long">
 		SELECT
 			FID

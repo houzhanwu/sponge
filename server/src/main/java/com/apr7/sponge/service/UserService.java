@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.apr7.sponge.dao.AuthUserDao;
+import com.apr7.sponge.exception.SpongeException;
 import com.apr7.sponge.exception.SpongeLoginException;
 import com.apr7.sponge.model.AuthUser;
 import com.apr7.sponge.model.vo.LoginVO;
@@ -24,6 +25,13 @@ public class UserService {
 		authUser.setUsername(username);
 		authUser.setNickname("");
 		authUserDao.addUser(authUser, DigestUtils.md5Hex(password));
+	}
+
+	public void changePassword(Long userId, String password, String newPassword) {
+		if (authUserDao.checkPasswordByUserId(userId, password) == null) {
+			throw new SpongeException("原密码不正确");
+		}
+		authUserDao.updatePassword(userId, newPassword);
 	}
 
 	public void updateUserToken(AuthUser authUser) {
@@ -43,7 +51,7 @@ public class UserService {
 	}
 
 	public LoginVO login(String username, String password) {
-		AuthUser authUser = authUserDao.getUserByLogin(username, DigestUtils.md5Hex(password));
+		AuthUser authUser = authUserDao.getUserByLogin(username, password);
 		if (authUser == null) {
 			throw new SpongeLoginException("用户名或密码错误");
 		}
