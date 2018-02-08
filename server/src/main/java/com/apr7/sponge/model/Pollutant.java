@@ -1,9 +1,12 @@
 package com.apr7.sponge.model;
 
+import com.apr7.sponge.constants.PollutantTypeEnum;
+
 public class Pollutant {
 
 	private Long id;
 	private String name;
+	private PollutantTypeEnum type;
 	private Boolean show;
 	private Integer order;
 	private PollutantMapping mapping;
@@ -22,6 +25,14 @@ public class Pollutant {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public PollutantTypeEnum getType() {
+		return type;
+	}
+
+	public void setType(PollutantTypeEnum type) {
+		this.type = type;
 	}
 
 	public Boolean getShow() {

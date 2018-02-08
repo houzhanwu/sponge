@@ -229,7 +229,7 @@ CREATE TABLE `T_AUTH_USER` (
 /*Data for the table `T_AUTH_USER` */
 
 insert  into `T_AUTH_USER`(`FID`,`FUSERNAME`,`FPASSWORD`,`FNICKNAME`,`FTOKEN`,`FTOKEN_EXPIRE`,`FCREATE_TIME`) values 
-(1,'admin','a9e7f4848e40deb03cba8edd294d3a17','admin','32af8d45-c782-4ba8-97d4-c494ef882116','2018-02-07 18:45:58','1970-01-01 08:00:00'),
+(1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','bb1b0569-7563-4383-8ce8-cc67a65ba6f6','2018-02-08 15:41:02','1970-01-01 08:00:00'),
 (2,'create','81dc9bdb52d04dc20036dbd8313ed055','create','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
 (3,'user1','81dc9bdb52d04dc20036dbd8313ed055','user1','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
 (4,'user2','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:03:57'),
@@ -327,6 +327,7 @@ DROP TABLE IF EXISTS `T_POLLUTANT`;
 CREATE TABLE `T_POLLUTANT` (
   `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `FNAME` varchar(32) NOT NULL,
+  `FTYPE` enum('RTD','STATUS') NOT NULL,
   `FSHOW` tinyint(4) NOT NULL,
   `FORDER` smallint(6) NOT NULL,
   PRIMARY KEY (`FID`),
@@ -335,10 +336,10 @@ CREATE TABLE `T_POLLUTANT` (
 
 /*Data for the table `T_POLLUTANT` */
 
-insert  into `T_POLLUTANT`(`FID`,`FNAME`,`FSHOW`,`FORDER`) values 
-(1,'pH',1,1),
-(2,'排放量(m³/h)',1,2),
-(3,'生产用水量(m³/h)',0,4);
+insert  into `T_POLLUTANT`(`FID`,`FNAME`,`FTYPE`,`FSHOW`,`FORDER`) values 
+(1,'pH','RTD',1,1),
+(2,'排放量(m³/h)','RTD',1,2),
+(3,'生产用水量(m³/h)','RTD',0,4);
 
 /*Table structure for table `T_POLLUTANT_MAPPING` */
 

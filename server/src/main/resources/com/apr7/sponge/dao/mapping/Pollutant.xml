@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.PollutantDao">
 	<insert id="addPollutant" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO T_POLLUTANT (FNAME,FSHOW,FORDER)
-		VALUES (#{name},#{show},#{order})
+		INSERT INTO T_POLLUTANT (FNAME,FTYPE,FSHOW,FORDER)
+		VALUES (#{name},#{type},#{show},#{order})
 	</insert>
 	<insert id="addPollutantMapping">
 		INSERT INTO T_POLLUTANT_MAPPING (FPOLLUTANT_ID,FFIELD_KEY_HJT212,FFIELD_KEY_KNT2014)
@@ -42,6 +42,7 @@
 		SELECT
 			  p.FID id
 			, p.FNAME name
+			, p.FTYPE type
 			, p.FSHOW `show`
 			, p.FORDER `order`
 			, p.FID `mapping.pollutantId`

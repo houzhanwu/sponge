@@ -23,7 +23,7 @@ public enum DataProtocolEnum {
 		}
 	}
 
-	public static DataProtocolEnum fromCode(int code) {
+	public static DataProtocolEnum fromCode(Integer code) {
 		return cache.get(code);
 	}
 }

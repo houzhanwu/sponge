@@ -2,15 +2,13 @@ package com.apr7.sponge.model;
 
 import java.util.Date;
 
-import com.alibaba.fastjson.JSONObject;
-
 public class HistoryData {
 
 	private Long workshopId;
 	private Date dateTime;
 	private Long companyId;
-	private JSONObject rtdData;
-	private JSONObject statusData;
+	private String rtdData;
+	private String statusData;
 	private Integer dataProtocol;
 
 	public Long getWorkshopId() {
@@ -37,19 +35,19 @@ public class HistoryData {
 		this.companyId = companyId;
 	}
 
-	public JSONObject getRtdData() {
-		return rtdData == null ? new JSONObject() : rtdData;
+	public String getRtdData() {
+		return rtdData;
 	}
 
-	public void setRtdData(JSONObject rtdData) {
+	public void setRtdData(String rtdData) {
 		this.rtdData = rtdData;
 	}
 
-	public JSONObject getStatusData() {
-		return statusData == null ? new JSONObject() : statusData;
+	public String getStatusData() {
+		return statusData;
 	}
 
-	public void setStatusData(JSONObject statusData) {
+	public void setStatusData(String statusData) {
 		this.statusData = statusData;
 	}
 

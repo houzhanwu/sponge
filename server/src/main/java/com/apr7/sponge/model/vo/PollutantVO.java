@@ -1,11 +1,13 @@
 package com.apr7.sponge.model.vo;
 
+import com.apr7.sponge.constants.PollutantTypeEnum;
 import com.apr7.sponge.model.Pollutant;
 
 public class PollutantVO {
 
 	private Long id;
 	private String name;
+	private PollutantTypeEnum type;
 	private Boolean show;
 	private Integer order;
 	private String fieldKeyHjt212;
@@ -25,6 +27,14 @@ public class PollutantVO {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public PollutantTypeEnum getType() {
+		return type;
+	}
+
+	public void setType(PollutantTypeEnum type) {
+		this.type = type;
 	}
 
 	public Boolean getShow() {
@@ -63,6 +73,7 @@ public class PollutantVO {
 		PollutantVO pollutantVO = new PollutantVO();
 		pollutantVO.setId(pollutant.getId());
 		pollutantVO.setName(pollutant.getName());
+		pollutantVO.setType(pollutant.getType());
 		pollutantVO.setShow(pollutant.getShow());
 		pollutantVO.setOrder(pollutant.getOrder());
 		pollutantVO.setFieldKeyHjt212(pollutant.getMapping().getFieldKeyHjt212());

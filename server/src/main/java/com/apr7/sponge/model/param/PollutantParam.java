@@ -3,6 +3,7 @@ package com.apr7.sponge.model.param;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import com.apr7.sponge.constants.PollutantTypeEnum;
 import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.model.PollutantMapping;
 
@@ -10,6 +11,7 @@ public class PollutantParam {
 
 	private Long id;
 	private String name;
+	private PollutantTypeEnum type;
 	private Boolean show;
 	private String fieldKeyHjt212;
 	private String fieldKeyKnt2014;
@@ -28,6 +30,14 @@ public class PollutantParam {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public PollutantTypeEnum getType() {
+		return type;
+	}
+
+	public void setType(PollutantTypeEnum type) {
+		this.type = type;
 	}
 
 	public Boolean getShow() {
@@ -58,6 +68,7 @@ public class PollutantParam {
 		Pollutant pollutant = new Pollutant();
 		pollutant.setId(this.getId());
 		pollutant.setName(this.getName());
+		pollutant.setType(this.getType());
 		pollutant.setShow(ObjectUtils.defaultIfNull(this.getShow(), Boolean.FALSE));
 		pollutant.setOrder(0);
 		PollutantMapping mapping = new PollutantMapping();

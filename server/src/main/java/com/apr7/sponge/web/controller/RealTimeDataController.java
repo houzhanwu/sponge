@@ -15,6 +15,7 @@ import com.apr7.sponge.model.RealTimeData;
 import com.apr7.sponge.model.vo.RealTimeDataVO;
 import com.apr7.sponge.service.PollutantService;
 import com.apr7.sponge.service.RealTimeDataService;
+import com.apr7.sponge.service.protocol.ProtocolDataService;
 
 @Controller
 @RequestMapping("/data")
@@ -23,6 +24,8 @@ public class RealTimeDataController {
 	private RealTimeDataService realTimeDataService;
 	@Autowired
 	private PollutantService pollutantService;
+	@Autowired
+	private ProtocolDataService protocolDataService;
 
 	@RequestMapping("/realtime")
 	@ResponseBody
@@ -31,37 +34,8 @@ public class RealTimeDataController {
 		List<Pollutant> pollutants = pollutantService.listShowingPollutant();
 		List<RealTimeDataVO> data = new ArrayList<>(realTimeDatas.size());
 		for (RealTimeData realTimeData : realTimeDatas) {
-			JSONObject dataSet = new JSONObject();
-			DataProtocolEnum dataProtocolEnum;
-			if (realTimeData.getDataProtocol() == null || (dataProtocolEnum = DataProtocolEnum.fromCode(realTimeData.getDataProtocol())) == null) {
-				for (Pollutant pollutant : pollutants) {
-					String value = null;
-					dataSet.put("_" + pollutant.getId(), value);
-				}
-			} else {
-				JSONObject rtdData = realTimeData.getRtdData();
-				JSONObject statusData = realTimeData.getStatusData();
-				for (Pollutant pollutant : pollutants) {
-					String value = null;
-					switch (dataProtocolEnum) {
-					case HJT212:
-						value = rtdData.getString(pollutant.getMapping().getFieldKeyHjt212());
-						if (value == null) {
-							value = statusData.getString(pollutant.getMapping().getFieldKeyHjt212());
-						}
-						break;
-					case KNT2014:
-						value = rtdData.getString(pollutant.getMapping().getFieldKeyKnt2014());
-						if (value == null) {
-							value = statusData.getString(pollutant.getMapping().getFieldKeyKnt2014());
-						}
-						break;
-					default:
-						break;
-					}
-					dataSet.put("_" + pollutant.getId(), value);
-				}
-			}
+			DataProtocolEnum dataProtocolEnum = DataProtocolEnum.fromCode(realTimeData.getDataProtocol());
+			JSONObject dataSet = protocolDataService.buildDataSet(dataProtocolEnum, pollutants, realTimeData.getRtdData(), realTimeData.getStatusData());
 			RealTimeDataVO realTimeDataVO = new RealTimeDataVO();
 			realTimeDataVO.setCompanyName(realTimeData.getCompanyName());
 			realTimeDataVO.setWorkshopName(realTimeData.getWorkshopName());
