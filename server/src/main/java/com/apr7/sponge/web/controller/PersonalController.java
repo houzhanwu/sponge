@@ -1,20 +1,26 @@
 package com.apr7.sponge.web.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONObject;
+import com.apr7.sponge.exception.SpongeAuthException;
 import com.apr7.sponge.exception.SpongeException;
+import com.apr7.sponge.exception.SpongeNotLoggedInException;
 import com.apr7.sponge.model.AuthUser;
 import com.apr7.sponge.model.vo.LoginVO;
 import com.apr7.sponge.model.vo.UserInfoVO;
 import com.apr7.sponge.service.AuthService;
 import com.apr7.sponge.service.UserService;
+import com.apr7.sponge.utils.TokenUtils;
 import com.apr7.sponge.web.content.ThreadLocalHolder;
 
 @Controller
@@ -47,6 +53,27 @@ public class PersonalController {
 		userService.logout(token);
 	}
 
+	@RequestMapping("/refreshToken")
+	@ResponseBody
+	public String refreshToken(String refreshToken) {
+		if (refreshToken == null) {
+			throw new SpongeNotLoggedInException("未登陆");
+		}
+		JSONObject tokenObject = TokenUtils.parseToken(refreshToken);
+		Long userId = tokenObject.getLong("userId");
+		String userKey = userService.getPasswordByUserId(userId);
+		if (!TokenUtils.checkToken(userKey, tokenObject)) {
+			throw new SpongeAuthException("非法请求");
+		}
+		Date expireTime = tokenObject.getDate("expireTime");
+		if (new Date().after(expireTime)) {
+			throw new SpongeNotLoggedInException("登陆已失效");
+		}
+		int expireMins = 30;
+		String token = TokenUtils.generateToken(userKey, userId, DateUtils.addMinutes(new Date(), expireMins));
+		return token;
+	}
+
 	@RequestMapping("/getInfo")
 	@ResponseBody
 	public UserInfoVO getInfo() {
@@ -61,8 +88,10 @@ public class PersonalController {
 
 	@RequestMapping("/changePassword")
 	@ResponseBody
-	public void changePassword(String password, String newPassword) {
+	public LoginVO changePassword(String password, String newPassword) {
 		AuthUser authUser = ThreadLocalHolder.getUser();
 		userService.changePassword(authUser.getId(), password, newPassword);
+		LoginVO loginVO = userService.buildLoginVO(authUser.getId(), newPassword);
+		return loginVO;
 	}
 }

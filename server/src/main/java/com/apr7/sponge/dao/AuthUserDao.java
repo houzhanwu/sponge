@@ -19,6 +19,8 @@ public interface AuthUserDao {
 
 	AuthUser getUserByLogin(@Param("username") String username, @Param("password") String password);
 
+	String getPasswordByUserId(@Param("userId") Long userId);
+
 	Long checkPasswordByUserId(@Param("userId") Long userId, @Param("password") String password);
 
 	Long getUserIdByUsername(@Param("username") String username);

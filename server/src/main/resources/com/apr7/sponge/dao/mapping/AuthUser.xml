@@ -66,6 +66,15 @@
 			AND FPASSWORD = #{password}
 	</select>
 
+	<select id="getPasswordByUserId" resultType="String">
+		SELECT
+			FPASSWORD
+		FROM
+			T_AUTH_USER
+		WHERE
+			FID = #{userId}
+	</select>
+
 	<select id="checkPasswordByUserId" resultType="java.lang.Long">
 		SELECT
 			FID

@@ -13,7 +13,8 @@ import com.apr7.sponge.exception.SpongeException;
 import com.apr7.sponge.exception.SpongeLoginException;
 import com.apr7.sponge.model.AuthUser;
 import com.apr7.sponge.model.vo.LoginVO;
-import com.apr7.sponge.utils.UUIDUtils;
+import com.apr7.sponge.utils.DateUtilsX;
+import com.apr7.sponge.utils.TokenUtils;
 
 @Service
 public class UserService {
@@ -42,12 +43,24 @@ public class UserService {
 		return authUserDao.getUserById(userId);
 	}
 
-	public AuthUser getUserByToken(String token) {
-		return authUserDao.getUserByToken(token);
-	}
-
 	public Long getUserIdByUsername(String username) {
 		return authUserDao.getUserIdByUsername(username);
+	}
+
+	public String getPasswordByUserId(Long userId) {
+		return authUserDao.getPasswordByUserId(userId);
+	}
+
+	public LoginVO buildLoginVO(Long userId, String userKey) {
+		int expireMins = 30;
+		LoginVO loginVO = new LoginVO();
+		loginVO.setToken(TokenUtils.generateToken(userKey, userId, DateUtils.addMinutes(new Date(), expireMins)));
+		Date refreshTokenExpireTime = DateUtilsX.getNextTimePoint(TimeUnit.HOURS.toMillis(5));
+		if (refreshTokenExpireTime.getTime() - new Date().getTime() < TimeUnit.HOURS.toMillis(2)) {
+			refreshTokenExpireTime = DateUtils.addDays(refreshTokenExpireTime, 1);
+		}
+		loginVO.setRefreshToken(TokenUtils.generateToken(userKey, userId, refreshTokenExpireTime));
+		return loginVO;
 	}
 
 	public LoginVO login(String username, String password) {
@@ -55,19 +68,7 @@ public class UserService {
 		if (authUser == null) {
 			throw new SpongeLoginException("用户名或密码错误");
 		}
-		Date now = new Date();
-		int expireMins = 30;
-		if (now.after(authUser.getTokenExpire())) {
-			authUser.setToken(UUIDUtils.generateUUID());
-			authUser.setTokenExpire(DateUtils.addMinutes(now, expireMins));
-		} else {
-			authUser.setTokenExpire(DateUtils.addMinutes(now, expireMins));
-		}
-		authUserDao.updateUserToken(authUser);
-		LoginVO loginVO = new LoginVO();
-		loginVO.setToken(authUser.getToken());
-		loginVO.setExpire(TimeUnit.MINUTES.toMillis(expireMins));
-		return loginVO;
+		return buildLoginVO(authUser.getId(), password);
 	}
 
 	public void logout(String token) {

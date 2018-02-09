@@ -3,7 +3,7 @@ package com.apr7.sponge.model.vo;
 public class LoginVO {
 
 	private String token;
-	private Long expire;
+	private String refreshToken;
 
 	public String getToken() {
 		return token;
@@ -13,11 +13,11 @@ public class LoginVO {
 		this.token = token;
 	}
 
-	public Long getExpire() {
-		return expire;
+	public String getRefreshToken() {
+		return refreshToken;
 	}
 
-	public void setExpire(Long expire) {
-		this.expire = expire;
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
 	}
 }

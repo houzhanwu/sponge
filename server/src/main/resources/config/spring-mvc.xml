@@ -64,6 +64,7 @@
 			<mvc:exclude-mapping path="/personal/login" />
 			<mvc:exclude-mapping path="/personal/logout" />
 			<mvc:exclude-mapping path="/personal/register" />
+			<mvc:exclude-mapping path="/personal/refreshToken" />
 			<bean class="com.apr7.sponge.web.content.LoginInterceptor"></bean>
 		</mvc:interceptor>
 		<mvc:interceptor>

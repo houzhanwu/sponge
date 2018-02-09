@@ -7,14 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.time.DateUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.alibaba.fastjson.JSONObject;
+import com.apr7.sponge.exception.SpongeAuthException;
 import com.apr7.sponge.exception.SpongeNotLoggedInException;
+import com.apr7.sponge.exception.SpongeTokenExpireException;
 import com.apr7.sponge.model.AuthUser;
 import com.apr7.sponge.service.UserService;
+import com.apr7.sponge.utils.TokenUtils;
 
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
@@ -36,13 +39,17 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		if (token == null) {
 			throw new SpongeNotLoggedInException("未登陆");
 		}
-		AuthUser authUser = userService.getUserByToken(token);
-		if (authUser == null) {
-			throw new SpongeNotLoggedInException("登陆已失效");
+		JSONObject tokenObject = TokenUtils.parseToken(token);
+		Long userId = tokenObject.getLong("userId");
+		String userKey = userService.getPasswordByUserId(userId);
+		if (!TokenUtils.checkToken(userKey, tokenObject)) {
+			throw new SpongeAuthException("非法请求");
 		}
-		int expireMins = 30;
-		authUser.setTokenExpire(DateUtils.addMinutes(new Date(), expireMins));
-		userService.updateUserToken(authUser);
+		Date expireTime = tokenObject.getDate("expireTime");
+		if (new Date().after(expireTime)) {
+			throw new SpongeTokenExpireException();
+		}
+		AuthUser authUser = userService.getUserById(userId);
 		ThreadLocalHolder.setUser(authUser);
 		MDC.put("ctx_username", authUser.getUsername());
 		return true;
