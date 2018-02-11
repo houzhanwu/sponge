@@ -12,13 +12,55 @@ import com.alibaba.fastjson.JSONObject;
 import com.apr7.sponge.constants.CompanyStatusEnum;
 import com.apr7.sponge.model.Company;
 import com.apr7.sponge.model.Workshop;
+import com.apr7.sponge.model.param.CompanyParam;
+import com.apr7.sponge.model.vo.CompanyVO;
 import com.apr7.sponge.service.CompanyService;
+import com.apr7.sponge.utils.MultipageList;
 
 @Controller
 @RequestMapping("/company")
 public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
+
+	@RequestMapping("/add")
+	@ResponseBody
+	public void addCompany(CompanyParam companyParam) {
+		Company company = companyParam.toModel();
+		companyService.addCompany(company);
+	}
+
+	@RequestMapping("/delete")
+	@ResponseBody
+	public void deleteCompany(Long companyId) {
+		companyService.deleteCompany(companyId);
+	}
+
+	@RequestMapping("/update")
+	@ResponseBody
+	public void updateCompany(CompanyParam companyParam) {
+		Company company = companyParam.toModel();
+		companyService.updateCompany(company);
+	}
+
+	@RequestMapping("/get")
+	@ResponseBody
+	public Company getCompany(Long companyId) {
+		Company company = companyService.getCompany(companyId);
+		return company;
+	}
+
+	@RequestMapping("/list")
+	@ResponseBody
+	public MultipageList<CompanyVO> getCompany(String keyword, int page, int size) {
+		MultipageList<Company> companys = companyService.listCompany(keyword, page, size);
+		List<CompanyVO> companyVOs = new ArrayList<>(companys.getData().size());
+		for (Company company : companys.getData()) {
+			companyVOs.add(CompanyVO.build(company));
+		}
+		MultipageList<CompanyVO> multipageList = new MultipageList<>(companyVOs, companys.getTotal());
+		return multipageList;
+	}
 
 	@RequestMapping("/status/listall")
 	@ResponseBody

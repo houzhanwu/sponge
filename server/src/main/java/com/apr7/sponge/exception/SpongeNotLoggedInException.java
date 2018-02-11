@@ -14,4 +14,8 @@ public class SpongeNotLoggedInException extends SpongeException {
 	public SpongeNotLoggedInException(String message) {
 		super(message);
 	}
+
+	public boolean isLog() {
+		return false;
+	}
 }

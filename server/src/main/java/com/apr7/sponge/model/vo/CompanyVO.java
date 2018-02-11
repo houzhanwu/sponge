@@ -1,6 +1,8 @@
-package com.apr7.sponge.model;
+package com.apr7.sponge.model.vo;
 
-public class Company {
+import com.apr7.sponge.model.Company;
+
+public class CompanyVO {
 
 	private Long id;
 	private String name;
@@ -28,5 +30,13 @@ public class Company {
 
 	public void setAreaId(Long areaId) {
 		this.areaId = areaId;
+	}
+
+	public static CompanyVO build(Company company) {
+		CompanyVO companyVO = new CompanyVO();
+		companyVO.setId(company.getId());
+		companyVO.setName(company.getName());
+		companyVO.setAreaId(company.getAreaId());
+		return companyVO;
 	}
 }

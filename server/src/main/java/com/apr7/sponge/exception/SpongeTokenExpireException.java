@@ -17,4 +17,9 @@ public class SpongeTokenExpireException extends SpongeException {
 	public SpongeTokenExpireException(String message) {
 		super(message);
 	}
+
+	@Override
+	public boolean isLog() {
+		return false;
+	}
 }

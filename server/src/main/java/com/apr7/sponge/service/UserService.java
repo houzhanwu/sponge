@@ -35,10 +35,6 @@ public class UserService {
 		authUserDao.updatePassword(userId, newPassword);
 	}
 
-	public void updateUserToken(AuthUser authUser) {
-		authUserDao.updateUserToken(authUser);
-	}
-
 	public AuthUser getUserById(Long userId) {
 		return authUserDao.getUserById(userId);
 	}

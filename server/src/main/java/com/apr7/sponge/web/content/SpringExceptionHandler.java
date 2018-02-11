@@ -18,8 +18,10 @@ public class SpringExceptionHandler {
 	public ResponseBodyModel handleOtherExceptions(Exception e) {
 		ResponseBodyModel responseBodyModel = new ResponseBodyModel();
 		if (e instanceof SpongeException) {
-			LOGGER.error(e.toString());
 			SpongeException spongeException = (SpongeException) e;
+			if (spongeException.isLog()) {
+				LOGGER.error(e.toString());
+			}
 			responseBodyModel.setCode(spongeException.getCode());
 			responseBodyModel.setMessage(spongeException.getMessage());
 		} else {

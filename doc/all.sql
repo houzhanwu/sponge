@@ -43,7 +43,7 @@ CREATE TABLE `T_AUTH_MODULE` (
   `FGROUP` int(10) unsigned NOT NULL,
   `FORDER` int(11) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_MODULE` */
 
@@ -53,7 +53,9 @@ insert  into `T_AUTH_MODULE`(`FID`,`FNAME`,`FKEY`,`FGROUP`,`FORDER`) values
 (3,'查看污染物配置','pollutant',3,1),
 (4,'修改污染物配置','edit_pollutant',3,2),
 (5,'查看角色管理','role',4,1),
-(6,'修改角色配置','edit_role',4,2);
+(6,'修改角色配置','edit_role',4,2),
+(7,'查看企业信息','company',5,1),
+(8,'修改企业信息','edit_company',5,2);
 
 /*Table structure for table `T_AUTH_MODULE_GROUP` */
 
@@ -64,15 +66,16 @@ CREATE TABLE `T_AUTH_MODULE_GROUP` (
   `FNAME` varchar(32) NOT NULL,
   `FORDER` int(11) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_MODULE_GROUP` */
 
 insert  into `T_AUTH_MODULE_GROUP`(`FID`,`FNAME`,`FORDER`) values 
 (1,'实时数据',1),
 (2,'历史数据',2),
-(3,'污染物配置',3),
-(4,'权限管理',4);
+(3,'污染物配置',4),
+(4,'权限管理',5),
+(5,'企业信息管理',3);
 
 /*Table structure for table `T_AUTH_MODULE_RESOURCE_MAPPING` */
 
@@ -108,7 +111,16 @@ insert  into `T_AUTH_MODULE_RESOURCE_MAPPING`(`FMODULE_ID`,`FRESOURCE_ID`) value
 (6,16),
 (6,19),
 (6,21),
-(6,22);
+(6,22),
+(7,1),
+(7,26),
+(7,27),
+(8,23),
+(8,24),
+(8,25),
+(8,28),
+(8,29),
+(8,30);
 
 /*Table structure for table `T_AUTH_RESOURCE` */
 
@@ -119,7 +131,7 @@ CREATE TABLE `T_AUTH_RESOURCE` (
   `FNAME` varchar(32) NOT NULL,
   `FPATH` varchar(128) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_RESOURCE` */
 
@@ -145,7 +157,15 @@ insert  into `T_AUTH_RESOURCE`(`FID`,`FNAME`,`FPATH`) values
 (19,'修改角色权限','/role/updateModule'),
 (20,'查看角色用户','/role/listUser'),
 (21,'新增角色用户','/role/addUser'),
-(22,'移除角色用户','/role/removeUser');
+(22,'移除角色用户','/role/removeUser'),
+(23,'新增企业信息','/company/add'),
+(24,'删除企业信息','/company/delete'),
+(25,'修改企业信息','/company/update'),
+(26,'查询企业信息','/company/get'),
+(27,'查看企业列表','/company/list'),
+(28,'新增区域','/area/add'),
+(29,'删除区域','/area/delete'),
+(30,'修改区域','/area/update');
 
 /*Table structure for table `T_AUTH_ROLE` */
 
@@ -183,32 +203,12 @@ insert  into `T_AUTH_ROLE_MODULE_MAPPING`(`FROLE_ID`,`FMODULE_ID`) values
 (1,4),
 (1,5),
 (1,6),
+(1,7),
+(1,8),
 (3,1),
 (3,2),
 (3,3),
 (3,5);
-
-/*Table structure for table `T_AUTH_ROLE_RESOURCE_MAPPING` */
-
-DROP TABLE IF EXISTS `T_AUTH_ROLE_RESOURCE_MAPPING`;
-
-CREATE TABLE `T_AUTH_ROLE_RESOURCE_MAPPING` (
-  `FROLE_ID` int(10) unsigned NOT NULL,
-  `FRESOURCE_ID` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`FROLE_ID`,`FRESOURCE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-/*Data for the table `T_AUTH_ROLE_RESOURCE_MAPPING` */
-
-insert  into `T_AUTH_ROLE_RESOURCE_MAPPING`(`FROLE_ID`,`FRESOURCE_ID`) values 
-(1,1),
-(1,2),
-(1,3),
-(1,4),
-(1,5),
-(1,6),
-(1,7),
-(1,8);
 
 /*Table structure for table `T_AUTH_USER` */
 
@@ -229,7 +229,7 @@ CREATE TABLE `T_AUTH_USER` (
 /*Data for the table `T_AUTH_USER` */
 
 insert  into `T_AUTH_USER`(`FID`,`FUSERNAME`,`FPASSWORD`,`FNICKNAME`,`FTOKEN`,`FTOKEN_EXPIRE`,`FCREATE_TIME`) values 
-(1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','bb1b0569-7563-4383-8ce8-cc67a65ba6f6','2018-02-08 15:41:02','1970-01-01 08:00:00'),
+(1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','bb1b0569-7563-4383-8ce8-cc67a65ba6f6','2018-02-08 16:14:43','1970-01-01 08:00:00'),
 (2,'create','81dc9bdb52d04dc20036dbd8313ed055','create','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
 (3,'user1','81dc9bdb52d04dc20036dbd8313ed055','user1','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
 (4,'user2','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:03:57'),
@@ -267,7 +267,7 @@ CREATE TABLE `T_COMPANY` (
   `FNAME` varchar(32) NOT NULL COMMENT '名称',
   `FAREA_ID` int(10) unsigned NOT NULL COMMENT '区域id',
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='公司';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='公司';
 
 /*Data for the table `T_COMPANY` */
 
@@ -275,7 +275,13 @@ insert  into `T_COMPANY`(`FID`,`FNAME`,`FAREA_ID`) values
 (1,'工厂1',1),
 (2,'工厂2',1),
 (3,'工厂3',2),
-(4,'工厂4',2);
+(4,'工厂4',2),
+(5,'工厂5',1),
+(6,'工厂6',2),
+(7,'工厂7',1),
+(8,'工厂8',2),
+(9,'工厂9',1),
+(10,'工厂10',2);
 
 /*Table structure for table `T_DEVICE` */
 

@@ -13,6 +13,18 @@ public class AreaService {
 	@Autowired
 	private AreaDao areaDao;
 
+	public void addArea(Area area) {
+		areaDao.addArea(area);
+	}
+
+	public void deleteArea(Long areaId) {
+		areaDao.deleteArea(areaId);
+	}
+
+	public void updateArea(Area area) {
+		areaDao.updateArea(area);
+	}
+
 	public List<Area> listAllArea() {
 		return areaDao.listAllArea();
 	}

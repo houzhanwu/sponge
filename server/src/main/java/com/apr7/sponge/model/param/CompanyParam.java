@@ -1,6 +1,8 @@
-package com.apr7.sponge.model;
+package com.apr7.sponge.model.param;
 
-public class Company {
+import com.apr7.sponge.model.Company;
+
+public class CompanyParam {
 
 	private Long id;
 	private String name;
@@ -28,5 +30,13 @@ public class Company {
 
 	public void setAreaId(Long areaId) {
 		this.areaId = areaId;
+	}
+
+	public Company toModel() {
+		Company company = new Company();
+		company.setId(this.getId());
+		company.setName(this.getName());
+		company.setAreaId(this.getAreaId());
+		return company;
 	}
 }

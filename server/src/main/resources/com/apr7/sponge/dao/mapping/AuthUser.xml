@@ -2,19 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.AuthUserDao">
 	<insert id="addUser">
-		INSERT INTO T_AUTH_USER (FID,FUSERNAME,FPASSWORD,FNICKNAME,FTOKEN,FCREATE_TIME)
-		VALUES (NULL,#{user.username},#{password},#{user.nickname},'',NOW())
+		INSERT INTO T_AUTH_USER (FID,FUSERNAME,FPASSWORD,FNICKNAME,FCREATE_TIME)
+		VALUES (NULL,#{user.username},#{password},#{user.nickname},NOW())
 	</insert>
-
-	<update id="updateUserToken">
-		UPDATE
-			T_AUTH_USER
-		SET
-			  FTOKEN = #{token}
-			, FTOKEN_EXPIRE = #{tokenExpire}
-		WHERE
-			FID = #{id}
-	</update>
 
 	<update id="updatePassword">
 		UPDATE
@@ -30,26 +20,10 @@
 			  FID id
 			, FUSERNAME username
 			, FNICKNAME nickname
-			, FTOKEN token
-			, FTOKEN_EXPIRE tokenExpire
 		FROM
 			T_AUTH_USER
 		WHERE
 			FID = #{userId}
-	</select>
-
-	<select id="getUserByToken" resultType="com.apr7.sponge.model.AuthUser">
-		SELECT
-			  FID id
-			, FUSERNAME username
-			, FNICKNAME nickname
-			, FTOKEN token
-			, FTOKEN_EXPIRE tokenExpire
-		FROM
-			T_AUTH_USER
-		WHERE
-				FTOKEN = #{token}
-			AND FTOKEN_EXPIRE > NOW()
 	</select>
 
 	<select id="getUserByLogin" resultType="com.apr7.sponge.model.AuthUser">
@@ -57,8 +31,6 @@
 			  FID id
 			, FUSERNAME username
 			, FNICKNAME nickname
-			, FTOKEN token
-			, FTOKEN_EXPIRE tokenExpire
 		FROM
 			T_AUTH_USER
 		WHERE

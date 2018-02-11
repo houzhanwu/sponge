@@ -61,6 +61,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/baseinfo/**" />
 			<mvc:exclude-mapping path="/personal/login" />
 			<mvc:exclude-mapping path="/personal/logout" />
 			<mvc:exclude-mapping path="/personal/register" />
@@ -69,6 +70,7 @@
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/baseinfo/**" />
 			<mvc:exclude-mapping path="/personal/**" />
 			<bean class="com.apr7.sponge.web.content.AuthInterceptor" />
 		</mvc:interceptor>

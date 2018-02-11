@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.AreaDao">
+	<insert id="addArea">
+		INSERT INTO T_AREA (FID,FNAME)
+		VALUES (#{id},#{name})
+	</insert>
+
+	<delete id="deleteArea">
+		DELETE FROM T_AREA WHERE FID = #{areaId}
+	</delete>
+
+	<update id="updateArea">
+		UPDATE T_AREA
+		SET
+			FNAME = #{name}
+		WHERE
+			FID = #{id}
+	</update>
+
 	<select id="listAllArea" resultType="com.apr7.sponge.model.Area">
 		select FID id, FNAME name FROM T_AREA;
 	</select>

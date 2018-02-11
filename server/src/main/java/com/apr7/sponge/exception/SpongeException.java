@@ -1,5 +1,7 @@
 package com.apr7.sponge.exception;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class SpongeException extends RuntimeException {
 	/**
 	 * 
@@ -46,6 +48,10 @@ public class SpongeException extends RuntimeException {
 
 	@Override
 	public String toString() {
-		return super.toString() + "：" + logRemark;
+		return super.toString() + (StringUtils.isNotBlank(logRemark) ? "：" + logRemark : "");
+	}
+
+	public boolean isLog() {
+		return true;
 	}
 }

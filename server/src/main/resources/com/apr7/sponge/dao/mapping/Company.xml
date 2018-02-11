@@ -1,9 +1,60 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.CompanyDao">
-	<select id="listCompany" resultType="com.apr7.sponge.model.Company">
-		SELECT FID id, FNAME name FROM T_COMPANY ORDER BY FID LIMIT #{start}, #{max}
+	<insert id="addCompany">
+		INSERT INTO T_COMPANY (FID,FNAME,FAREA_ID)
+		VALUES (#{id},#{name},#{areaId})
+	</insert>
+
+	<delete id="deleteCompany">
+		DELETE FROM T_COMPANY WHERE FID = #{companyId}
+	</delete>
+
+	<update id="updateCompany">
+		UPDATE T_COMPANY
+		SET
+			  FNAME = #{name}
+			, FAREA_ID = #{areaId}
+		WHERE
+			FID = #{id}
+	</update>
+
+	<select id="getCompany" resultType="com.apr7.sponge.model.Company">
+		SELECT
+			  FID id
+			, FNAME name
+			, FAREA_ID areaId
+		FROM
+			T_COMPANY
+		WHERE
+			FID = #{companyId}
 	</select>
+
+	<select id="listCompany" resultType="com.apr7.sponge.model.Company">
+		SELECT
+			  FID id
+			, FNAME name
+			, FAREA_ID areaId
+		FROM
+			T_COMPANY
+		WHERE 1 = 1
+		<if test="keyword != null">
+			AND FNAME LIKE #{keyword}
+		</if>
+		LIMIT #{start}, #{max}
+	</select>
+
+	<select id="countCompany" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			T_COMPANY
+		WHERE 1 = 1
+		<if test="keyword != null">
+			AND FNAME LIKE #{keyword}
+		</if>
+	</select>
+
 	<select id="listAllCompany" resultType="com.apr7.sponge.model.Company">
 		SELECT FID id, FNAME name FROM T_COMPANY
 	</select>
