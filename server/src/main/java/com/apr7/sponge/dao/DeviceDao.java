@@ -1,7 +1,5 @@
 package com.apr7.sponge.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
@@ -9,8 +7,11 @@ import com.apr7.sponge.model.Device;
 
 @MapperScan
 public interface DeviceDao {
-	List<Device> listDeviceByCompany(@Param("companyId") Long companyId, @Param("start") int start,
-			@Param("max") int max);
+	void addDevice(Device device);
 
-	int countDeviceByCompany(@Param("companyId") Long companyId);
+	void deleteDeviceByWorkshopId(@Param("workshopId") Long workshopId);
+
+	void updateDevice(Device device);
+
+	String getMnByWorkshopId(@Param("workshopId") Long workshopId);
 }

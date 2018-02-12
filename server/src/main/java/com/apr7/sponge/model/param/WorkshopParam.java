@@ -1,12 +1,14 @@
-package com.apr7.sponge.model;
+package com.apr7.sponge.model.param;
 
-public class Workshop {
+import com.apr7.sponge.model.Workshop;
+
+public class WorkshopParam {
 
 	private Long id;
 	private String name;
 	private Long companyId;
 	private String remarks;
-	private String mn;
+	private String deviceMn;
 
 	public Long getId() {
 		return id;
@@ -40,11 +42,20 @@ public class Workshop {
 		this.remarks = remarks;
 	}
 
-	public String getMn() {
-		return mn;
+	public String getDeviceMn() {
+		return deviceMn;
 	}
 
-	public void setMn(String mn) {
-		this.mn = mn;
+	public void setDeviceMn(String deviceMn) {
+		this.deviceMn = deviceMn;
+	}
+
+	public Workshop toModel() {
+		Workshop workshop = new Workshop();
+		workshop.setId(this.getId());
+		workshop.setName(this.getName());
+		workshop.setCompanyId(this.getCompanyId());
+		workshop.setRemarks(this.getRemarks());
+		return workshop;
 	}
 }

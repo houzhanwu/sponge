@@ -21,9 +21,9 @@ import com.apr7.sponge.model.HistoryData;
 import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.model.Workshop;
 import com.apr7.sponge.model.vo.HistoryDataVO;
-import com.apr7.sponge.service.CompanyService;
 import com.apr7.sponge.service.HistoryDataService;
 import com.apr7.sponge.service.PollutantService;
+import com.apr7.sponge.service.WorkshopService;
 import com.apr7.sponge.service.protocol.ProtocolDataService;
 import com.apr7.sponge.utils.DateUtilsX;
 
@@ -35,7 +35,7 @@ public class HistoryDataController {
 	@Autowired
 	private PollutantService pollutantService;
 	@Autowired
-	private CompanyService companyService;
+	private WorkshopService workshopService;
 	@Autowired
 	private ProtocolDataService protocolDataService;
 
@@ -46,9 +46,9 @@ public class HistoryDataController {
 		final int dataFrequencyMins = 5;
 		List<Workshop> workshops;
 		if (workshopId != null) {
-			workshops = Arrays.asList(companyService.getWorkshop(workshopId));
+			workshops = Arrays.asList(workshopService.getWorkshop(workshopId));
 		} else {
-			workshops = companyService.listWorkshopByCompanyId(companyId);
+			workshops = workshopService.listWorkshopNameByCompanyId(companyId);
 			Collections.sort(workshops, (o1, o2) -> {
 				return o2.getId().compareTo(o1.getId());
 			});

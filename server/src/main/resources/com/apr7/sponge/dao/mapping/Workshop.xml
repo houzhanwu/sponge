@@ -1,21 +1,55 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.WorkshopDao">
+	<insert id="addWorkshop" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO T_WORKSHOP (FID,FNAME,FCOMPANY_ID,FREMARKS)
+		VALUES (#{id},#{name},#{companyId},#{remarks})
+	</insert>
+
+	<delete id="deleteWorkshop">
+		DELETE FROM T_WORKSHOP WHERE FID = #{workshopId}
+	</delete>
+
+	<update id="updateWorkshop">
+		UPDATE T_WORKSHOP
+		SET
+			  FNAME = #{name}
+			, FREMARKS = #{remarks}
+		WHERE
+			FID = #{id}
+	</update>
+
 	<select id="getWorkshop" resultType="com.apr7.sponge.model.Workshop">
 		SELECT
 			  FID id
 			, FNAME name
+			, FCOMPANY_ID companyId
+			, FREMARKS remarks
 		FROM T_WORKSHOP
 		WHERE
 			FID = #{workshopId}
 	</select>
 
-	<select id="listWorkshopByCompanyId" resultType="com.apr7.sponge.model.Workshop">
+	<select id="listWorkshopNameByCompanyId" resultType="com.apr7.sponge.model.Workshop">
 		SELECT
 			  FID id
 			, FNAME name
 		FROM T_WORKSHOP
 		WHERE
 			FCOMPANY_ID = #{companyId}
+	</select>
+
+	<select id="listWorkshopByCompanyId" resultType="com.apr7.sponge.model.Workshop">
+		SELECT
+			  ws.FID id
+			, ws.FNAME name
+			, ws.FCOMPANY_ID companyId
+			, ws.FREMARKS remarks
+			, d.FMN mn
+		FROM T_WORKSHOP ws
+		JOIN T_DEVICE d
+		ON d.FWORKSHOP_ID = ws.FID
+		WHERE
+			ws.FCOMPANY_ID = #{companyId}
 	</select>
 </mapper>

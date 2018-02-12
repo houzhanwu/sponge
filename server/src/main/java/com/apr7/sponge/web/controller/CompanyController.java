@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.apr7.sponge.constants.CompanyStatusEnum;
 import com.apr7.sponge.model.Company;
-import com.apr7.sponge.model.Workshop;
 import com.apr7.sponge.model.param.CompanyParam;
 import com.apr7.sponge.model.vo.CompanyVO;
 import com.apr7.sponge.service.CompanyService;
@@ -80,12 +79,5 @@ public class CompanyController {
 	public List<Company> listAllCompany() {
 		List<Company> companys = companyService.listAllCompany();
 		return companys;
-	}
-
-	@RequestMapping("/workshop/list")
-	@ResponseBody
-	public List<Workshop> listAllCompanyWorkshop(Long companyId) {
-		List<Workshop> workshops = companyService.listWorkshopByCompanyId(companyId);
-		return workshops;
 	}
 }

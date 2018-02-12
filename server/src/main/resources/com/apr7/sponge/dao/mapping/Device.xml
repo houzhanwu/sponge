@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.DeviceDao">
-	<select id="listDeviceByCompany" resultType="com.apr7.sponge.model.Device">
-		select FID id, FMN mn, FWORKSHOP_ID companyId from T_DEVICE where FWORKSHOP_ID = #{companyId} order by FID limit #{start}, #{max}
-	</select>
-	<select id="countDeviceByCompany" resultType="int">
-		select count(*) from T_DEVICE where FWORKSHOP_ID = #{companyId}
+	<insert id="addDevice">
+		INSERT INTO T_DEVICE (FID,FMN,FWORKSHOP_ID)
+		VALUES (#{workshopId},#{mn},#{workshopId})
+	</insert>
+
+	<delete id="deleteDeviceByWorkshopId">
+		DELETE FROM T_DEVICE WHERE FWORKSHOP_ID = #{workshopId}
+	</delete>
+
+	<update id="updateDevice">
+		UPDATE T_DEVICE
+		SET
+			FMN = #{mn}
+		WHERE
+			FWORKSHOP_ID = #{workshopId}
+	</update>
+
+	<select id="getMnByWorkshopId" resultType="String">
+		SELECT FMN FROM T_DEVICE WHERE FWORKSHOP_ID = #{workshopId}
 	</select>
 </mapper>

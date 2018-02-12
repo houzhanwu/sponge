@@ -50,7 +50,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 	@Override
 	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
 		super.channelReadComplete(ctx);
-		ctx.channel().close();
+//		ctx.channel().close();
 	}
 
 	@Override
