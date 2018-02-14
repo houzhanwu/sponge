@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.5.0 (64 bit)
-MySQL - 5.6.32 : Database - SPONGE
+MySQL - 5.7.20 : Database - SPONGE
 *********************************************************************
 */
 
@@ -113,14 +113,19 @@ insert  into `T_AUTH_MODULE_RESOURCE_MAPPING`(`FMODULE_ID`,`FRESOURCE_ID`) value
 (6,21),
 (6,22),
 (7,1),
+(7,7),
 (7,26),
 (7,27),
+(7,34),
 (8,23),
 (8,24),
 (8,25),
 (8,28),
 (8,29),
-(8,30);
+(8,30),
+(8,31),
+(8,32),
+(8,33);
 
 /*Table structure for table `T_AUTH_RESOURCE` */
 
@@ -131,7 +136,7 @@ CREATE TABLE `T_AUTH_RESOURCE` (
   `FNAME` varchar(32) NOT NULL,
   `FPATH` varchar(128) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_RESOURCE` */
 
@@ -142,7 +147,7 @@ insert  into `T_AUTH_RESOURCE`(`FID`,`FNAME`,`FPATH`) values
 (4,'查看企业列表','/company/listall'),
 (5,'获取监控中的污染物列表','/pollutant/listshow'),
 (6,'查看历史数据','/data/history'),
-(7,'查看企业车间列表','/company/workshop/list'),
+(7,'查看企业车间列表','/workshop/listAllByCompanyId'),
 (8,'查看污染物配置','/pollutant/listall'),
 (9,'新增污染物配置','/pollutant/add'),
 (10,'修改污染物配置','/pollutant/update'),
@@ -165,7 +170,11 @@ insert  into `T_AUTH_RESOURCE`(`FID`,`FNAME`,`FPATH`) values
 (27,'查看企业列表','/company/list'),
 (28,'新增区域','/area/add'),
 (29,'删除区域','/area/delete'),
-(30,'修改区域','/area/update');
+(30,'修改区域','/area/update'),
+(31,'新增车间','/workshop/add'),
+(32,'删除车间','/workshop/delete'),
+(33,'修改车间','/workshop/update'),
+(34,'查询车间','/workshop/get');
 
 /*Table structure for table `T_AUTH_ROLE` */
 
@@ -267,7 +276,7 @@ CREATE TABLE `T_COMPANY` (
   `FNAME` varchar(32) NOT NULL COMMENT '名称',
   `FAREA_ID` int(10) unsigned NOT NULL COMMENT '区域id',
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='公司';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='公司';
 
 /*Data for the table `T_COMPANY` */
 
@@ -288,19 +297,22 @@ insert  into `T_COMPANY`(`FID`,`FNAME`,`FAREA_ID`) values
 DROP TABLE IF EXISTS `T_DEVICE`;
 
 CREATE TABLE `T_DEVICE` (
-  `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `FID` int(10) unsigned NOT NULL,
   `FMN` char(24) NOT NULL,
   `FWORKSHOP_ID` int(10) unsigned NOT NULL,
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_MN` (`FMN`),
   KEY `IDX_WORKSHOPID` (`FWORKSHOP_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COMMENT='现场机';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='现场机';
 
 /*Data for the table `T_DEVICE` */
 
 insert  into `T_DEVICE`(`FID`,`FMN`,`FWORKSHOP_ID`) values 
 (1,'66666660000111',1),
-(2,'66666660000112',2);
+(2,'66666660000112',2),
+(3,'66666660000113',3),
+(4,'66666660000114',4),
+(6,'123456',6);
 
 /*Table structure for table `T_HISTORY_DATA` */
 
@@ -394,18 +406,19 @@ CREATE TABLE `T_WORKSHOP` (
   `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `FNAME` varchar(32) NOT NULL COMMENT '名称',
   `FCOMPANY_ID` int(10) unsigned NOT NULL COMMENT '企业ID',
-  `FREMARK` varchar(50) DEFAULT NULL COMMENT '备注',
+  `FREMARKS` varchar(50) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`FID`),
   KEY `IDX_COMPANYID` (`FCOMPANY_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_WORKSHOP` */
 
-insert  into `T_WORKSHOP`(`FID`,`FNAME`,`FCOMPANY_ID`,`FREMARK`) values 
-(1,'车间101',1,NULL),
+insert  into `T_WORKSHOP`(`FID`,`FNAME`,`FCOMPANY_ID`,`FREMARKS`) values 
+(1,'名称101',1,'Hi'),
 (2,'车间102',1,NULL),
-(3,'车间103',1,NULL),
-(4,'车间104',1,NULL);
+(3,'车间103',2,NULL),
+(4,'车间104',2,NULL),
+(6,'车间301',3,'--');
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
