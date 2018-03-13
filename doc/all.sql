@@ -1,6 +1,6 @@
 /*
 SQLyog Ultimate v12.5.0 (64 bit)
-MySQL - 5.7.20 : Database - SPONGE
+MySQL - 5.6.32 : Database - SPONGE
 *********************************************************************
 */
 
@@ -97,6 +97,7 @@ insert  into `T_AUTH_MODULE_RESOURCE_MAPPING`(`FMODULE_ID`,`FRESOURCE_ID`) value
 (2,5),
 (2,6),
 (2,7),
+(2,35),
 (3,8),
 (4,9),
 (4,10),
@@ -136,7 +137,7 @@ CREATE TABLE `T_AUTH_RESOURCE` (
   `FNAME` varchar(32) NOT NULL,
   `FPATH` varchar(128) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_RESOURCE` */
 
@@ -174,7 +175,8 @@ insert  into `T_AUTH_RESOURCE`(`FID`,`FNAME`,`FPATH`) values
 (31,'新增车间','/workshop/add'),
 (32,'删除车间','/workshop/delete'),
 (33,'修改车间','/workshop/update'),
-(34,'查询车间','/workshop/get');
+(34,'查询车间','/workshop/get'),
+(35,'查询企业污染物','/company/pollutant/listall');
 
 /*Table structure for table `T_AUTH_ROLE` */
 
@@ -292,6 +294,23 @@ insert  into `T_COMPANY`(`FID`,`FNAME`,`FAREA_ID`) values
 (9,'工厂9',1),
 (10,'工厂10',2);
 
+/*Table structure for table `T_COMPANY_POLLUTANT_MAPPING` */
+
+DROP TABLE IF EXISTS `T_COMPANY_POLLUTANT_MAPPING`;
+
+CREATE TABLE `T_COMPANY_POLLUTANT_MAPPING` (
+  `FCOMPANY_ID` int(10) unsigned NOT NULL,
+  `FPOLLUTANT_ID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`FCOMPANY_ID`,`FPOLLUTANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_COMPANY_POLLUTANT_MAPPING` */
+
+insert  into `T_COMPANY_POLLUTANT_MAPPING`(`FCOMPANY_ID`,`FPOLLUTANT_ID`) values 
+(1,1),
+(1,2),
+(1,3);
+
 /*Table structure for table `T_DEVICE` */
 
 DROP TABLE IF EXISTS `T_DEVICE`;
@@ -350,14 +369,15 @@ CREATE TABLE `T_POLLUTANT` (
   `FORDER` smallint(6) NOT NULL,
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_ORDER` (`FORDER`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
 
 /*Data for the table `T_POLLUTANT` */
 
 insert  into `T_POLLUTANT`(`FID`,`FNAME`,`FTYPE`,`FSHOW`,`FORDER`) values 
 (1,'pH','RTD',1,1),
 (2,'排放量(m³/h)','RTD',1,2),
-(3,'生产用水量(m³/h)','RTD',0,4);
+(3,'生产用水量(m³/h)','RTD',0,4),
+(4,'提升泵','STATUS',1,5);
 
 /*Table structure for table `T_POLLUTANT_MAPPING` */
 
@@ -377,7 +397,8 @@ CREATE TABLE `T_POLLUTANT_MAPPING` (
 insert  into `T_POLLUTANT_MAPPING`(`FPOLLUTANT_ID`,`FFIELD_KEY_HJT212`,`FFIELD_KEY_KNT2014`) values 
 (1,'ph','ph'),
 (2,'emissionLoad','emissionLoad'),
-(3,NULL,NULL);
+(3,NULL,NULL),
+(4,NULL,NULL);
 
 /*Table structure for table `T_REALTIME_DATA` */
 
