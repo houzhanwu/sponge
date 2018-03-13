@@ -6,8 +6,6 @@
 			  p.FID id
 			, p.FNAME name
 			, p.FTYPE type
-			, p.FSHOW `show`
-			, p.FORDER `order`
 			, p.FID `mapping.pollutantId`
 			, pm.FFIELD_KEY_HJT212 `mapping.fieldKeyHjt212`
 			, pm.FFIELD_KEY_KNT2014 `mapping.fieldKeyKnt2014`
@@ -17,9 +15,12 @@
 		LEFT JOIN T_POLLUTANT_MAPPING pm
 		ON pm.FPOLLUTANT_ID = p.FID
 		WHERE
-				cpm.FCOMPANY_ID = #{companyId}
-			AND p.FSHOW = true
+			cpm.FCOMPANY_ID = #{companyId}
 		ORDER BY
 			p.FORDER, p.FID
 	</select>
+
+	<delete id="deletePollutantByCompanyId">
+		DELETE FROM T_COMPANY_POLLUTANT_MAPPING WHERE FCOMPANY_ID = #{companyId} AND FPOLLUTANT_ID = #{pollutantId}
+	</delete>
 </mapper>

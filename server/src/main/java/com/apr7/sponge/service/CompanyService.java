@@ -50,4 +50,8 @@ public class CompanyService {
 	public List<Pollutant> listPollutantByCompanyId(Long companyId) {
 		return companyPollutantMappingDao.listPollutantByCompanyId(companyId);
 	}
+
+	public void deletePollutantByCompanyId(Long companyId, Long pollutantId) {
+		companyPollutantMappingDao.deletePollutantByCompanyId(companyId, pollutantId);
+	}
 }

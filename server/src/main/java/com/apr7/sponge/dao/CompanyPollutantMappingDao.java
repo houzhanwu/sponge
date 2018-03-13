@@ -11,4 +11,6 @@ import com.apr7.sponge.model.Pollutant;
 public interface CompanyPollutantMappingDao {
 
 	List<Pollutant> listPollutantByCompanyId(@Param("companyId") Long companyId);
+
+	void deletePollutantByCompanyId(@Param("companyId") Long companyId, @Param("pollutantId") Long pollutantId);
 }

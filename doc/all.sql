@@ -43,7 +43,7 @@ CREATE TABLE `T_AUTH_MODULE` (
   `FGROUP` int(10) unsigned NOT NULL,
   `FORDER` int(11) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_MODULE` */
 
@@ -55,7 +55,8 @@ insert  into `T_AUTH_MODULE`(`FID`,`FNAME`,`FKEY`,`FGROUP`,`FORDER`) values
 (5,'查看角色管理','role',4,1),
 (6,'修改角色配置','edit_role',4,2),
 (7,'查看企业信息','company',5,1),
-(8,'修改企业信息','edit_company',5,2);
+(8,'修改企业信息','edit_company',5,2),
+(9,'修改企业污染物配置','edit_company_pollutant',3,3);
 
 /*Table structure for table `T_AUTH_MODULE_GROUP` */
 
@@ -118,6 +119,7 @@ insert  into `T_AUTH_MODULE_RESOURCE_MAPPING`(`FMODULE_ID`,`FRESOURCE_ID`) value
 (7,26),
 (7,27),
 (7,34),
+(7,36),
 (8,23),
 (8,24),
 (8,25),
@@ -126,7 +128,8 @@ insert  into `T_AUTH_MODULE_RESOURCE_MAPPING`(`FMODULE_ID`,`FRESOURCE_ID`) value
 (8,30),
 (8,31),
 (8,32),
-(8,33);
+(8,33),
+(9,37);
 
 /*Table structure for table `T_AUTH_RESOURCE` */
 
@@ -137,7 +140,7 @@ CREATE TABLE `T_AUTH_RESOURCE` (
   `FNAME` varchar(32) NOT NULL,
   `FPATH` varchar(128) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_RESOURCE` */
 
@@ -176,7 +179,9 @@ insert  into `T_AUTH_RESOURCE`(`FID`,`FNAME`,`FPATH`) values
 (32,'删除车间','/workshop/delete'),
 (33,'修改车间','/workshop/update'),
 (34,'查询车间','/workshop/get'),
-(35,'查询企业污染物','/company/pollutant/listall');
+(35,'获取企业监控中的污染物列表','/company/pollutant/listshow'),
+(36,'查看企业污染物列表','/company/pollutant/listall'),
+(37,'删除企业污染物','/company/pollutant/delete');
 
 /*Table structure for table `T_AUTH_ROLE` */
 
@@ -216,6 +221,7 @@ insert  into `T_AUTH_ROLE_MODULE_MAPPING`(`FROLE_ID`,`FMODULE_ID`) values
 (1,6),
 (1,7),
 (1,8),
+(1,9),
 (3,1),
 (3,2),
 (3,3),

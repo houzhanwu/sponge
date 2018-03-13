@@ -57,7 +57,7 @@ public class PollutantController {
 
 	@RequestMapping("/listall")
 	@ResponseBody
-	public List<PollutantVO> listShowPollutant() {
+	public List<PollutantVO> listAllPollutant() {
 		List<Pollutant> pollutants = pollutantService.listAllPollutant();
 		List<PollutantVO> pollutantVOs = new ArrayList<>(pollutants.size());
 		for (Pollutant pollutant : pollutants) {
@@ -68,7 +68,7 @@ public class PollutantController {
 
 	@RequestMapping("/listshow")
 	@ResponseBody
-	public List<PollutantSimpleVO> listAllPollutant() {
+	public List<PollutantSimpleVO> listShowPollutant() {
 		List<Pollutant> pollutants = pollutantService.listShowingPollutant();
 		List<PollutantSimpleVO> pollutantSimpleVOs = new ArrayList<>(pollutants.size());
 		for (Pollutant pollutant : pollutants) {
