@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.apr7.sponge.constants.CompanyStatusEnum;
 import com.apr7.sponge.model.Company;
+import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.model.param.CompanyParam;
 import com.apr7.sponge.model.vo.CompanyVO;
+import com.apr7.sponge.model.vo.PollutantSimpleVO;
 import com.apr7.sponge.service.CompanyService;
 import com.apr7.sponge.utils.MultipageList;
 
@@ -79,5 +81,16 @@ public class CompanyController {
 	public List<Company> listAllCompany() {
 		List<Company> companys = companyService.listAllCompany();
 		return companys;
+	}
+
+	@RequestMapping("/pollutant/listall")
+	@ResponseBody
+	public List<PollutantSimpleVO> listAllPollutant(Long companyId) {
+		List<Pollutant> pollutants = companyService.listPollutantByCompanyId(companyId);
+		List<PollutantSimpleVO> pollutantSimpleVOs = new ArrayList<>(pollutants.size());
+		for (Pollutant pollutant : pollutants) {
+			pollutantSimpleVOs.add(PollutantSimpleVO.build(pollutant));
+		}
+		return pollutantSimpleVOs;
 	}
 }

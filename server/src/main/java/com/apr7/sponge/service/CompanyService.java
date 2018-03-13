@@ -6,7 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.apr7.sponge.dao.CompanyDao;
+import com.apr7.sponge.dao.CompanyPollutantMappingDao;
 import com.apr7.sponge.model.Company;
+import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.utils.MultipageList;
 import com.apr7.sponge.utils.SqlUtils;
 
@@ -14,6 +16,8 @@ import com.apr7.sponge.utils.SqlUtils;
 public class CompanyService {
 	@Autowired
 	private CompanyDao companyDao;
+	@Autowired
+	private CompanyPollutantMappingDao companyPollutantMappingDao;
 
 	public void addCompany(Company company) {
 		companyDao.addCompany(company);
@@ -41,5 +45,9 @@ public class CompanyService {
 
 	public List<Company> listAllCompany() {
 		return companyDao.listAllCompany();
+	}
+
+	public List<Pollutant> listPollutantByCompanyId(Long companyId) {
+		return companyPollutantMappingDao.listPollutantByCompanyId(companyId);
 	}
 }

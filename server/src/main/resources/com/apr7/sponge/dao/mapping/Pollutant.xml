@@ -17,6 +17,26 @@
 		DELETE FROM T_POLLUTANT_MAPPING WHERE FPOLLUTANT_ID=#{pollutantId}
 	</delete>
 
+	<update id="updatePollutant">
+		UPDATE
+			T_POLLUTANT
+		SET
+			  FNAME = #{name}
+			, FTYPE = #{type}
+			, FSHOW = #{show}
+		WHERE
+			FID = #{id}
+	</update>
+	<update id="updatePollutantMapping">
+		UPDATE
+			T_POLLUTANT_MAPPING
+		SET
+			  FFIELD_KEY_HJT212 = #{fieldKeyHjt212}
+			, FFIELD_KEY_KNT2014 = #{fieldKeyKnt2014}
+		WHERE
+			FPOLLUTANT_ID = #{pollutantId}
+	</update>
+
 	<update id="updateOrderToNegative">
 		UPDATE
 			T_POLLUTANT
@@ -57,7 +77,7 @@
 			AND p.FSHOW = #{show}
 		</if>
 		ORDER BY
-			FORDER, FID
+			p.FORDER, p.FID
 	</select>
 
 	<select id="getMaxOrder" resultType="int">

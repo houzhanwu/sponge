@@ -37,6 +37,13 @@ public class PollutantController {
 		pollutantService.deletePollutant(pollutantId);
 	}
 
+	@RequestMapping("/update")
+	@ResponseBody
+	public void updatePollutant(PollutantParam pollutantParam) {
+		Pollutant pollutant = pollutantParam.toModel();
+		pollutantService.updatePollutant(pollutant);
+	}
+
 	@RequestMapping("/reorder")
 	@ResponseBody
 	public void reorderPollutant(String reorderList) {

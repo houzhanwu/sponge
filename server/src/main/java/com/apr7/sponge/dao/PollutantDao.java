@@ -19,6 +19,10 @@ public interface PollutantDao {
 
 	void deletePollutantMapping(@Param("pollutantId") Long pollutantId);
 
+	void updatePollutant(Pollutant pollutant);
+
+	void updatePollutantMapping(PollutantMapping pollutantMapping);
+
 	void updateOrderToNegative(@Param("pollutantIds") List<Long> pollutantIds);
 
 	void updateOrder(@Param("pollutantId") Long pollutantId, @Param("order") Integer order);

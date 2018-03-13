@@ -32,6 +32,13 @@ public class PollutantService {
 	}
 
 	@Transactional
+	public void updatePollutant(Pollutant pollutant) {
+		pollutantDao.updatePollutant(pollutant);
+		pollutant.getMapping().setPollutantId(pollutant.getId());
+		pollutantDao.updatePollutantMapping(pollutant.getMapping());
+	}
+
+	@Transactional
 	public void reorderPollutant(Map<Long, Integer> reorderMap) {
 		List<Long> pollutantIds = MapUtilsX.getKeys(reorderMap);
 		pollutantDao.updateOrderToNegative(pollutantIds);
