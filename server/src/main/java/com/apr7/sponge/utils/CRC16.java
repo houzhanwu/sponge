@@ -1,5 +1,7 @@
 package com.apr7.sponge.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class CRC16 {
 	public static String checkout(String puchMsg) {
 		int crcReg = 0xFFFF;
@@ -13,10 +15,10 @@ public class CRC16 {
 				}
 			}
 		}
-		return Integer.toHexString(crcReg);
+		return StringUtils.leftPad(Integer.toHexString(crcReg), 4, '0');
 	}
 
 	public static void main(String[] args) {
-		System.out.println(CRC16.checkout("QN=20160801085857223;ST=32;CN=1062;PW=100000;MN=010000A8900016F000169DC0;Flag=5;CP=&&RtdInterval=30&&"));
+		System.out.println(CRC16.checkout("ST=32;CN=9014;PW=123456;MN=26807585000028;Flag=0;CP=&&CN=2081;QN=20180316164927&&"));
 	}
 }

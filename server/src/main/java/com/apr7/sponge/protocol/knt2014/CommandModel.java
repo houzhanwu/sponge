@@ -1,23 +1,24 @@
 package com.apr7.sponge.protocol.knt2014;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 
 public class CommandModel {
-	private static final int A = 0x0001;
-	private static final int D = 0x0002;
-
 	protected String qn;
 	protected String st;
 	protected String cn;
 	protected String pw;
 	protected String mn;
-	protected byte flag;
-	protected int pnum;
-	protected int pno;
+	protected String flag;
+	protected String sver;
+	protected String svdata;
 	protected String cp;
+	private String raw;
 	private Map<String, String> _cpMap;
 
 	public String getQn() {
@@ -60,28 +61,28 @@ public class CommandModel {
 		this.mn = mn;
 	}
 
-	public byte getFlag() {
+	public String getFlag() {
 		return flag;
 	}
 
-	public void setFlag(byte flag) {
+	public void setFlag(String flag) {
 		this.flag = flag;
 	}
 
-	public int getPnum() {
-		return pnum;
+	public String getSver() {
+		return sver;
 	}
 
-	public void setPnum(int pnum) {
-		this.pnum = pnum;
+	public void setSver(String sver) {
+		this.sver = sver;
 	}
 
-	public int getPno() {
-		return pno;
+	public String getSvdata() {
+		return svdata;
 	}
 
-	public void setPno(int pno) {
-		this.pno = pno;
+	public void setSvdata(String svdata) {
+		this.svdata = svdata;
 	}
 
 	public String getCp() {
@@ -92,6 +93,14 @@ public class CommandModel {
 		this.cp = cp;
 	}
 
+	public String getRaw() {
+		return raw;
+	}
+
+	public void setRaw(String raw) {
+		this.raw = raw;
+	}
+
 	public String getCpValue(String key) {
 		if (_cpMap == null) {
 			_cpMap = this.parseCp(cp);
@@ -99,11 +108,15 @@ public class CommandModel {
 		return _cpMap.get(key);
 	}
 
+	public void setCpValue(String key, String value) {
+		if (_cpMap == null) {
+			_cpMap = new HashMap<>();
+		}
+		_cpMap.put(key, value);
+	}
+
 	private Map<String, String> parseCp(String cp) {
 		Map<String, String> result = new HashMap<String, String>();
-		if (!cp.startsWith("&&") || !cp.endsWith("&&")) {
-			throw new IllegalArgumentException("CP format error.");
-		}
 		String[] tokens = StringUtils.split(StringUtils.substring(cp, 2, -2), ';');
 		for (String token : tokens) {
 			String[] kv = StringUtils.split(token, '=');
@@ -112,86 +125,24 @@ public class CommandModel {
 		return result;
 	}
 
-	public boolean isA() {
-		return (flag & A) != 0;
+	public String makeCpString() {
+		StringBuilder sb = new StringBuilder();
+		for (Map.Entry<String, String> entry : MapUtils.emptyIfNull(_cpMap).entrySet()) {
+			sb.append(entry.getKey()).append('=').append(entry.getValue()).append(';');
+		}
+		if (StringUtils.isNotEmpty(sb)) {
+			sb.deleteCharAt(sb.length() - 1);
+		}
+		return sb.toString();
 	}
 
-	public boolean isD() {
-		return (flag & D) != 0;
-	}
-
-	public static CommandModel create(String dataString) {
-		CommandModel cmd = new CommandModel();
-		String tmp;
-		int fromIndex = 0;
-		int nextIndex;
-		nextIndex = dataString.indexOf(';', fromIndex);
-		tmp = dataString.substring(fromIndex, nextIndex);
-		if (!StringUtils.startsWithIgnoreCase(tmp, "QN=")) {
-			throw new IllegalArgumentException("QN not found.");
-		}
-		String qn = tmp.substring(3);
-		cmd.setQn(qn);
-		fromIndex = nextIndex + 1;
-		nextIndex = dataString.indexOf(';', fromIndex);
-		tmp = dataString.substring(fromIndex, nextIndex);
-		if (!StringUtils.startsWithIgnoreCase(tmp, "ST=")) {
-			throw new IllegalArgumentException("ST not found.");
-		}
-		String st = tmp.substring(3);
-		cmd.setSt(st);
-		fromIndex = nextIndex + 1;
-		nextIndex = dataString.indexOf(';', fromIndex);
-		tmp = dataString.substring(fromIndex, nextIndex);
-		if (!StringUtils.startsWithIgnoreCase(tmp, "CN=")) {
-			throw new IllegalArgumentException("CN not found.");
-		}
-		String cn = tmp.substring(3);
-		cmd.setCn(cn);
-		fromIndex = nextIndex + 1;
-		nextIndex = dataString.indexOf(';', fromIndex);
-		tmp = dataString.substring(fromIndex, nextIndex);
-		if (!StringUtils.startsWithIgnoreCase(tmp, "PW=")) {
-			throw new IllegalArgumentException("PW not found.");
-		}
-		String pw = tmp.substring(3);
-		cmd.setPw(pw);
-		fromIndex = nextIndex + 1;
-		nextIndex = dataString.indexOf(';', fromIndex);
-		tmp = dataString.substring(fromIndex, nextIndex);
-		if (!StringUtils.startsWithIgnoreCase(tmp, "MN=")) {
-			throw new IllegalArgumentException("MN not found.");
-		}
-		cmd.setMn(tmp.substring(3));
-		fromIndex = nextIndex + 1;
-		nextIndex = dataString.indexOf(';', fromIndex);
-		tmp = dataString.substring(fromIndex, nextIndex);
-		if (!StringUtils.startsWithIgnoreCase(tmp, "FLAG=")) {
-			throw new IllegalArgumentException("FLAG not found.");
-		}
-		cmd.setFlag(Byte.parseByte(tmp.substring(5)));
-		fromIndex = nextIndex + 1;
-		if (cmd.isD()) {
-			nextIndex = dataString.indexOf(';', fromIndex);
-			tmp = dataString.substring(fromIndex, nextIndex);
-			if (!StringUtils.startsWithIgnoreCase(tmp, "PNUM=")) {
-				throw new IllegalArgumentException("PNUM not found.");
-			}
-			cmd.setPnum(Integer.parseInt(tmp.substring(5)));
-			fromIndex = nextIndex + 1;
-			nextIndex = dataString.indexOf(';', fromIndex);
-			tmp = dataString.substring(fromIndex, nextIndex);
-			if (!StringUtils.startsWithIgnoreCase(tmp, "PNO=")) {
-				throw new IllegalArgumentException("PNO not found.");
-			}
-			cmd.setPno(Integer.parseInt(tmp.substring(4)));
-			fromIndex = nextIndex + 1;
-		}
-		tmp = dataString.substring(fromIndex);
-		if (!StringUtils.startsWithIgnoreCase(tmp, "CP=")) {
-			throw new IllegalArgumentException("CP not found.");
-		}
-		cmd.setCp(tmp.substring(3));
-		return cmd;
+	public CommandModel createResCommand() {
+		CommandModel res = new CommandModel();
+		res.setQn(DateFormatUtils.format(new Date(), "YYYYMMddHHmmss"));
+		res.setSt(this.getSt());
+		res.setPw(this.getPw());
+		res.setMn(this.getMn());
+		res.setFlag("0");
+		return res;
 	}
 }

@@ -7,7 +7,12 @@
 		<property name="handlers">
 			<list>
 				<bean class="com.apr7.sponge.protocol.knt2014.server.command.CN2011CommandHandler" />
+				<bean class="com.apr7.sponge.protocol.knt2014.server.command.CN2021CommandHandler" />
+				<bean class="com.apr7.sponge.protocol.knt2014.server.command.CN2051CommandHandler" />
+				<bean class="com.apr7.sponge.protocol.knt2014.server.command.CN2072CommandHandler" />
+				<bean class="com.apr7.sponge.protocol.knt2014.server.command.CN2081CommandHandler" />
 				<bean class="com.apr7.sponge.protocol.knt2014.server.command.CN8011CommandHandler" />
+				<bean class="com.apr7.sponge.protocol.knt2014.server.command.CN8013CommandHandler" />
 			</list>
 		</property>
 	</bean>

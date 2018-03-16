@@ -4,9 +4,9 @@ import com.apr7.sponge.protocol.knt2014.CommandModel;
 
 import io.netty.channel.ChannelHandlerContext;
 
-public class CN2011CommandHandler implements Knt2014CommandHandler {
+public class CN8013CommandHandler implements Knt2014CommandHandler {
 
-	public static final String CN = "2011";
+	public static final String CN = "8013";
 
 	@Override
 	public void doProcess(ChannelHandlerContext ctx, CommandModel cmd) {

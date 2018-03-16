@@ -9,10 +9,10 @@ import com.apr7.sponge.protocol.knt2014.server.command.Knt2014CommandHandlerFact
 
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
+import io.netty.channel.SimpleChannelInboundHandler;
 
 @Sharable
-public class ServerHandler extends ChannelInboundHandlerAdapter {
+public class ServerHandler extends SimpleChannelInboundHandler<CommandModel> {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(ServerHandler.class);
 
@@ -23,34 +23,14 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	@Override
-	public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-		String request = (String) msg;
-		if (!request.startsWith("##")) {
-			LOGGER.error("error command: {}", request);
-			return;
-		}
-		int dataLength = Integer.parseInt(request.substring(2, 6));
-		String dataString = request.substring(6, 6 + dataLength);
-		// String crc16 = request.substring(6 + dataLength);
-		// if (!StringUtils.equalsIgnoreCase(crc16, CRC16.checkout(dataString)))
-		// {
-		// LOGGER.error("error crc checkout: {}", request);
-		// return;
-		// }
-		CommandModel cmd = CommandModel.create(dataString);
-		Knt2014CommandHandler handler = commandHandlerFactory.getHandler(cmd);
+	public void channelRead0(ChannelHandlerContext ctx, CommandModel msg) throws Exception {
+		Knt2014CommandHandler handler = commandHandlerFactory.getHandler(msg);
 		if (handler == null) {
-			LOGGER.error("command not support: {}", request);
+			LOGGER.error("command not support: {}", msg.getRaw());
 			return;
 		}
-		LOGGER.debug("execute command: {}", request);
-		handler.doProcess(ctx, cmd);
-	}
-
-	@Override
-	public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-		super.channelReadComplete(ctx);
-//		ctx.channel().close();
+		LOGGER.debug("execute command: {}", msg.getRaw());
+		handler.doProcess(ctx, msg);
 	}
 
 	@Override
@@ -58,5 +38,4 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 		LOGGER.error(cause.toString(), cause);
 		ctx.close();
 	}
-
 }
