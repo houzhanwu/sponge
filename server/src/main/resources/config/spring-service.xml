@@ -10,14 +10,23 @@
 	<context:component-scan base-package="com.apr7.sponge.service" />
 
 	<bean class="com.apr7.sponge.service.protocol.ProtocolDataService">
-		<property name="protocolDataAdapters">
+		<property name="protocolRealtimeDataAdapters">
 			<list>
-				<bean class="com.apr7.sponge.service.protocol.ProtocolDataHjt212Adapter" />
-				<bean class="com.apr7.sponge.service.protocol.ProtocolDataKnt2014Adapter" />
+				<bean class="com.apr7.sponge.service.protocol.ProtocolRealtimeDataHjt212Adapter" />
+				<bean class="com.apr7.sponge.service.protocol.ProtocolRealtimeDataKnt2014Adapter" />
 			</list>
 		</property>
-		<property name="defaultProtocolDataAdapter">
-			<bean class="com.apr7.sponge.service.protocol.ProtocolDataDefaultAdapter" />
+		<property name="defaultProtocolRealtimeDataAdapter">
+			<bean class="com.apr7.sponge.service.protocol.ProtocolRealtimeDataDefaultAdapter" />
+		</property>
+		<property name="protocolHistoryDataAdapters">
+			<list>
+				<bean class="com.apr7.sponge.service.protocol.ProtocolHistoryDataHjt212Adapter" />
+				<bean class="com.apr7.sponge.service.protocol.ProtocolHistoryDataKnt2014Adapter" />
+			</list>
+		</property>
+		<property name="defaultProtocolHistoryDataAdapter">
+			<bean class="com.apr7.sponge.service.protocol.ProtocolHistoryDataDefaultAdapter" />
 		</property>
 	</bean>
 </beans>

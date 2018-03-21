@@ -8,8 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.model.Workshop;
 import com.apr7.sponge.model.param.WorkshopParam;
+import com.apr7.sponge.model.vo.PollutantVO;
 import com.apr7.sponge.model.vo.WorkshopVO;
 import com.apr7.sponge.service.WorkshopService;
 
@@ -58,5 +60,22 @@ public class WorkshopController {
 			workshopVOs.add(WorkshopVO.build(workshop));
 		}
 		return workshopVOs;
+	}
+
+	@RequestMapping("/pollutant/listall")
+	@ResponseBody
+	public List<PollutantVO> listAllPollutant(Long workshopId) {
+		List<Pollutant> pollutants = workshopService.listPollutantByWorkshopId(workshopId);
+		List<PollutantVO> pollutantVOs = new ArrayList<>(pollutants.size());
+		for (Pollutant pollutant : pollutants) {
+			pollutantVOs.add(PollutantVO.build(pollutant));
+		}
+		return pollutantVOs;
+	}
+
+	@RequestMapping("/pollutant/delete")
+	@ResponseBody
+	public void deletePollutant(Long workshopId, Long pollutantId) {
+		workshopService.deletePollutantByWorkshopId(workshopId, pollutantId);
 	}
 }

@@ -6,9 +6,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.apr7.sponge.constants.DataProtocolEnum;
 import com.apr7.sponge.model.Pollutant;
 
-public interface ProtocolDataAdapterInter {
+public interface ProtocolHistoryDataAdapterInter {
 
-	JSONObject buildDataSet(List<Pollutant> pollutants, String rtdData, String statusData);
+	JSONObject buildDataSet(List<Pollutant> pollutants, String data);
 
 	DataProtocolEnum getDataProtocol();
 }

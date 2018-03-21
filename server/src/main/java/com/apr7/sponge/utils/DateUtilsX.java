@@ -28,4 +28,10 @@ public class DateUtilsX {
 			return new Date(todayZero.getTime() + timePoint);
 		}
 	}
+
+	public static int getYear(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar.get(Calendar.YEAR);
+	}
 }

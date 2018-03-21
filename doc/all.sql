@@ -56,7 +56,7 @@ insert  into `T_AUTH_MODULE`(`FID`,`FNAME`,`FKEY`,`FGROUP`,`FORDER`) values
 (6,'修改角色配置','edit_role',4,2),
 (7,'查看企业信息','company',5,1),
 (8,'修改企业信息','edit_company',5,2),
-(9,'修改企业污染物配置','edit_company_pollutant',3,3);
+(9,'修改车间污染物配置','edit_workshop_pollutant',3,3);
 
 /*Table structure for table `T_AUTH_MODULE_GROUP` */
 
@@ -99,6 +99,7 @@ insert  into `T_AUTH_MODULE_RESOURCE_MAPPING`(`FMODULE_ID`,`FRESOURCE_ID`) value
 (2,6),
 (2,7),
 (2,35),
+(2,38),
 (3,8),
 (4,9),
 (4,10),
@@ -140,7 +141,7 @@ CREATE TABLE `T_AUTH_RESOURCE` (
   `FNAME` varchar(32) NOT NULL,
   `FPATH` varchar(128) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_RESOURCE` */
 
@@ -180,8 +181,9 @@ insert  into `T_AUTH_RESOURCE`(`FID`,`FNAME`,`FPATH`) values
 (33,'修改车间','/workshop/update'),
 (34,'查询车间','/workshop/get'),
 (35,'获取企业监控中的污染物列表','/company/pollutant/listshow'),
-(36,'查看企业污染物列表','/company/pollutant/listall'),
-(37,'删除企业污染物','/company/pollutant/delete');
+(36,'查看车间污染物列表','/workshop/pollutant/listall'),
+(37,'删除车间污染物','/workshop/pollutant/delete'),
+(38,'导出历史数据','/data/history/export');
 
 /*Table structure for table `T_AUTH_ROLE` */
 
@@ -300,23 +302,6 @@ insert  into `T_COMPANY`(`FID`,`FNAME`,`FAREA_ID`) values
 (9,'工厂9',1),
 (10,'工厂10',2);
 
-/*Table structure for table `T_COMPANY_POLLUTANT_MAPPING` */
-
-DROP TABLE IF EXISTS `T_COMPANY_POLLUTANT_MAPPING`;
-
-CREATE TABLE `T_COMPANY_POLLUTANT_MAPPING` (
-  `FCOMPANY_ID` int(10) unsigned NOT NULL,
-  `FPOLLUTANT_ID` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`FCOMPANY_ID`,`FPOLLUTANT_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-/*Data for the table `T_COMPANY_POLLUTANT_MAPPING` */
-
-insert  into `T_COMPANY_POLLUTANT_MAPPING`(`FCOMPANY_ID`,`FPOLLUTANT_ID`) values 
-(1,1),
-(1,2),
-(1,3);
-
 /*Table structure for table `T_DEVICE` */
 
 DROP TABLE IF EXISTS `T_DEVICE`;
@@ -333,7 +318,7 @@ CREATE TABLE `T_DEVICE` (
 /*Data for the table `T_DEVICE` */
 
 insert  into `T_DEVICE`(`FID`,`FMN`,`FWORKSHOP_ID`) values 
-(1,'66666660000111',1),
+(1,'26807585000028',1),
 (2,'66666660000112',2),
 (3,'66666660000113',3),
 (4,'66666660000114',4),
@@ -348,20 +333,61 @@ CREATE TABLE `T_HISTORY_DATA` (
   `FWORKSHOP_ID` int(10) unsigned NOT NULL COMMENT '车间ID',
   `FDATETIME` datetime NOT NULL COMMENT '记录时间',
   `FCOMPANY_ID` int(10) unsigned NOT NULL COMMENT '企业ID',
-  `FRTD_DATA` text NOT NULL COMMENT '数值型数据',
-  `FSTATUS_DATA` text NOT NULL COMMENT '状态型数据',
+  `FDATA` text NOT NULL COMMENT '数值型数据',
   `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本',
   PRIMARY KEY (`FID`),
-  UNIQUE KEY `UDX_DATETIME_COMPANYID_WORKSHOPID` (`FDATETIME`,`FCOMPANY_ID`,`FWORKSHOP_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+  UNIQUE KEY `UDX_COMPANYID_DATETIME_WORKSHOPID` (`FCOMPANY_ID`,`FDATETIME`,`FWORKSHOP_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_HISTORY_DATA` */
 
-insert  into `T_HISTORY_DATA`(`FID`,`FWORKSHOP_ID`,`FDATETIME`,`FCOMPANY_ID`,`FRTD_DATA`,`FSTATUS_DATA`,`FDATA_PROTOCOL`) values 
-(1,1,'2018-01-07 01:40:00',1,'{\"ph\":7,\"emissionLoad\":100.99}','',1),
-(2,1,'2018-01-07 01:45:00',1,'{\"ph\":7.1,\"emissionLoad\":100.1}','',1),
-(3,2,'2018-01-14 01:50:00',1,'{\"ph\":6.9,\"emissionLoad\":109.1}','',1),
-(4,3,'2018-01-14 02:05:00',2,'{\"ph\":7,\"emissionLoad\":100}','',1);
+insert  into `T_HISTORY_DATA`(`FID`,`FWORKSHOP_ID`,`FDATETIME`,`FCOMPANY_ID`,`FDATA`,`FDATA_PROTOCOL`) values 
+(1,1,'2018-01-07 01:40:00',1,'{\"ph\":7,\"emissionLoad\":100.99}',1),
+(2,1,'2018-01-07 01:45:00',1,'{\"ph\":7.1,\"emissionLoad\":100.1}',1),
+(3,2,'2018-01-14 01:50:00',1,'{\"ph\":6.9,\"emissionLoad\":109.1}',1),
+(4,3,'2018-01-14 02:05:00',2,'{\"ph\":7,\"emissionLoad\":100}',1),
+(5,1,'2018-02-13 12:05:00',1,'DataTime=20180213120500;001-Min=6.7300,001-Avg=6.7407,001-Max=6.7545;B01-Min=0.0000,B01-Avg=0.0000,B01-Max=0.0000;ZH011-RS=0.00;ZH031-RS=0.00;CW011-RS=0.00;B91-Min=0.0000,B91-Avg=0.0000,B91-Max=0.0000',2);
+
+/*Table structure for table `T_HISTORY_DATA_2018` */
+
+DROP TABLE IF EXISTS `T_HISTORY_DATA_2018`;
+
+CREATE TABLE `T_HISTORY_DATA_2018` (
+  `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `FWORKSHOP_ID` int(10) unsigned NOT NULL COMMENT '车间ID',
+  `FDATETIME` datetime NOT NULL COMMENT '记录时间',
+  `FCOMPANY_ID` int(10) unsigned NOT NULL COMMENT '企业ID',
+  `FDATA` text NOT NULL COMMENT '数值型数据',
+  `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本',
+  PRIMARY KEY (`FID`),
+  UNIQUE KEY `UDX_COMPANYID_DATETIME_WORKSHOPID` (`FCOMPANY_ID`,`FDATETIME`,`FWORKSHOP_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_HISTORY_DATA_2018` */
+
+insert  into `T_HISTORY_DATA_2018`(`FID`,`FWORKSHOP_ID`,`FDATETIME`,`FCOMPANY_ID`,`FDATA`,`FDATA_PROTOCOL`) values 
+(1,1,'2018-01-07 01:40:00',1,'{\"ph\":7,\"emissionLoad\":100.99}',1),
+(2,1,'2018-01-07 01:45:00',1,'{\"ph\":7.1,\"emissionLoad\":100.1}',1),
+(3,2,'2018-01-14 01:50:00',1,'{\"ph\":6.9,\"emissionLoad\":109.1}',1),
+(4,3,'2018-01-14 02:05:00',2,'{\"ph\":7,\"emissionLoad\":100}',1),
+(5,1,'2018-02-13 12:05:00',1,'DataTime=20180213120500;001-Min=6.7300,001-Avg=6.7407,001-Max=6.7545;B01-Min=0.0000,B01-Avg=0.0000,B01-Max=0.0000;ZH011-RS=0.00;ZH031-RS=0.00;CW011-RS=0.00;B91-Min=0.0000,B91-Avg=0.0000,B91-Max=0.0000',2);
+
+/*Table structure for table `T_HISTORY_DATA_2019` */
+
+DROP TABLE IF EXISTS `T_HISTORY_DATA_2019`;
+
+CREATE TABLE `T_HISTORY_DATA_2019` (
+  `FID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `FWORKSHOP_ID` int(10) unsigned NOT NULL COMMENT '车间ID',
+  `FDATETIME` datetime NOT NULL COMMENT '记录时间',
+  `FCOMPANY_ID` int(10) unsigned NOT NULL COMMENT '企业ID',
+  `FDATA` text NOT NULL COMMENT '数值型数据',
+  `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本',
+  PRIMARY KEY (`FID`),
+  UNIQUE KEY `UDX_COMPANYID_DATETIME_WORKSHOPID` (`FCOMPANY_ID`,`FDATETIME`,`FWORKSHOP_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_HISTORY_DATA_2019` */
 
 /*Table structure for table `T_POLLUTANT` */
 
@@ -375,7 +401,7 @@ CREATE TABLE `T_POLLUTANT` (
   `FORDER` smallint(6) NOT NULL,
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_ORDER` (`FORDER`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
 
 /*Data for the table `T_POLLUTANT` */
 
@@ -383,7 +409,10 @@ insert  into `T_POLLUTANT`(`FID`,`FNAME`,`FTYPE`,`FSHOW`,`FORDER`) values
 (1,'pH','RTD',1,1),
 (2,'排放量(m³/h)','RTD',1,2),
 (3,'生产用水量(m³/h)','RTD',0,4),
-(4,'提升泵','STATUS',1,5);
+(4,'提升泵','STATUS',1,5),
+(5,'压滤机','STATUS',1,6),
+(6,'冰机/冷却塔','STATUS',1,7),
+(7,'进水瞬时流量','RTD',1,8);
 
 /*Table structure for table `T_POLLUTANT_MAPPING` */
 
@@ -401,10 +430,13 @@ CREATE TABLE `T_POLLUTANT_MAPPING` (
 /*Data for the table `T_POLLUTANT_MAPPING` */
 
 insert  into `T_POLLUTANT_MAPPING`(`FPOLLUTANT_ID`,`FFIELD_KEY_HJT212`,`FFIELD_KEY_KNT2014`) values 
-(1,'ph','ph'),
-(2,'emissionLoad','emissionLoad'),
+(1,'ph','001'),
+(2,'emissionLoad','B01'),
 (3,NULL,NULL),
-(4,NULL,NULL);
+(4,NULL,'ZH011'),
+(5,NULL,'ZH031'),
+(6,NULL,'CW011'),
+(7,NULL,'B91');
 
 /*Table structure for table `T_REALTIME_DATA` */
 
@@ -422,7 +454,7 @@ CREATE TABLE `T_REALTIME_DATA` (
 /*Data for the table `T_REALTIME_DATA` */
 
 insert  into `T_REALTIME_DATA`(`FWORKSHOP_ID`,`FRTD_DATA`,`FSTATUS_DATA`,`FDATA_PROTOCOL`,`FLMODIFY`) values 
-(1,'{\"ph\":7,\"emissionLoad\":100.99}','',1,'2018-01-03 21:54:15'),
+(1,'DataTime=20180213120047;001-Rtd=6.7375,001-Flag=N;B01-Rtd=0.0000,B01-Flag=N;B91-Rtd=0.0000,B91-Flag=D','DataTime=20180213120047;ZH011-RS=0;ZH031-RS=0;CW011-RS=0',2,'2018-02-13 12:00:47'),
 (2,'{\"ph\":7.1,\"emissionLoad\":100.1}','',1,'2018-01-13 02:57:05');
 
 /*Table structure for table `T_WORKSHOP` */
@@ -441,11 +473,31 @@ CREATE TABLE `T_WORKSHOP` (
 /*Data for the table `T_WORKSHOP` */
 
 insert  into `T_WORKSHOP`(`FID`,`FNAME`,`FCOMPANY_ID`,`FREMARKS`) values 
-(1,'名称101',1,'Hi'),
+(1,'车间101',1,'Hi'),
 (2,'车间102',1,NULL),
 (3,'车间103',2,NULL),
 (4,'车间104',2,NULL),
 (6,'车间301',3,'--');
+
+/*Table structure for table `T_WORKSHOP_POLLUTANT_MAPPING` */
+
+DROP TABLE IF EXISTS `T_WORKSHOP_POLLUTANT_MAPPING`;
+
+CREATE TABLE `T_WORKSHOP_POLLUTANT_MAPPING` (
+  `FWORKSHOP_ID` int(10) unsigned NOT NULL,
+  `FPOLLUTANT_ID` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`FWORKSHOP_ID`,`FPOLLUTANT_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `T_WORKSHOP_POLLUTANT_MAPPING` */
+
+insert  into `T_WORKSHOP_POLLUTANT_MAPPING`(`FWORKSHOP_ID`,`FPOLLUTANT_ID`) values 
+(1,1),
+(1,2),
+(1,4),
+(1,5),
+(1,6),
+(1,7);
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;

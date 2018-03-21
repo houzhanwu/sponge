@@ -1,12 +1,15 @@
 package com.apr7.sponge.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.apr7.sponge.dao.CompanyDao;
-import com.apr7.sponge.dao.CompanyPollutantMappingDao;
+import com.apr7.sponge.dao.WorkshopDao;
+import com.apr7.sponge.dao.WorkshopPollutantMappingDao;
 import com.apr7.sponge.model.Company;
 import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.utils.MultipageList;
@@ -17,7 +20,9 @@ public class CompanyService {
 	@Autowired
 	private CompanyDao companyDao;
 	@Autowired
-	private CompanyPollutantMappingDao companyPollutantMappingDao;
+	private WorkshopDao workshopDao;
+	@Autowired
+	private WorkshopPollutantMappingDao workshopPollutantMappingDao;
 
 	public void addCompany(Company company) {
 		companyDao.addCompany(company);
@@ -48,10 +53,10 @@ public class CompanyService {
 	}
 
 	public List<Pollutant> listPollutantByCompanyId(Long companyId) {
-		return companyPollutantMappingDao.listPollutantByCompanyId(companyId);
-	}
-
-	public void deletePollutantByCompanyId(Long companyId, Long pollutantId) {
-		companyPollutantMappingDao.deletePollutantByCompanyId(companyId, pollutantId);
+		List<Long> workshopIds = workshopDao.listWorkshopIdsByCompanyId(companyId);
+		if (CollectionUtils.isEmpty(workshopIds)) {
+			return new ArrayList<>();
+		}
+		return workshopPollutantMappingDao.listPollutantByWorkshopIds(workshopIds);
 	}
 }

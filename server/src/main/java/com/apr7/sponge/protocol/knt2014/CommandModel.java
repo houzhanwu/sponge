@@ -1,5 +1,6 @@
 package com.apr7.sponge.protocol.knt2014;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -101,6 +102,13 @@ public class CommandModel {
 		this.raw = raw;
 	}
 
+	public Map<String, String> getCpValuesMap() {
+		if (_cpMap == null) {
+			_cpMap = this.parseCp(cp);
+		}
+		return Collections.unmodifiableMap(_cpMap);
+	}
+
 	public String getCpValue(String key) {
 		if (_cpMap == null) {
 			_cpMap = this.parseCp(cp);
@@ -117,10 +125,13 @@ public class CommandModel {
 
 	private Map<String, String> parseCp(String cp) {
 		Map<String, String> result = new HashMap<String, String>();
-		String[] tokens = StringUtils.split(StringUtils.substring(cp, 2, -2), ';');
+		String[] tokens = StringUtils.split(cp, ';');
 		for (String token : tokens) {
-			String[] kv = StringUtils.split(token, '=');
-			result.put(kv[0].toUpperCase(), kv[1]);
+			String[] fields = StringUtils.split(token, ',');
+			for (String field : fields) {
+				String[] kv = StringUtils.split(field, '=');
+				result.put(kv[0], kv[1]);
+			}
 		}
 		return result;
 	}

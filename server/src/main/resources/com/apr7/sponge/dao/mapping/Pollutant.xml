@@ -83,4 +83,15 @@
 	<select id="getMaxOrder" resultType="int">
 		SELECT IFNULL(MAX(FORDER),0)+1 FROM T_POLLUTANT
 	</select>
+
+	<select id="listPollutantIdsByFieldKeys" resultType="java.lang.Long">
+		SELECT
+			FPOLLUTANT_ID
+		FROM T_POLLUTANT_MAPPING
+		WHERE
+			${fieldName} IN
+			<foreach collection="fieldKeys" item="item" separator="," open="(" close=")">
+				#{item}
+			</foreach>
+	</select>
 </mapper>

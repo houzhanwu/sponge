@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.apr7.sponge.dao.WorkshopPollutantMappingDao">
+	<insert id="addWorkshopPollutantMappings">
+		INSERT IGNORE INTO T_WORKSHOP_POLLUTANT_MAPPING
+		VALUES <foreach collection="pollutantIds" item="item" separator=",">
+		(#{workshopId}, #{item})
+		</foreach>
+	</insert>
+
+	<select id="listPollutantByWorkshopIds" resultType="com.apr7.sponge.model.Pollutant">
+		SELECT
+			  p.FID id
+			, p.FNAME name
+			, p.FTYPE type
+			, p.FID `mapping.pollutantId`
+			, pm.FFIELD_KEY_HJT212 `mapping.fieldKeyHjt212`
+			, pm.FFIELD_KEY_KNT2014 `mapping.fieldKeyKnt2014`
+		FROM T_WORKSHOP_POLLUTANT_MAPPING cpm
+		JOIN T_POLLUTANT p
+		ON p.FID = cpm.FPOLLUTANT_ID
+		LEFT JOIN T_POLLUTANT_MAPPING pm
+		ON pm.FPOLLUTANT_ID = p.FID
+		WHERE
+			cpm.FWORKSHOP_ID IN
+			<foreach collection="workshopIds" item="item" separator="," open="(" close=")">
+				#{item}
+			</foreach>
+		ORDER BY
+			p.FORDER, p.FID
+	</select>
+
+	<delete id="deletePollutantByWorkshopId">
+		DELETE FROM T_WORKSHOP_POLLUTANT_MAPPING WHERE FWORKSHOP_ID = #{workshopId} AND FPOLLUTANT_ID = #{pollutantId}
+	</delete>
+</mapper>

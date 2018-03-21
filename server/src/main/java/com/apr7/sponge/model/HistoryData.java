@@ -7,8 +7,7 @@ public class HistoryData {
 	private Long workshopId;
 	private Date dateTime;
 	private Long companyId;
-	private String rtdData;
-	private String statusData;
+	private String data;
 	private Integer dataProtocol;
 
 	public Long getWorkshopId() {
@@ -35,20 +34,12 @@ public class HistoryData {
 		this.companyId = companyId;
 	}
 
-	public String getRtdData() {
-		return rtdData;
+	public String getData() {
+		return data;
 	}
 
-	public void setRtdData(String rtdData) {
-		this.rtdData = rtdData;
-	}
-
-	public String getStatusData() {
-		return statusData;
-	}
-
-	public void setStatusData(String statusData) {
-		this.statusData = statusData;
+	public void setData(String data) {
+		this.data = data;
 	}
 
 	public Integer getDataProtocol() {

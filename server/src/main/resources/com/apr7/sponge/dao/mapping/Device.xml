@@ -21,4 +21,23 @@
 	<select id="getMnByWorkshopId" resultType="String">
 		SELECT FMN FROM T_DEVICE WHERE FWORKSHOP_ID = #{workshopId}
 	</select>
+
+	<select id="getWorkshopIdByMn" resultType="java.lang.Long">
+		SELECT FWORKSHOP_ID FROM T_DEVICE WHERE FMN = #{mn}
+	</select>
+
+	<select id="getWorkshopByMn" resultType="com.apr7.sponge.model.Workshop">
+		SELECT
+			  w.FID id
+			, w.FNAME name
+			, w.FCOMPANY_ID companyId
+			, w.FREMARKS remarks
+		FROM T_DEVICE d
+		JOIN
+			T_WORKSHOP w
+		ON
+			w.FID = d.FWORKSHOP_ID
+		WHERE
+			d.FMN = #{mn}
+	</select>
 </mapper>

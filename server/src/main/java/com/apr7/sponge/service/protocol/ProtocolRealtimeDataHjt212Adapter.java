@@ -2,11 +2,13 @@ package com.apr7.sponge.service.protocol;
 
 import java.util.List;
 
+import org.apache.commons.collections4.MapUtils;
+
 import com.alibaba.fastjson.JSONObject;
 import com.apr7.sponge.constants.DataProtocolEnum;
 import com.apr7.sponge.model.Pollutant;
 
-public class ProtocolDataKnt2014Adapter implements ProtocolDataAdapterInter {
+public class ProtocolRealtimeDataHjt212Adapter implements ProtocolRealtimeDataAdapterInter {
 
 	@Override
 	public JSONObject buildDataSet(List<Pollutant> pollutants, String rtdData, String statusData) {
@@ -14,16 +16,17 @@ public class ProtocolDataKnt2014Adapter implements ProtocolDataAdapterInter {
 		JSONObject rtdJson = JSONObject.parseObject(rtdData);
 		JSONObject statusJson = JSONObject.parseObject(statusData);
 		for (Pollutant pollutant : pollutants) {
-			String value;
+			String value = null;
 			switch (pollutant.getType()) {
 			case RTD:
-				value = rtdJson.getString(pollutant.getMapping().getFieldKeyKnt2014());
+				if (MapUtils.isNotEmpty(rtdJson)) {
+					value = rtdJson.getString(pollutant.getMapping().getFieldKeyHjt212());
+				}
 				break;
 			case STATUS:
-				value = statusJson.getString(pollutant.getMapping().getFieldKeyKnt2014());
-				break;
-			default:
-				value = null;
+				if (MapUtils.isNotEmpty(statusJson)) {
+					value = statusJson.getString(pollutant.getMapping().getFieldKeyHjt212());
+				}
 				break;
 			}
 			dataSet.put("_" + pollutant.getId(), value);
@@ -33,7 +36,7 @@ public class ProtocolDataKnt2014Adapter implements ProtocolDataAdapterInter {
 
 	@Override
 	public DataProtocolEnum getDataProtocol() {
-		return DataProtocolEnum.KNT2014;
+		return DataProtocolEnum.HJT212;
 	}
 
 }

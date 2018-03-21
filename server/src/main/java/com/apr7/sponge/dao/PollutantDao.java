@@ -30,4 +30,6 @@ public interface PollutantDao {
 	List<Pollutant> listPollutant(@Param("show") Boolean show);
 
 	int getMaxOrder();
+
+	List<Long> listPollutantIdsByFieldKeys(@Param("fieldName") String fieldName, @Param("fieldKeys") List<String> fieldKeys);
 }

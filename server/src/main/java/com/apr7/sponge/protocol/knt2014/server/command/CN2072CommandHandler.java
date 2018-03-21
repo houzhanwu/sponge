@@ -10,7 +10,15 @@ public class CN2072CommandHandler implements Knt2014CommandHandler {
 
 	@Override
 	public void doProcess(ChannelHandlerContext ctx, CommandModel cmd) {
-		ctx.close();
+		doResponse(ctx, cmd);
+	}
+
+	private void doResponse(ChannelHandlerContext ctx, CommandModel cmd) {
+		CommandModel res = cmd.createResCommand();
+		res.setCn("9014");
+		res.setCpValue("QN", res.getQn());
+		res.setCpValue("CN", CN);
+		ctx.channel().writeAndFlush(res);
 	}
 
 	@Override

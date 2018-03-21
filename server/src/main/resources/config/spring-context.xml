@@ -5,6 +5,7 @@
 
 	<import resource="classpath*:/config/spring-mybatis.xml" />
 	<import resource="classpath*:/config/spring-service.xml" />
+	<import resource="classpath*:/config/spring-schedule.xml" />
 	<import resource="classpath*:/config/spring-protocol-hjt212.xml"/>
 	<import resource="classpath*:/config/spring-protocol-knt2014.xml"/>
 

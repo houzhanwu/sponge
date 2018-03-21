@@ -1,12 +1,15 @@
 package com.apr7.sponge.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.apr7.sponge.constants.DataProtocolEnum;
 import com.apr7.sponge.dao.PollutantDao;
 import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.utils.MapUtilsX;
@@ -53,5 +56,23 @@ public class PollutantService {
 
 	public List<Pollutant> listShowingPollutant() {
 		return pollutantDao.listPollutant(true);
+	}
+
+	public List<Long> listPollutantIdsByFieldKeys(DataProtocolEnum dataProtocol, List<String> fieldKeys) {
+		if (CollectionUtils.isEmpty(fieldKeys)) {
+			return new ArrayList<>();
+		}
+		String fieldName;
+		switch (dataProtocol) {
+		case HJT212:
+			fieldName = "FFIELD_KEY_HJT212";
+			break;
+		case KNT2014:
+			fieldName = "FFIELD_KEY_KNT2014";
+			break;
+		default:
+			throw new IllegalArgumentException();
+		}
+		return pollutantDao.listPollutantIdsByFieldKeys(fieldName, fieldKeys);
 	}
 }

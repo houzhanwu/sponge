@@ -52,4 +52,12 @@
 		WHERE
 			ws.FCOMPANY_ID = #{companyId}
 	</select>
+
+	<select id="listWorkshopIdsByCompanyId" resultType="java.lang.Long">
+		SELECT
+			FID
+		FROM T_WORKSHOP
+		WHERE
+			FCOMPANY_ID = #{companyId}
+	</select>
 </mapper>

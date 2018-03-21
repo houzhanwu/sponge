@@ -15,8 +15,8 @@ import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.model.param.CompanyParam;
 import com.apr7.sponge.model.vo.CompanyVO;
 import com.apr7.sponge.model.vo.PollutantSimpleVO;
-import com.apr7.sponge.model.vo.PollutantVO;
 import com.apr7.sponge.service.CompanyService;
+import com.apr7.sponge.service.WorkshopService;
 import com.apr7.sponge.utils.MultipageList;
 
 @Controller
@@ -24,6 +24,8 @@ import com.apr7.sponge.utils.MultipageList;
 public class CompanyController {
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private WorkshopService workshopService;
 
 	@RequestMapping("/add")
 	@ResponseBody
@@ -86,29 +88,17 @@ public class CompanyController {
 
 	@RequestMapping("/pollutant/listshow")
 	@ResponseBody
-	public List<PollutantSimpleVO> listShowPollutant(Long companyId) {
-		List<Pollutant> pollutants = companyService.listPollutantByCompanyId(companyId);
+	public List<PollutantSimpleVO> listShowPollutant(Long companyId, Long workshopId) {
+		List<Pollutant> pollutants;
+		if (workshopId != null) {
+			pollutants = workshopService.listPollutantByWorkshopId(workshopId);
+		} else {
+			pollutants = companyService.listPollutantByCompanyId(companyId);
+		}
 		List<PollutantSimpleVO> pollutantSimpleVOs = new ArrayList<>(pollutants.size());
 		for (Pollutant pollutant : pollutants) {
 			pollutantSimpleVOs.add(PollutantSimpleVO.build(pollutant));
 		}
 		return pollutantSimpleVOs;
-	}
-
-	@RequestMapping("/pollutant/listall")
-	@ResponseBody
-	public List<PollutantVO> listAllPollutant(Long companyId) {
-		List<Pollutant> pollutants = companyService.listPollutantByCompanyId(companyId);
-		List<PollutantVO> pollutantVOs = new ArrayList<>(pollutants.size());
-		for (Pollutant pollutant : pollutants) {
-			pollutantVOs.add(PollutantVO.build(pollutant));
-		}
-		return pollutantVOs;
-	}
-
-	@RequestMapping("/pollutant/delete")
-	@ResponseBody
-	public void deletePollutant(Long companyId, Long pollutantId) {
-		companyService.deletePollutantByCompanyId(companyId, pollutantId);
 	}
 }

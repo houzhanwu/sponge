@@ -35,7 +35,7 @@ public class RealTimeDataController {
 		List<RealTimeDataVO> data = new ArrayList<>(realTimeDatas.size());
 		for (RealTimeData realTimeData : realTimeDatas) {
 			DataProtocolEnum dataProtocolEnum = DataProtocolEnum.fromCode(realTimeData.getDataProtocol());
-			JSONObject dataSet = protocolDataService.buildDataSet(dataProtocolEnum, pollutants, realTimeData.getRtdData(), realTimeData.getStatusData());
+			JSONObject dataSet = protocolDataService.buildRealtimeDataSet(dataProtocolEnum, pollutants, realTimeData.getRtdData(), realTimeData.getStatusData());
 			RealTimeDataVO realTimeDataVO = new RealTimeDataVO();
 			realTimeDataVO.setCompanyName(realTimeData.getCompanyName());
 			realTimeDataVO.setWorkshopName(realTimeData.getWorkshopName());

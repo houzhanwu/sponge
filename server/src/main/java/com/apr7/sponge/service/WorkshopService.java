@@ -1,5 +1,6 @@
 package com.apr7.sponge.service;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.apr7.sponge.dao.DeviceDao;
 import com.apr7.sponge.dao.WorkshopDao;
+import com.apr7.sponge.dao.WorkshopPollutantMappingDao;
 import com.apr7.sponge.model.Device;
+import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.model.Workshop;
 
 @Service
@@ -17,6 +20,8 @@ public class WorkshopService {
 	private WorkshopDao workshopDao;
 	@Autowired
 	private DeviceDao deviceDao;
+	@Autowired
+	private WorkshopPollutantMappingDao workshopPollutantMappingDao;
 
 	@Transactional
 	public void addWorkshop(Workshop workshop, String deviceMn) {
@@ -52,11 +57,31 @@ public class WorkshopService {
 		return deviceDao.getMnByWorkshopId(workshopId);
 	}
 
+	public Long getWorkshopIdByDeviceMn(String deviceMn) {
+		return deviceDao.getWorkshopIdByMn(deviceMn);
+	}
+
+	public Workshop getWorkshopByDeviceMn(String deviceMn) {
+		return deviceDao.getWorkshopByMn(deviceMn);
+	}
+
 	public List<Workshop> listWorkshopNameByCompanyId(Long companyId) {
 		return workshopDao.listWorkshopByCompanyId(companyId);
 	}
 
 	public List<Workshop> listWorkshopByCompanyId(Long companyId) {
 		return workshopDao.listWorkshopByCompanyId(companyId);
+	}
+
+	public void addWorkshopPollutantMappings(Long workshopId, List<Long> pollutantIds) {
+		workshopPollutantMappingDao.addWorkshopPollutantMappings(workshopId, pollutantIds);
+	}
+
+	public List<Pollutant> listPollutantByWorkshopId(Long workshopId) {
+		return workshopPollutantMappingDao.listPollutantByWorkshopIds(Arrays.asList(workshopId));
+	}
+
+	public void deletePollutantByWorkshopId(Long workshopId, Long pollutantId) {
+		workshopPollutantMappingDao.deletePollutantByWorkshopId(workshopId, pollutantId);
 	}
 }

@@ -8,24 +8,23 @@ import com.alibaba.fastjson.JSONObject;
 import com.apr7.sponge.constants.DataProtocolEnum;
 import com.apr7.sponge.model.Pollutant;
 
-public class ProtocolDataHjt212Adapter implements ProtocolDataAdapterInter {
+public class ProtocolHistoryDataHjt212Adapter implements ProtocolHistoryDataAdapterInter {
 
 	@Override
-	public JSONObject buildDataSet(List<Pollutant> pollutants, String rtdData, String statusData) {
+	public JSONObject buildDataSet(List<Pollutant> pollutants, String data) {
 		JSONObject dataSet = new JSONObject();
-		JSONObject rtdJson = JSONObject.parseObject(rtdData);
-		JSONObject statusJson = JSONObject.parseObject(statusData);
+		JSONObject dataJson = JSONObject.parseObject(data);
 		for (Pollutant pollutant : pollutants) {
 			String value = null;
 			switch (pollutant.getType()) {
 			case RTD:
-				if (MapUtils.isNotEmpty(rtdJson)) {
-					value = rtdJson.getString(pollutant.getMapping().getFieldKeyHjt212());
+				if (MapUtils.isNotEmpty(dataJson)) {
+					value = dataJson.getString(pollutant.getMapping().getFieldKeyHjt212());
 				}
 				break;
 			case STATUS:
-				if (MapUtils.isNotEmpty(statusJson)) {
-					value = statusJson.getString(pollutant.getMapping().getFieldKeyHjt212());
+				if (MapUtils.isNotEmpty(dataJson)) {
+					value = dataJson.getString(pollutant.getMapping().getFieldKeyHjt212());
 				}
 				break;
 			}
