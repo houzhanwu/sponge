@@ -2,8 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.DeviceDao">
 	<insert id="addDevice">
-		INSERT INTO T_DEVICE (FID,FMN,FWORKSHOP_ID)
-		VALUES (#{workshopId},#{mn},#{workshopId})
+		INSERT INTO T_DEVICE (FID,FMN,FSTATUS,FWORKSHOP_ID,FIP,FPORT,FDATA_PROTOCOL)
+		VALUES (#{id},#{mn},#{status},#{workshopId},#{ip},#{port},#{dataProtocol})
 	</insert>
 
 	<delete id="deleteDeviceByWorkshopId">
@@ -13,10 +13,60 @@
 	<update id="updateDevice">
 		UPDATE T_DEVICE
 		SET
-			FMN = #{mn}
+			  FMN = #{mn}
+			, FSTATUS = #{status}
+			, FIP = #{ip}
+			, FPORT = #{port}
+			, FDATA_PROTOCOL = #{dataProtocol}
 		WHERE
 			FWORKSHOP_ID = #{workshopId}
 	</update>
+
+	<select id="listActiveDevice" resultType="com.apr7.sponge.model.Device">
+		SELECT
+			  FID id
+			, FMN mn
+			, FSTATUS status
+			, FWORKSHOP_ID workshopId
+			, FIP ip
+			, FPORT port
+			, FDATA_PROTOCOL dataProtocol
+		FROM
+			T_DEVICE
+		WHERE
+			FSTATUS = 1
+	</select>
+
+	<select id="getDeviceByWorkshopId" resultType="com.apr7.sponge.model.Device">
+		SELECT
+			  FID id
+			, FMN mn
+			, FSTATUS status
+			, FWORKSHOP_ID workshopId
+			, FIP ip
+			, FPORT port
+			, FDATA_PROTOCOL dataProtocol
+		FROM
+			T_DEVICE
+		WHERE
+			FWORKSHOP_ID = #{workshopId}
+	</select>
+
+	<select id="listDeviceByWorkshopIds" resultType="com.apr7.sponge.model.Device">
+		SELECT
+			  FID id
+			, FMN mn
+			, FSTATUS status
+			, FWORKSHOP_ID workshopId
+			, FIP ip
+			, FPORT port
+			, FDATA_PROTOCOL dataProtocol
+		FROM
+			T_DEVICE
+		WHERE
+			FWORKSHOP_ID IN
+			<foreach collection="workshopIds" item="item" separator="," open="(" close=")">#{item}</foreach>
+	</select>
 
 	<select id="getMnByWorkshopId" resultType="String">
 		SELECT FMN FROM T_DEVICE WHERE FWORKSHOP_ID = #{workshopId}

@@ -2,12 +2,14 @@ package com.apr7.sponge.web.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.apr7.sponge.model.Device;
 import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.model.Workshop;
 import com.apr7.sponge.model.param.WorkshopParam;
@@ -24,8 +26,9 @@ public class WorkshopController {
 	@RequestMapping("/add")
 	@ResponseBody
 	public void addWorkshop(WorkshopParam workshopParam) {
-		Workshop workshop = workshopParam.toModel();
-		workshopService.addWorkshop(workshop, workshopParam.getDeviceMn());
+		Workshop workshop = workshopParam.toWorkshopModel();
+		Device device = workshopParam.toDeviceModel();
+		workshopService.addWorkshop(workshop, device);
 	}
 
 	@RequestMapping("/delete")
@@ -37,17 +40,17 @@ public class WorkshopController {
 	@RequestMapping("/update")
 	@ResponseBody
 	public void updateWorkshop(WorkshopParam workshopParam) {
-		Workshop workshop = workshopParam.toModel();
-		workshopService.updateWorkshop(workshop, workshopParam.getDeviceMn());
+		Workshop workshop = workshopParam.toWorkshopModel();
+		Device device = workshopParam.toDeviceModel();
+		workshopService.updateWorkshop(workshop, device);
 	}
 
 	@RequestMapping("/get")
 	@ResponseBody
 	public WorkshopVO getWorkshop(Long workshopId) {
 		Workshop workshop = workshopService.getWorkshop(workshopId);
-		WorkshopVO workshopVO = WorkshopVO.build(workshop);
-		String deviceMn = workshopService.getDeviceMnByWorkshopId(workshopId);
-		workshopVO.setDeviceMn(deviceMn);
+		Device device = workshopService.getDeviceByWorkshopId(workshopId);
+		WorkshopVO workshopVO = WorkshopVO.build(workshop, device);
 		return workshopVO;
 	}
 
@@ -55,9 +58,14 @@ public class WorkshopController {
 	@ResponseBody
 	public List<WorkshopVO> listAllWorkshop(Long companyId) {
 		List<Workshop> workshops = workshopService.listWorkshopByCompanyId(companyId);
+		List<Long> workshopIds = new ArrayList<>(workshops.size());
+		for (Workshop workshop : workshops) {
+			workshopIds.add(workshop.getId());
+		}
+		Map<Long, Device> workshopIdsDevicesMap = workshopService.getDevicesByWorkshopIds(workshopIds);
 		List<WorkshopVO> workshopVOs = new ArrayList<WorkshopVO>(workshops.size());
 		for (Workshop workshop : workshops) {
-			workshopVOs.add(WorkshopVO.build(workshop));
+			workshopVOs.add(WorkshopVO.build(workshop, workshopIdsDevicesMap.get(workshop.getId())));
 		}
 		return workshopVOs;
 	}

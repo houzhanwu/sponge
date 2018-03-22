@@ -11,6 +11,8 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.LineBasedFrameDecoder;
+import io.netty.handler.codec.string.LineEncoder;
+import io.netty.handler.codec.string.LineSeparator;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.util.CharsetUtil;
 
@@ -36,6 +38,7 @@ public class KNT2014Server {
 				socketChannel.pipeline().addLast("lineBasedFrameDecoder", new LineBasedFrameDecoder(10 * 1024));
 				socketChannel.pipeline().addLast("stringDecoder", new StringDecoder(CharsetUtil.UTF_8));
 				socketChannel.pipeline().addLast("commandModelDecoder", new CommandModelDecoder());
+				socketChannel.pipeline().addLast("lineEncoder", new LineEncoder(LineSeparator.WINDOWS, CharsetUtil.UTF_8));
 				socketChannel.pipeline().addLast("commandModelEncoder", new CommandModelEncoder());
 				socketChannel.pipeline().addLast(serverHandler);
 			}

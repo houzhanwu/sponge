@@ -9,6 +9,8 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
+import com.apr7.sponge.utils.CRC16;
+
 public class CommandModel {
 	protected String qn;
 	protected String st;
@@ -92,6 +94,7 @@ public class CommandModel {
 
 	public void setCp(String cp) {
 		this.cp = cp;
+		_cpMap = null;
 	}
 
 	public String getRaw() {
@@ -127,6 +130,9 @@ public class CommandModel {
 		Map<String, String> result = new HashMap<String, String>();
 		String[] tokens = StringUtils.split(cp, ';');
 		for (String token : tokens) {
+			if (StringUtils.isEmpty(token)) {
+				continue;
+			}
 			String[] fields = StringUtils.split(token, ',');
 			for (String field : fields) {
 				String[] kv = StringUtils.split(field, '=');
@@ -155,5 +161,64 @@ public class CommandModel {
 		res.setMn(this.getMn());
 		res.setFlag("0");
 		return res;
+	}
+
+	@Override
+	public String toString() {
+		return CommandModel.encode(this);
+	}
+
+	public static String encode(CommandModel cmd) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("QN=").append(cmd.getQn()).append(';');
+		sb.append("ST=").append(cmd.getSt()).append(';');
+		sb.append("CN=").append(cmd.getCn()).append(';');
+		sb.append("PW=").append(cmd.getPw()).append(';');
+		sb.append("MN=").append(cmd.getMn()).append(';');
+		sb.append("Flag=").append(cmd.getFlag()).append(';');
+		sb.append("CP=").append("&&").append(cmd.makeCpString()).append("&&");
+		String dataString = sb.toString();
+		return "##" + String.format("%04d", dataString.length()) + dataString + CRC16.checkout(dataString);
+	}
+
+	public static CommandModel decode(String msg) {
+		if (!msg.startsWith("##")) {
+			throw new IllegalArgumentException("error command: " + msg);
+		}
+		int dataLength = Integer.parseInt(msg.substring(2, 6));
+		String dataString = msg.substring(6, 6 + dataLength);
+		String crc16 = msg.substring(6 + dataLength);
+		if (!StringUtils.equalsIgnoreCase(crc16, CRC16.checkout(dataString))) {
+			throw new IllegalArgumentException("error crc checkout: " + msg);
+		}
+		Map<String, String> cmdParam = new HashMap<>();
+		String[] tokens = StringUtils.splitByWholeSeparator(dataString, ";CP=&&");
+		String[] cmdParamtokens = StringUtils.split(tokens[0], ';');
+		for (String token : cmdParamtokens) {
+			String[] kv = StringUtils.split(token, '=');
+			cmdParam.put(kv[0].toUpperCase(), kv[1]);
+		}
+		CommandModel cmd = new CommandModel();
+		cmd.setRaw(msg);
+		cmd.setQn(cmdParam.get("QN"));
+		cmd.setSt(cmdParam.get("ST"));
+		cmd.setCn(cmdParam.get("CN"));
+		cmd.setPw(cmdParam.get("PW"));
+		cmd.setMn(cmdParam.get("MN"));
+		cmd.setFlag(cmdParam.get("FLAG"));
+		cmd.setSver(cmdParam.get("SVER"));
+		cmd.setSvdata(cmdParam.get("SVDATA"));
+		cmd.setCp(StringUtils.substring(tokens[1], 0, -2));
+		return cmd;
+	}
+
+	public static CommandModel createCommand(String cn) {
+		CommandModel cmd = new CommandModel();
+		cmd.setQn(DateFormatUtils.format(new Date(), "YYYYMMddHHmmss"));
+		cmd.setSt("32");
+		cmd.setCn(cn);
+		cmd.setPw("123456");
+		cmd.setFlag("0");
+		return cmd;
 	}
 }

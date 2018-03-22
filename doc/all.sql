@@ -308,8 +308,12 @@ DROP TABLE IF EXISTS `T_DEVICE`;
 
 CREATE TABLE `T_DEVICE` (
   `FID` int(10) unsigned NOT NULL,
-  `FMN` char(24) NOT NULL,
+  `FMN` char(24) NOT NULL COMMENT '设备MN',
+  `FSTATUS` tinyint(4) NOT NULL COMMENT '设备状态',
   `FWORKSHOP_ID` int(10) unsigned NOT NULL,
+  `FIP` varchar(15) NOT NULL COMMENT '设备IP',
+  `FPORT` int(11) NOT NULL COMMENT '设备端口',
+  `FDATA_PROTOCOL` smallint(5) unsigned NOT NULL COMMENT '数据协议版本',
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_MN` (`FMN`),
   KEY `IDX_WORKSHOPID` (`FWORKSHOP_ID`)
@@ -317,12 +321,12 @@ CREATE TABLE `T_DEVICE` (
 
 /*Data for the table `T_DEVICE` */
 
-insert  into `T_DEVICE`(`FID`,`FMN`,`FWORKSHOP_ID`) values 
-(1,'26807585000028',1),
-(2,'66666660000112',2),
-(3,'66666660000113',3),
-(4,'66666660000114',4),
-(6,'123456',6);
+insert  into `T_DEVICE`(`FID`,`FMN`,`FSTATUS`,`FWORKSHOP_ID`,`FIP`,`FPORT`,`FDATA_PROTOCOL`) values 
+(1,'26807585000028',1,1,'127.0.0.1',10002,2),
+(2,'66666660000112',0,2,'',0,1),
+(3,'66666660000113',0,3,'',0,0),
+(4,'66666660000114',0,4,'',0,1),
+(6,'123456',0,6,'',0,1);
 
 /*Table structure for table `T_HISTORY_DATA` */
 

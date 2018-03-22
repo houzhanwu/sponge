@@ -6,7 +6,6 @@ public class Workshop {
 	private String name;
 	private Long companyId;
 	private String remarks;
-	private String mn;
 
 	public Long getId() {
 		return id;
@@ -38,13 +37,5 @@ public class Workshop {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
-	}
-
-	public String getMn() {
-		return mn;
-	}
-
-	public void setMn(String mn) {
-		this.mn = mn;
 	}
 }

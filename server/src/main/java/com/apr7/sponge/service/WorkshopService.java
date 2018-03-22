@@ -1,7 +1,9 @@
 package com.apr7.sponge.service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,12 +26,8 @@ public class WorkshopService {
 	private WorkshopPollutantMappingDao workshopPollutantMappingDao;
 
 	@Transactional
-	public void addWorkshop(Workshop workshop, String deviceMn) {
+	public void addWorkshop(Workshop workshop, Device device) {
 		workshopDao.addWorkshop(workshop);
-		Device device = new Device();
-		device.setWorkshopId(workshop.getId());
-		device.setMn(deviceMn);
-		device.setWorkshopId(workshop.getId());
 		deviceDao.addDevice(device);
 	}
 
@@ -40,17 +38,29 @@ public class WorkshopService {
 	}
 
 	@Transactional
-	public void updateWorkshop(Workshop workshop, String deviceMn) {
+	public void updateWorkshop(Workshop workshop, Device device) {
 		workshopDao.updateWorkshop(workshop);
-		Device device = new Device();
-		device.setId(workshop.getId());
-		device.setMn(deviceMn);
-		device.setWorkshopId(workshop.getId());
 		deviceDao.updateDevice(device);
 	}
 
 	public Workshop getWorkshop(Long workshopId) {
 		return workshopDao.getWorkshop(workshopId);
+	}
+
+	public Device getDeviceByWorkshopId(Long workshopId) {
+		return deviceDao.getDeviceByWorkshopId(workshopId);
+	}
+
+	public Map<Long, Device> getDevicesByWorkshopIds(List<Long> workshopIds) {
+		Map<Long, Device> workshopIdsDevicesMap = new HashMap<>();
+		if (workshopIds.isEmpty()) {
+			return workshopIdsDevicesMap;
+		}
+		List<Device> devices = deviceDao.listDeviceByWorkshopIds(workshopIds);
+		for (Device device : devices) {
+			workshopIdsDevicesMap.put(device.getWorkshopId(), device);
+		}
+		return workshopIdsDevicesMap;
 	}
 
 	public String getDeviceMnByWorkshopId(Long workshopId) {
