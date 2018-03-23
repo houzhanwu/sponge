@@ -28,6 +28,8 @@ public class WorkshopService {
 	@Transactional
 	public void addWorkshop(Workshop workshop, Device device) {
 		workshopDao.addWorkshop(workshop);
+		device.setId(workshop.getId());
+		device.setWorkshopId(workshop.getId());
 		deviceDao.addDevice(device);
 	}
 

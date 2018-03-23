@@ -10,7 +10,7 @@ public class WorkshopParam {
 	private Long companyId;
 	private String remarks;
 	private String deviceMn;
-	private Integer deviceStatus;
+	private Integer deviceStatus = 0;
 	private String deviceIp;
 	private Integer devicePort;
 	private Integer deviceDataProtocol;

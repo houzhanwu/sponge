@@ -76,11 +76,10 @@ public class HistoryDataController {
 		}
 		int multiple = (int) Math.ceil(30D / workshops.size());
 		int size = multiple * workshops.size();
-		Date pageStartTime = DateUtilsX.ceil(DateUtils.addMinutes(endTime, page * multiple * -dataFrequencyMins), TimeUnit.MINUTES,
-				dataFrequencyMins);
-		Date pageEndTime = DateUtilsX.ceil(DateUtils.addMinutes(endTime, (page - 1) * multiple * -dataFrequencyMins), TimeUnit.MINUTES, dataFrequencyMins);
-		if (pageStartTime.before(startTime)) {
-			pageStartTime = DateUtilsX.ceil(startTime, TimeUnit.MINUTES, dataFrequencyMins);
+		Date pageEndTime = DateUtilsX.floor(DateUtils.addMinutes(endTime, (page - 1) * multiple * -dataFrequencyMins), TimeUnit.MINUTES, dataFrequencyMins);
+		Date pageStartTime = DateUtils.addMinutes(pageEndTime, multiple * -dataFrequencyMins);
+		if (!pageStartTime.after(startTime)) {
+			pageStartTime = DateUtils.addMinutes(DateUtilsX.ceil(startTime, TimeUnit.MINUTES, dataFrequencyMins), -dataFrequencyMins);
 		}
 		List<HistoryData> historyDatas = historyDataService.listHistoryDataByCompanyId(companyId, workshopId, pageStartTime, pageEndTime);
 		List<Pollutant> pollutants = pollutantService.listShowingPollutant();
@@ -90,8 +89,7 @@ public class HistoryDataController {
 		if (it.hasNext()) {
 			historyData = it.next();
 		}
-		for (Date currentTime = DateUtils.addMinutes(pageEndTime, -dataFrequencyMins); !currentTime.before(pageStartTime); currentTime = DateUtils
-				.addMinutes(currentTime, -dataFrequencyMins)) {
+		for (Date currentTime = pageEndTime; currentTime.after(pageStartTime); currentTime = DateUtils.addMinutes(currentTime, -dataFrequencyMins)) {
 			for (Workshop workshop : workshops) {
 				JSONObject dataSet;
 				if (historyData != null && currentTime.equals(DateUtilsX.floor(historyData.getDateTime(), TimeUnit.MINUTES, dataFrequencyMins))
@@ -114,8 +112,8 @@ public class HistoryDataController {
 			}
 		}
 		JSONObject value = new JSONObject();
-		value.put("total", (DateUtilsX.ceil(endTime, TimeUnit.MINUTES, dataFrequencyMins).getTime()
-				- DateUtilsX.ceil(startTime, TimeUnit.MINUTES, dataFrequencyMins).getTime()) / TimeUnit.MINUTES.toMillis(dataFrequencyMins) * workshops.size());
+		value.put("total", (DateUtilsX.floor(endTime, TimeUnit.MINUTES, dataFrequencyMins).getTime()
+				- DateUtilsX.ceil(startTime, TimeUnit.MINUTES, dataFrequencyMins).getTime() + TimeUnit.MINUTES.toMillis(dataFrequencyMins)) / TimeUnit.MINUTES.toMillis(dataFrequencyMins) * workshops.size());
 		value.put("data", data);
 		return value;
 	}
@@ -136,7 +134,7 @@ public class HistoryDataController {
 				return o2.getId().compareTo(o1.getId());
 			});
 		}
-		Date pageStartTime = DateUtilsX.ceil(startTime, TimeUnit.MINUTES, dataFrequencyMins);
+		Date pageStartTime = DateUtils.addMinutes(DateUtilsX.ceil(startTime, TimeUnit.MINUTES, dataFrequencyMins), -dataFrequencyMins);
 		Date pageEndTime = DateUtilsX.floor(endTime, TimeUnit.MINUTES, dataFrequencyMins);
 		List<HistoryData> historyDatas = historyDataService.listHistoryDataByCompanyId(companyId, workshopId, pageStartTime, pageEndTime);
 		List<Pollutant> pollutants = pollutantService.listShowingPollutant();
@@ -157,8 +155,7 @@ public class HistoryDataController {
 			}
 			if (!workshops.isEmpty()) {
 				int index = 1;
-				for (Date currentTime = DateUtils.addMinutes(pageEndTime, -dataFrequencyMins); !currentTime.before(pageStartTime); currentTime = DateUtils
-						.addMinutes(currentTime, -dataFrequencyMins)) {
+				for (Date currentTime = pageEndTime; currentTime.after(pageStartTime); currentTime = DateUtils.addMinutes(currentTime, -dataFrequencyMins)) {
 					for (Workshop workshop : workshops) {
 						row = sheet.createRow(index);
 						JSONObject dataSet;

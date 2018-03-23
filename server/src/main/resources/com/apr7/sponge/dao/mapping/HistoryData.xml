@@ -20,7 +20,7 @@
 			AND data.FWORKSHOP_ID = #{workshopId}
 		</if>
 		<![CDATA[
-			AND #{startTime} <= data.FDATETIME AND data.FDATETIME < #{endTime}
+			AND #{startTime} < data.FDATETIME AND data.FDATETIME <= #{endTime}
 		]]>
 		ORDER BY
 			data.FDATETIME DESC;
