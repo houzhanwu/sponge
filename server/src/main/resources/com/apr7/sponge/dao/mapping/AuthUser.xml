@@ -65,4 +65,29 @@
 		WHERE
 			FUSERNAME = #{username}
 	</select>
+
+	<select id="listUser" resultType="com.apr7.sponge.model.AuthUser">
+		SELECT
+			  FID id
+			, FUSERNAME username
+			, FNICKNAME nickname
+		FROM
+			T_AUTH_USER
+		WHERE 1 = 1
+		<if test="keyword != null">
+			AND (FUSERNAME LIKE #{keyword} OR FNICKNAME LIKE #{keyword})
+		</if>
+		LIMIT #{start}, #{max}
+	</select>
+
+	<select id="countUser" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			T_AUTH_USER
+		WHERE 1 = 1
+		<if test="keyword != null">
+			AND (FUSERNAME LIKE #{keyword} OR FNICKNAME LIKE #{keyword})
+		</if>
+	</select>
 </mapper>

@@ -43,7 +43,7 @@ CREATE TABLE `T_AUTH_MODULE` (
   `FGROUP` int(10) unsigned NOT NULL,
   `FORDER` int(11) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_MODULE` */
 
@@ -56,7 +56,9 @@ insert  into `T_AUTH_MODULE`(`FID`,`FNAME`,`FKEY`,`FGROUP`,`FORDER`) values
 (6,'修改角色配置','edit_role',4,2),
 (7,'查看企业信息','company',5,1),
 (8,'修改企业信息','edit_company',5,2),
-(9,'修改车间污染物配置','edit_workshop_pollutant',3,3);
+(9,'修改车间污染物配置','edit_workshop_pollutant',3,3),
+(10,'查看用户信息','user',6,1),
+(11,'修改用户信息','edit_user',6,2);
 
 /*Table structure for table `T_AUTH_MODULE_GROUP` */
 
@@ -67,7 +69,7 @@ CREATE TABLE `T_AUTH_MODULE_GROUP` (
   `FNAME` varchar(32) NOT NULL,
   `FORDER` int(11) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_MODULE_GROUP` */
 
@@ -76,7 +78,8 @@ insert  into `T_AUTH_MODULE_GROUP`(`FID`,`FNAME`,`FORDER`) values
 (2,'历史数据',2),
 (3,'污染物配置',4),
 (4,'权限管理',5),
-(5,'企业信息管理',3);
+(5,'企业信息管理',3),
+(6,'用户管理',6);
 
 /*Table structure for table `T_AUTH_MODULE_RESOURCE_MAPPING` */
 
@@ -130,7 +133,9 @@ insert  into `T_AUTH_MODULE_RESOURCE_MAPPING`(`FMODULE_ID`,`FRESOURCE_ID`) value
 (8,31),
 (8,32),
 (8,33),
-(9,37);
+(9,37),
+(10,39),
+(11,40);
 
 /*Table structure for table `T_AUTH_RESOURCE` */
 
@@ -141,7 +146,7 @@ CREATE TABLE `T_AUTH_RESOURCE` (
   `FNAME` varchar(32) NOT NULL,
   `FPATH` varchar(128) NOT NULL,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_RESOURCE` */
 
@@ -183,7 +188,9 @@ insert  into `T_AUTH_RESOURCE`(`FID`,`FNAME`,`FPATH`) values
 (35,'获取企业监控中的污染物列表','/company/pollutant/listshow'),
 (36,'查看车间污染物列表','/workshop/pollutant/listall'),
 (37,'删除车间污染物','/workshop/pollutant/delete'),
-(38,'导出历史数据','/data/history/export');
+(38,'导出历史数据','/data/history/export'),
+(39,'查看用户列表','/user/list'),
+(40,'修改用户密码','/user/updatePassword');
 
 /*Table structure for table `T_AUTH_ROLE` */
 
@@ -194,7 +201,7 @@ CREATE TABLE `T_AUTH_ROLE` (
   `FNAME` varchar(32) NOT NULL,
   `FREMARKS` text,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_ROLE` */
 
@@ -224,6 +231,8 @@ insert  into `T_AUTH_ROLE_MODULE_MAPPING`(`FROLE_ID`,`FMODULE_ID`) values
 (1,7),
 (1,8),
 (1,9),
+(1,10),
+(1,11),
 (3,1),
 (3,2),
 (3,3),
@@ -250,7 +259,7 @@ CREATE TABLE `T_AUTH_USER` (
 insert  into `T_AUTH_USER`(`FID`,`FUSERNAME`,`FPASSWORD`,`FNICKNAME`,`FTOKEN`,`FTOKEN_EXPIRE`,`FCREATE_TIME`) values 
 (1,'admin','21232f297a57a5a743894a0e4a801fc3','admin','bb1b0569-7563-4383-8ce8-cc67a65ba6f6','2018-02-08 16:14:43','1970-01-01 08:00:00'),
 (2,'create','81dc9bdb52d04dc20036dbd8313ed055','create','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
-(3,'user1','81dc9bdb52d04dc20036dbd8313ed055','user1','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
+(3,'user1','6ad14ba9986e3615423dfca256d04e3f','user1','','1970-01-01 08:00:00','1970-01-01 08:00:00'),
 (4,'user2','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:03:57'),
 (5,'user3','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:05:48'),
 (6,'user4','e10adc3949ba59abbe56e057f20f883e','','','1970-01-01 08:00:00','2018-02-05 17:09:31'),
@@ -267,7 +276,7 @@ CREATE TABLE `T_AUTH_USER_ROLE_MAPPING` (
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_USERID_ROLEID` (`FUSER_ID`,`FROLE_ID`),
   UNIQUE KEY `UDX_ROLEID_USERID` (`FROLE_ID`,`FUSER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_USER_ROLE_MAPPING` */
 
@@ -286,7 +295,7 @@ CREATE TABLE `T_COMPANY` (
   `FNAME` varchar(32) NOT NULL COMMENT '名称',
   `FAREA_ID` int(10) unsigned NOT NULL COMMENT '区域id',
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='公司';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='公司';
 
 /*Data for the table `T_COMPANY` */
 
@@ -405,7 +414,7 @@ CREATE TABLE `T_POLLUTANT` (
   `FORDER` smallint(6) NOT NULL,
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_ORDER` (`FORDER`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
 
 /*Data for the table `T_POLLUTANT` */
 
@@ -472,7 +481,7 @@ CREATE TABLE `T_WORKSHOP` (
   `FREMARKS` varchar(50) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`FID`),
   KEY `IDX_COMPANYID` (`FCOMPANY_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_WORKSHOP` */
 

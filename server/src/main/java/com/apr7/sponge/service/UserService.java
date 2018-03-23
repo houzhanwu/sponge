@@ -14,6 +14,8 @@ import com.apr7.sponge.exception.SpongeLoginException;
 import com.apr7.sponge.model.AuthUser;
 import com.apr7.sponge.model.vo.LoginVO;
 import com.apr7.sponge.utils.DateUtilsX;
+import com.apr7.sponge.utils.MultipageList;
+import com.apr7.sponge.utils.SqlUtils;
 import com.apr7.sponge.utils.TokenUtils;
 
 @Service
@@ -35,6 +37,10 @@ public class UserService {
 		authUserDao.updatePassword(userId, newPassword);
 	}
 
+	public void updatePassword(Long userId, String newPassword) {
+		authUserDao.updatePassword(userId, newPassword);
+	}
+
 	public AuthUser getUserById(Long userId) {
 		return authUserDao.getUserById(userId);
 	}
@@ -45,6 +51,14 @@ public class UserService {
 
 	public String getPasswordByUserId(Long userId) {
 		return authUserDao.getPasswordByUserId(userId);
+	}
+
+	public MultipageList<AuthUser> listUser(String keyword, int page, int size) {
+		keyword = SqlUtils.escapeSQLLike(keyword);
+		MultipageList<AuthUser> multipageList = new MultipageList<>();
+		multipageList.setData(authUserDao.listUser(keyword, (page - 1) * size, size));
+		multipageList.setTotal(authUserDao.countUser(keyword));
+		return multipageList;
 	}
 
 	public LoginVO buildLoginVO(Long userId, String userKey) {

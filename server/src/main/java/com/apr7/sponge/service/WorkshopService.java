@@ -35,6 +35,7 @@ public class WorkshopService {
 
 	@Transactional
 	public void deleteWorkshop(Long workshopId) {
+		workshopPollutantMappingDao.deletePollutantByWorkshopId(workshopId, null);
 		deviceDao.deleteDeviceByWorkshopId(workshopId);
 		workshopDao.deleteWorkshop(workshopId);
 	}

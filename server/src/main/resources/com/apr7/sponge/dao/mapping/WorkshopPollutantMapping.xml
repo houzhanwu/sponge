@@ -8,6 +8,17 @@
 		</foreach>
 	</insert>
 
+	<delete id="deletePollutantByWorkshopId">
+		DELETE FROM T_WORKSHOP_POLLUTANT_MAPPING WHERE FWORKSHOP_ID = #{workshopId}
+		<if test="pollutantId != null">
+			AND FPOLLUTANT_ID = #{pollutantId}
+		</if>
+	</delete>
+
+	<delete id="deletePollutant">
+		DELETE FROM T_WORKSHOP_POLLUTANT_MAPPING WHERE FPOLLUTANT_ID = #{pollutantId}
+	</delete>
+
 	<select id="listPollutantByWorkshopIds" resultType="com.apr7.sponge.model.Pollutant">
 		SELECT
 			  p.FID id
@@ -29,8 +40,4 @@
 		ORDER BY
 			p.FORDER, p.FID
 	</select>
-
-	<delete id="deletePollutantByWorkshopId">
-		DELETE FROM T_WORKSHOP_POLLUTANT_MAPPING WHERE FWORKSHOP_ID = #{workshopId} AND FPOLLUTANT_ID = #{pollutantId}
-	</delete>
 </mapper>

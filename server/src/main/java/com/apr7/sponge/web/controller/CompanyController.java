@@ -56,7 +56,7 @@ public class CompanyController {
 
 	@RequestMapping("/list")
 	@ResponseBody
-	public MultipageList<CompanyVO> getCompany(String keyword, int page, int size) {
+	public MultipageList<CompanyVO> listCompany(String keyword, int page, int size) {
 		MultipageList<Company> companys = companyService.listCompany(keyword, page, size);
 		List<CompanyVO> companyVOs = new ArrayList<>(companys.getData().size());
 		for (Company company : companys.getData()) {

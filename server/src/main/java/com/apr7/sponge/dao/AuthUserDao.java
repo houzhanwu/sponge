@@ -1,5 +1,7 @@
 package com.apr7.sponge.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.spring.annotation.MapperScan;
 
@@ -20,4 +22,8 @@ public interface AuthUserDao {
 	Long checkPasswordByUserId(@Param("userId") Long userId, @Param("password") String password);
 
 	Long getUserIdByUsername(@Param("username") String username);
+
+	List<AuthUser> listUser(@Param("keyword") String keyword, @Param("start") int start, @Param("max") int max);
+
+	int countUser(@Param("keyword") String keyword);
 }

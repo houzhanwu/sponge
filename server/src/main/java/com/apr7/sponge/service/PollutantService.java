@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.apr7.sponge.constants.DataProtocolEnum;
 import com.apr7.sponge.dao.PollutantDao;
+import com.apr7.sponge.dao.WorkshopPollutantMappingDao;
 import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.utils.MapUtilsX;
 
@@ -18,6 +19,8 @@ import com.apr7.sponge.utils.MapUtilsX;
 public class PollutantService {
 	@Autowired
 	private PollutantDao pollutantDao;
+	@Autowired
+	private WorkshopPollutantMappingDao workshopPollutantMappingDao;
 
 	@Transactional
 	public void addPollutant(Pollutant pollutant) {
@@ -30,6 +33,7 @@ public class PollutantService {
 
 	@Transactional
 	public void deletePollutant(Long pollutantId) {
+		workshopPollutantMappingDao.deletePollutant(pollutantId);
 		pollutantDao.deletePollutantMapping(pollutantId);
 		pollutantDao.deletePollutant(pollutantId);
 	}
