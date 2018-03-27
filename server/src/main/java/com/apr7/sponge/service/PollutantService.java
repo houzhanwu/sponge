@@ -1,6 +1,7 @@
 package com.apr7.sponge.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,18 @@ public class PollutantService {
 		for (Map.Entry<Long, Integer> entry : reorderMap.entrySet()) {
 			pollutantDao.updateOrder(entry.getKey(), entry.getValue());
 		}
+	}
+
+	public Map<Long, Pollutant> getPollutants(List<Long> pollutantIds) {
+		Map<Long, Pollutant> pollutantMap = new HashMap<>();
+		if (CollectionUtils.isEmpty(pollutantIds)) {
+			return pollutantMap;
+		}
+		List<Pollutant> pollutants = pollutantDao.listPollutantByIds(pollutantIds);
+		for (Pollutant pollutant : pollutants) {
+			pollutantMap.put(pollutant.getId(), pollutant);
+		}
+		return pollutantMap;
 	}
 
 	public List<Pollutant> listAllPollutant() {

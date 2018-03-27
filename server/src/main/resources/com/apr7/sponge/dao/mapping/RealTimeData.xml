@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.RealTimeDataDao">
 	<insert id="saveRealTimeRtd">
-		INSERT INTO T_REALTIME_DATA VALUES(#{workshopId},#{rtdData},'',#{dataProtocol}, #{lmodify})
+		INSERT INTO T_REALTIME_DATA (FWORKSHOP_ID,FRTD_DATA,FSTATUS_DATA,FDATA_PROTOCOL,FLMODIFY)
+		VALUES(#{workshopId},#{rtdData},'',#{dataProtocol}, #{lmodify})
 		ON DUPLICATE KEY UPDATE FRTD_DATA = VALUES(FRTD_DATA), FDATA_PROTOCOL = VALUES(FDATA_PROTOCOL), FLMODIFY = VALUES(FLMODIFY)
 	</insert>
 

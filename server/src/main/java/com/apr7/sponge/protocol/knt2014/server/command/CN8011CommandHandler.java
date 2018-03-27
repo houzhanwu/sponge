@@ -40,7 +40,7 @@ public class CN8011CommandHandler implements Knt2014CommandHandler {
 			}
 		}
 		List<Long> pollutantIds = pollutantService.listPollutantIdsByFieldKeys(DataProtocolEnum.KNT2014, new ArrayList<>(fieldKeysSet));
-		workshopService.addWorkshopPollutantMappings(workshopId, pollutantIds);
+		workshopService.saveWorkshopPollutantMappings(workshopId, pollutantIds);
 		doResponse(ctx, cmd);
 	}
 

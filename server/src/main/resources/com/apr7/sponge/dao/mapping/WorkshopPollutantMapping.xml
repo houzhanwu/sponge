@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.apr7.sponge.dao.WorkshopPollutantMappingDao">
-	<insert id="addWorkshopPollutantMappings">
-		INSERT IGNORE INTO T_WORKSHOP_POLLUTANT_MAPPING
+	<insert id="saveWorkshopPollutantMappings">
+		INSERT INTO T_WORKSHOP_POLLUTANT_MAPPING (FWORKSHOP_ID,FPOLLUTANT_ID,FSTATUS)
 		VALUES <foreach collection="pollutantIds" item="item" separator=",">
-		(#{workshopId}, #{item})
+		(#{workshopId}, #{item}, 1)
 		</foreach>
+		ON DUPLICATE KEY UPDATE FSTATUS = VALUES(FSTATUS)
 	</insert>
 
 	<delete id="deletePollutantByWorkshopId">
@@ -19,25 +20,28 @@
 		DELETE FROM T_WORKSHOP_POLLUTANT_MAPPING WHERE FPOLLUTANT_ID = #{pollutantId}
 	</delete>
 
-	<select id="listPollutantByWorkshopIds" resultType="com.apr7.sponge.model.Pollutant">
-		SELECT
-			  p.FID id
-			, p.FNAME name
-			, p.FTYPE type
-			, p.FID `mapping.pollutantId`
-			, pm.FFIELD_KEY_HJT212 `mapping.fieldKeyHjt212`
-			, pm.FFIELD_KEY_KNT2014 `mapping.fieldKeyKnt2014`
-		FROM T_WORKSHOP_POLLUTANT_MAPPING cpm
-		JOIN T_POLLUTANT p
-		ON p.FID = cpm.FPOLLUTANT_ID
-		LEFT JOIN T_POLLUTANT_MAPPING pm
-		ON pm.FPOLLUTANT_ID = p.FID
+	<update id="updateStatusByWorkshopId">
+		UPDATE
+			T_WORKSHOP_POLLUTANT_MAPPING
+		SET
+			FSTATUS = #{status}
 		WHERE
-			cpm.FWORKSHOP_ID IN
+			FWORKSHOP_ID = #{workshopId}
+		<if test="excludePollutantIds != null and excludePollutantIds.size() > 0">
+			AND FPOLLUTANT_ID NOT IN <foreach collection="excludePollutantIds" item="item" separator="," open="(" close=")">#{item}</foreach>
+		</if>
+	</update>
+
+	<select id="listWorkshopPollutantMappingByWorkshopIds" resultType="com.apr7.sponge.model.WorkshopPollutantMapping">
+		SELECT
+			  FWORKSHOP_ID workshopId
+			, FPOLLUTANT_ID pollutantId
+			, FSTATUS status
+		FROM T_WORKSHOP_POLLUTANT_MAPPING
+		WHERE
+			FWORKSHOP_ID IN
 			<foreach collection="workshopIds" item="item" separator="," open="(" close=")">
 				#{item}
 			</foreach>
-		ORDER BY
-			p.FORDER, p.FID
 	</select>
 </mapper>

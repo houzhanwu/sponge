@@ -10,9 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.apr7.sponge.dao.CompanyDao;
 import com.apr7.sponge.dao.WorkshopDao;
-import com.apr7.sponge.dao.WorkshopPollutantMappingDao;
 import com.apr7.sponge.model.Company;
-import com.apr7.sponge.model.Pollutant;
+import com.apr7.sponge.model.WorkshopPollutantMapping;
 import com.apr7.sponge.utils.MultipageList;
 import com.apr7.sponge.utils.SqlUtils;
 
@@ -22,8 +21,6 @@ public class CompanyService {
 	private CompanyDao companyDao;
 	@Autowired
 	private WorkshopDao workshopDao;
-	@Autowired
-	private WorkshopPollutantMappingDao workshopPollutantMappingDao;
 	@Autowired
 	private WorkshopService workshopService;
 
@@ -60,11 +57,11 @@ public class CompanyService {
 		return companyDao.listAllCompany();
 	}
 
-	public List<Pollutant> listPollutantByCompanyId(Long companyId) {
+	public List<WorkshopPollutantMapping> listWorkshopPollutantMappingByCompanyId(Long companyId) {
 		List<Long> workshopIds = workshopDao.listWorkshopIdsByCompanyId(companyId);
 		if (CollectionUtils.isEmpty(workshopIds)) {
 			return new ArrayList<>();
 		}
-		return workshopPollutantMappingDao.listPollutantByWorkshopIds(workshopIds);
+		return workshopService.listWorkshopPollutantMappingByWorkshopIds(workshopIds);
 	}
 }

@@ -58,6 +58,26 @@
 			FID = #{pollutantId}
 	</update>
 
+	<select id="listPollutantByIds" resultType="com.apr7.sponge.model.Pollutant">
+		SELECT
+			  p.FID id
+			, p.FNAME name
+			, p.FTYPE type
+			, p.FSHOW `show`
+			, p.FORDER `order`
+			, p.FID `mapping.pollutantId`
+			, pm.FFIELD_KEY_HJT212 `mapping.fieldKeyHjt212`
+			, pm.FFIELD_KEY_KNT2014 `mapping.fieldKeyKnt2014`
+		FROM T_POLLUTANT p
+		LEFT JOIN T_POLLUTANT_MAPPING pm
+		ON pm.FPOLLUTANT_ID = p.FID
+		WHERE
+			p.FID IN
+		<foreach collection="pollutantIds" item="item" separator="," open="(" close=")">
+			#{item}
+		</foreach>
+	</select>
+
 	<select id="listPollutant" resultType="com.apr7.sponge.model.Pollutant">
 		SELECT
 			  p.FID id

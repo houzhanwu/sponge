@@ -27,6 +27,8 @@ public interface PollutantDao {
 
 	void updateOrder(@Param("pollutantId") Long pollutantId, @Param("order") Integer order);
 
+	List<Pollutant> listPollutantByIds(@Param("pollutantIds") List<Long> pollutantIds);
+
 	List<Pollutant> listPollutant(@Param("show") Boolean show);
 
 	int getMaxOrder();

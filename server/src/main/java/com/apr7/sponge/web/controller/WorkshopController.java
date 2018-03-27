@@ -1,6 +1,7 @@
 package com.apr7.sponge.web.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apr7.sponge.model.Device;
-import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.model.Workshop;
+import com.apr7.sponge.model.WorkshopPollutantMapping;
 import com.apr7.sponge.model.param.WorkshopParam;
-import com.apr7.sponge.model.vo.PollutantVO;
+import com.apr7.sponge.model.vo.WorkshopPollutantVO;
 import com.apr7.sponge.model.vo.WorkshopVO;
 import com.apr7.sponge.service.WorkshopService;
 
@@ -72,13 +73,13 @@ public class WorkshopController {
 
 	@RequestMapping("/pollutant/listall")
 	@ResponseBody
-	public List<PollutantVO> listAllPollutant(Long workshopId) {
-		List<Pollutant> pollutants = workshopService.listPollutantByWorkshopId(workshopId);
-		List<PollutantVO> pollutantVOs = new ArrayList<>(pollutants.size());
-		for (Pollutant pollutant : pollutants) {
-			pollutantVOs.add(PollutantVO.build(pollutant));
+	public List<WorkshopPollutantVO> listAllPollutant(Long workshopId) {
+		List<WorkshopPollutantMapping> workshopPollutantMappings = workshopService.listWorkshopPollutantMappingByWorkshopIds(Arrays.asList(workshopId));
+		List<WorkshopPollutantVO> workshopPollutantVOs = new ArrayList<>(workshopPollutantMappings.size());
+		for (WorkshopPollutantMapping workshopPollutantMapping : workshopPollutantMappings) {
+			workshopPollutantVOs.add(WorkshopPollutantVO.build(workshopPollutantMapping));
 		}
-		return pollutantVOs;
+		return workshopPollutantVOs;
 	}
 
 	@RequestMapping("/pollutant/delete")

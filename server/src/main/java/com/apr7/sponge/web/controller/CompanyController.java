@@ -1,6 +1,7 @@
 package com.apr7.sponge.web.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.apr7.sponge.constants.CompanyStatusEnum;
 import com.apr7.sponge.model.Company;
-import com.apr7.sponge.model.Pollutant;
+import com.apr7.sponge.model.WorkshopPollutantMapping;
 import com.apr7.sponge.model.param.CompanyParam;
 import com.apr7.sponge.model.vo.CompanyVO;
-import com.apr7.sponge.model.vo.PollutantSimpleVO;
+import com.apr7.sponge.model.vo.WorkshopPollutantVO;
 import com.apr7.sponge.service.CompanyService;
 import com.apr7.sponge.service.WorkshopService;
 import com.apr7.sponge.utils.MultipageList;
@@ -88,17 +89,17 @@ public class CompanyController {
 
 	@RequestMapping("/pollutant/listshow")
 	@ResponseBody
-	public List<PollutantSimpleVO> listShowPollutant(Long companyId, Long workshopId) {
-		List<Pollutant> pollutants;
+	public List<WorkshopPollutantVO> listShowPollutant(Long companyId, Long workshopId) {
+		List<WorkshopPollutantMapping> workshopPollutantMappings;
 		if (workshopId != null) {
-			pollutants = workshopService.listPollutantByWorkshopId(workshopId);
+			workshopPollutantMappings = workshopService.listWorkshopPollutantMappingByWorkshopIds(Arrays.asList(workshopId));
 		} else {
-			pollutants = companyService.listPollutantByCompanyId(companyId);
+			workshopPollutantMappings = companyService.listWorkshopPollutantMappingByCompanyId(companyId);
 		}
-		List<PollutantSimpleVO> pollutantSimpleVOs = new ArrayList<>(pollutants.size());
-		for (Pollutant pollutant : pollutants) {
-			pollutantSimpleVOs.add(PollutantSimpleVO.build(pollutant));
+		List<WorkshopPollutantVO> workshopPollutantVOs = new ArrayList<>(workshopPollutantMappings.size());
+		for (WorkshopPollutantMapping workshopPollutantMapping : workshopPollutantMappings) {
+			workshopPollutantVOs.add(WorkshopPollutantVO.build(workshopPollutantMapping));
 		}
-		return pollutantSimpleVOs;
+		return workshopPollutantVOs;
 	}
 }
