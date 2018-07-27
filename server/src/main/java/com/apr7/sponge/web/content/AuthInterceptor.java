@@ -4,12 +4,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.apr7.sponge.exception.SpongeAuthException;
 import com.apr7.sponge.model.AuthUser;
 import com.apr7.sponge.service.AuthService;
 
+@Component
 public class AuthInterceptor extends HandlerInterceptorAdapter {
 
 	@Autowired

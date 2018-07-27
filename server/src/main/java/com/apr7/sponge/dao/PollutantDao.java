@@ -2,13 +2,13 @@ package com.apr7.sponge.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.mybatis.spring.annotation.MapperScan;
 
 import com.apr7.sponge.model.Pollutant;
 import com.apr7.sponge.model.PollutantMapping;
 
-@MapperScan
+@Mapper
 public interface PollutantDao {
 
 	void addPollutant(Pollutant pollutant);

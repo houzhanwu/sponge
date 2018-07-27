@@ -3,12 +3,12 @@ package com.apr7.sponge.dao;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.mybatis.spring.annotation.MapperScan;
 
 import com.apr7.sponge.model.AuthModule;
 
-@MapperScan
+@Mapper
 public interface AuthRoleModuleMappingDao {
 	void saveRoleModuleIds(@Param("roleId") Long roleId, @Param("moduleIds") List<Long> moduleIds);
 

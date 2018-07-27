@@ -6,6 +6,7 @@ import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.commons.codec.digest.HmacAlgorithms;
 import org.apache.commons.codec.digest.HmacUtils;
 
 import com.alibaba.fastjson.JSONObject;
@@ -32,7 +33,7 @@ public class TokenUtils {
 			sb.append(entry.getKey()).append('=').append(entry.getValue()).append('&');
 		}
 		sb.deleteCharAt(sb.length() - 1);
-		return HmacUtils.hmacMd5Hex(key, sb.toString());
+		return new HmacUtils(HmacAlgorithms.HMAC_MD5, key).hmacHex(sb.toString());
 	}
 
 	public static JSONObject parseToken(String token) {

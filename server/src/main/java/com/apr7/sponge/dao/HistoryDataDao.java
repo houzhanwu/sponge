@@ -3,12 +3,12 @@ package com.apr7.sponge.dao;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.mybatis.spring.annotation.MapperScan;
 
 import com.apr7.sponge.model.HistoryData;
 
-@MapperScan
+@Mapper
 public interface HistoryDataDao {
 
 	void addHistoryData(@Param("year") int year, @Param("historyData") HistoryData historyData);

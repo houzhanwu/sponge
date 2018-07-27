@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE xml>
+<Configuration>
+	<Properties>
+		<Property name="project.name">sponge</Property>
+		<Property name="pattern.layout">%d %-5p [%X{ctx_username}] [%t] [%c:%L] - %m%n</Property>
+		<Property name="log.file.home">/data/log/${project.name}</Property>
+	</Properties>
+	<Appenders>
+		<RollingFile name="SERVER" fileName="${log.file.home}/${project.name}-server.log"
+			filePattern="${log.file.home}/${project.name}-server.log.%d{yyyyMMdd}" append="true"
+			immediateFlush="true">
+			<PatternLayout pattern="${pattern.layout}" />
+			<TimeBasedTriggeringPolicy />
+			<ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL" />
+		</RollingFile>
+
+		<RollingFile name="ERROR" fileName="${log.file.home}/${project.name}-error.log"
+			filePattern="${log.file.home}/${project.name}-error.log.%d{yyyyMMdd}" append="true"
+			immediateFlush="true">
+			<PatternLayout pattern="${pattern.layout}" />
+			<TimeBasedTriggeringPolicy />
+			<ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY" />
+		</RollingFile>
+
+		<Console name="CONSOLE" target="SYSTEM_OUT">
+			<PatternLayout pattern="${pattern.layout}" />
+			<ThresholdFilter level="${sys:log4j.console.level:-OFF}" onMatch="ACCEPT" onMismatch="DENY" />
+		</Console>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.ibatis" level="warn" />
+
+		<Logger name="org.mybatis" level="warn" />
+
+		<Logger name="com.apr7.sponge.protocol.hjt212.server.ServerHandler" level="debug" />
+
+		<Logger name="com.apr7.sponge.protocol.knt2014.server.ServerHandler" level="debug" />
+
+		<Root level="info">
+			<AppenderRef ref="SERVER" />
+			<AppenderRef ref="ERROR" />
+			<AppenderRef ref="CONSOLE" />
+		</Root>
+	</Loggers>
+</Configuration>

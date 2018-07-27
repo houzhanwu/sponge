@@ -1,4 +1,4 @@
-package com.apr7.sponge.utils.mybatis;
+package com.apr7.sponge.utils.mybatis.typehandler;
 
 import java.sql.CallableStatement;
 import java.sql.PreparedStatement;

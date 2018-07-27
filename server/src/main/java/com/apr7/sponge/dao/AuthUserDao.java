@@ -2,12 +2,12 @@ package com.apr7.sponge.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.mybatis.spring.annotation.MapperScan;
 
 import com.apr7.sponge.model.AuthUser;
 
-@MapperScan
+@Mapper
 public interface AuthUserDao {
 	void addUser(@Param("user") AuthUser authUser, @Param("password") String password);
 

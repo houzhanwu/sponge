@@ -2,13 +2,13 @@ package com.apr7.sponge.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.mybatis.spring.annotation.MapperScan;
 
 import com.apr7.sponge.model.Device;
 import com.apr7.sponge.model.Workshop;
 
-@MapperScan
+@Mapper
 public interface DeviceDao {
 	void addDevice(Device device);
 

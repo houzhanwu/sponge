@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.alibaba.fastjson.JSONObject;
@@ -19,6 +20,7 @@ import com.apr7.sponge.model.AuthUser;
 import com.apr7.sponge.service.UserService;
 import com.apr7.sponge.utils.TokenUtils;
 
+@Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
 
 	@Autowired

@@ -1,7 +1,7 @@
 package com.apr7.sponge.dao;
 
-import org.mybatis.spring.annotation.MapperScan;
+import org.apache.ibatis.annotations.Mapper;
 
-@MapperScan
+@Mapper
 public interface AuthResourceDao {
 }

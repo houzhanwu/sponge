@@ -4,10 +4,12 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.apr7.sponge.protocol.hjt212.server.HJT212Server;
 import com.apr7.sponge.protocol.knt2014.server.KNT2014Server;
 
+@Component
 public class SpongeServerListener implements ServletContextListener {
 
 	@Autowired
