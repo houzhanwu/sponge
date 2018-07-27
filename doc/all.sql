@@ -56,7 +56,7 @@ insert  into `T_AUTH_MODULE`(`FID`,`FNAME`,`FKEY`,`FGROUP`,`FORDER`) values
 (6,'修改角色配置','edit_role',4,2),
 (7,'查看企业信息','company',5,1),
 (8,'修改企业信息','edit_company',5,2),
-(9,'修改车间污染物配置','edit_workshop_pollutant',3,3),
+(9,'修改车间污染物配置','edit_workshop_pollutant',5,3),
 (10,'查看用户信息','user',6,1),
 (11,'修改用户信息','edit_user',6,2);
 
@@ -97,8 +97,8 @@ insert  into `T_AUTH_MODULE_RESOURCE_MAPPING`(`FMODULE_ID`,`FRESOURCE_ID`) value
 (1,1),
 (1,2),
 (1,3),
+(1,5),
 (2,4),
-(2,5),
 (2,6),
 (2,7),
 (2,35),
@@ -201,7 +201,7 @@ CREATE TABLE `T_AUTH_ROLE` (
   `FNAME` varchar(32) NOT NULL,
   `FREMARKS` text,
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_ROLE` */
 
@@ -233,10 +233,10 @@ insert  into `T_AUTH_ROLE_MODULE_MAPPING`(`FROLE_ID`,`FMODULE_ID`) values
 (1,9),
 (1,10),
 (1,11),
-(3,1),
-(3,2),
-(3,3),
-(3,5);
+(3,5),
+(3,6),
+(3,7),
+(3,8);
 
 /*Table structure for table `T_AUTH_USER` */
 
@@ -250,7 +250,7 @@ CREATE TABLE `T_AUTH_USER` (
   `FCREATE_TIME` datetime NOT NULL DEFAULT '1970-01-01 08:00:00',
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_USERNAME` (`FUSERNAME`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_USER` */
 
@@ -274,7 +274,7 @@ CREATE TABLE `T_AUTH_USER_ROLE_MAPPING` (
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_USERID_ROLEID` (`FUSER_ID`,`FROLE_ID`),
   UNIQUE KEY `UDX_ROLEID_USERID` (`FROLE_ID`,`FUSER_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_AUTH_USER_ROLE_MAPPING` */
 
@@ -293,7 +293,7 @@ CREATE TABLE `T_COMPANY` (
   `FNAME` varchar(32) NOT NULL COMMENT '名称',
   `FAREA_ID` int(10) unsigned NOT NULL COMMENT '区域id',
   PRIMARY KEY (`FID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='公司';
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COMMENT='公司';
 
 /*Data for the table `T_COMPANY` */
 
@@ -412,7 +412,7 @@ CREATE TABLE `T_POLLUTANT` (
   `FORDER` smallint(6) NOT NULL,
   PRIMARY KEY (`FID`),
   UNIQUE KEY `UDX_ORDER` (`FORDER`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COMMENT='污染物配置';
 
 /*Data for the table `T_POLLUTANT` */
 
@@ -479,7 +479,7 @@ CREATE TABLE `T_WORKSHOP` (
   `FREMARKS` varchar(50) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`FID`),
   KEY `IDX_COMPANYID` (`FCOMPANY_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `T_WORKSHOP` */
 
