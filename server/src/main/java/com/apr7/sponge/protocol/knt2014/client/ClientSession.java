@@ -9,8 +9,6 @@ import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.nio.charset.Charset;
 
-import org.apache.commons.io.IOUtils;
-
 import com.apr7.sponge.protocol.knt2014.CommandModel;
 
 public class ClientSession implements Closeable {
@@ -41,6 +39,12 @@ public class ClientSession implements Closeable {
 	}
 
 	public void close() {
-		IOUtils.closeQuietly(socket);
+		if (socket != null) {
+			try {
+				socket.close();
+			} catch (final IOException ioe) {
+				// ignored
+			}
+		}
 	}
 }
